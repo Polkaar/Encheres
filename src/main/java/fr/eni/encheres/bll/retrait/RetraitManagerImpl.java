@@ -60,8 +60,13 @@ public class RetraitManagerImpl implements RetraitManager {
 	}
 
 	@Override
-	public Integer afficherRetrait(ArticleVendu article) throws BllException {
-		return article.getRetrait().getNoRetrait();
+	public Retrait afficherRetrait(ArticleVendu article) throws BllException {
+		try {
+			return dao.selectById(article.getNoArticle());
+		} catch (DALException e) {
+			e.printStackTrace();
+			throw new BllException(e);
+		}
 	}
 
 	

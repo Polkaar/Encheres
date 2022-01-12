@@ -10,6 +10,6 @@ public interface RetraitManager {
 	public void ajouterRetrait(Retrait retrait) throws BllException;
 	public void modifierRetrait(Retrait retrait) throws BllException;
 	public void supprimerRetrait(Retrait retrait) throws BllException, DALException;
-	public Integer afficherRetrait(ArticleVendu article) throws BllException;
+	public Retrait afficherRetrait(ArticleVendu article) throws BllException;
 	
 }
