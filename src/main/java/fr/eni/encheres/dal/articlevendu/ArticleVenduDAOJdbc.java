@@ -109,7 +109,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
 	}
 
 	@Override
-	public List<ArticleVendu> getAll() throws DALException {
+	public List<ArticleVendu> selectAll() throws DALException {
 		List<ArticleVendu> lstArticlesVendus = new ArrayList<>();
 		try (Connection cnx = ConnectionProvider.getConnection()){
 			PreparedStatement stmt = cnx.prepareStatement(SELECT_ALL);
@@ -137,7 +137,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
 	}
 
 	@Override
-	public List<ArticleVendu> getArticleByCategorie(int noCategorie) throws DALException {
+	public List<ArticleVendu> selectArticleByCategorie(int noCategorie) throws DALException {
 		List<ArticleVendu> lstArticleByCategorie = new ArrayList<>();
 		
 		try(Connection cnx = ConnectionProvider.getConnection()) {

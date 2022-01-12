@@ -52,6 +52,23 @@ public ArticleVendu(Integer noArticle, String nomArticle, String description, Lo
 		this.retrait = retrait;
 		this.utilisateur = utilisateur;
 	}
+	
+
+	public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
+			Integer prixInitial, Integer prixVente, boolean etatVente, Categorie categorie, Retrait retrait,
+			Utilisateur utilisateur) {
+		super();
+		this.nomArticle = nomArticle;
+		this.description = description;
+		this.dateDebutEncheres = dateDebutEncheres;
+		this.dateFinEncheres = dateFinEncheres;
+		this.prixInitial = prixInitial;
+		this.prixVente = prixVente;
+		this.etatVente = etatVente;
+		this.categorie = categorie;
+		this.retrait = retrait;
+		this.utilisateur = utilisateur;
+	}
 
 	public Integer getNoArticle() {
 		return noArticle;

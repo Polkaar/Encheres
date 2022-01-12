@@ -10,7 +10,7 @@ public interface ArticleVenduDAO {
 	void insert(ArticleVendu articleVendu) throws DALException;
 	void delete(ArticleVendu articleVendu) throws DALException;
 	void update(ArticleVendu articleVendu, int nouveauPrix) throws DALException;
-	List<ArticleVendu> getAll() throws DALException;
-	List<ArticleVendu> getArticleByCategorie(int noCategorie) throws DALException;
+	List<ArticleVendu> selectAll() throws DALException;
+	List<ArticleVendu> selectArticleByCategorie(int noCategorie) throws DALException;
 	ArticleVendu selectById(Integer noArticle) throws DALException;
 }

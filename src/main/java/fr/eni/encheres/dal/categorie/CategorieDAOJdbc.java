@@ -12,9 +12,7 @@ import fr.eni.encheres.dal.DALException;
 public class CategorieDAOJdbc implements CategorieDAO {
 
 	private final String INSERT = "INSERT INTO CATEGORIES (libelle) VALUES(?)";
-
 	private final String SELECT_BY_ID = "SELECT no_categorie, libelle FROM CATEGORIES WHERE no_categorie=?";
-
 	private final String DELETE = "DELETE FROM CATEGORIES WHERE no_categorie=?";
 
 	@Override
