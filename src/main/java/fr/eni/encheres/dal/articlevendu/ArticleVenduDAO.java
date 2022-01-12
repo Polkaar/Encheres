@@ -1,8 +1,9 @@
-package fr.eni.encheres.dal;
+package fr.eni.encheres.dal.articlevendu;
 
 import java.util.List;
 
 import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.dal.DALException;
 
 public interface ArticleVenduDAO {
 
@@ -11,4 +12,5 @@ public interface ArticleVenduDAO {
 	void update(ArticleVendu articleVendu, int nouveauPrix) throws DALException;
 	List<ArticleVendu> getAll() throws DALException;
 	List<ArticleVendu> getArticleByCategorie(int noCategorie) throws DALException;
+	ArticleVendu selectById(Integer noArticle) throws DALException;
 }

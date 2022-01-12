@@ -20,8 +20,8 @@ public class ArticleVendu {
 	
 	public ArticleVendu() {
 	}
-
-	public ArticleVendu(Integer noArticle, String nomArticle, String description, LocalDate dateDebutEncheres,
+	
+public ArticleVendu(Integer noArticle, String nomArticle, String description, LocalDate dateDebutEncheres,
 			LocalDate dateFinEncheres, Integer prixInitial, Integer prixVente, boolean etatVente, Categorie categorie,
 			Retrait retrait, Utilisateur utilisateur, List<Enchere> lstEncheres) {
 		super();
@@ -40,52 +40,17 @@ public class ArticleVendu {
 	}
 
 	public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
-			Integer prixInitial, Integer prixVente, boolean etatVente, Categorie categorie, Retrait retrait,
-			Utilisateur utilisateur, List<Enchere> lstEncheres) {
+			Integer prixInitial, boolean etatVente, Categorie categorie, Retrait retrait, Utilisateur utilisateur) {
 		super();
 		this.nomArticle = nomArticle;
 		this.description = description;
 		this.dateDebutEncheres = dateDebutEncheres;
 		this.dateFinEncheres = dateFinEncheres;
 		this.prixInitial = prixInitial;
-		this.prixVente = prixVente;
 		this.etatVente = etatVente;
 		this.categorie = categorie;
 		this.retrait = retrait;
 		this.utilisateur = utilisateur;
-		this.lstEncheres = lstEncheres;
-	}
-	
-	
-
-	public ArticleVendu(Integer noArticle, String nomArticle, String description, LocalDate dateDebutEncheres,
-			LocalDate dateFinEncheres, Integer prixInitial, Integer prixVente, boolean etatVente, Categorie categorie,
-			Retrait retrait, Utilisateur utilisateur) {
-		super();
-		this.noArticle = noArticle;
-		this.nomArticle = nomArticle;
-		this.description = description;
-		this.dateDebutEncheres = dateDebutEncheres;
-		this.dateFinEncheres = dateFinEncheres;
-		this.prixInitial = prixInitial;
-		this.prixVente = prixVente;
-		this.etatVente = etatVente;
-		this.categorie = categorie;
-		this.retrait = retrait;
-		this.utilisateur = utilisateur;
-	}
-	
-	
-
-	public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
-			Integer prixInitial, boolean etatVente) {
-		super();
-		this.nomArticle = nomArticle;
-		this.description = description;
-		this.dateDebutEncheres = dateDebutEncheres;
-		this.dateFinEncheres = dateFinEncheres;
-		this.prixInitial = prixInitial;
-		this.etatVente = etatVente;
 	}
 
 	public Integer getNoArticle() {
@@ -213,5 +178,6 @@ public class ArticleVendu {
 		builder.append(lstEncheres);
 		builder.append("]");
 		return builder.toString();
-	}	
+	}
+
 }
