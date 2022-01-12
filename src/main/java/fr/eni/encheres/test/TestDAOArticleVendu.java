@@ -33,7 +33,7 @@ public class TestDAOArticleVendu extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ArticleVenduDAO dao = ArticleVenduDAOFact.getInstance();
 	private CategorieDAO daoCat = CategorieDAOFact.getInstance();
-	private UtilisateurDAO daoUser = UtilisateurDAOFact.getUtilisateurDAO();
+	private UtilisateurDAO daoUser = UtilisateurDAOFact.getInstance();
 	private RetraitDAO daoRetrait = RetraitDAOFact.getInstance();
     /**
      * @see HttpServlet#HttpServlet()
@@ -59,14 +59,14 @@ public class TestDAOArticleVendu extends HttpServlet {
 
 			e2.printStackTrace();
 		}
-		try {
-			a1 = new ArticleVendu("pc", "gamer", LocalDate.now(), LocalDate.now(),100 ,200, true, daoCat.selectById(1), daoUser.selectById(1));
-			a2 = new ArticleVendu("Marteau", "Pour clouter", LocalDate.now(), LocalDate.now(),100 ,200, true, daoCat.selectById(3), daoUser.selectById(1));
-			a3 = new ArticleVendu("Tournevis", "Pour visser", LocalDate.now(), LocalDate.now(),100 ,200, true, daoCat.selectById(3), daoUser.selectById(1));
-		} catch (DALException e1) {
-		
-			e1.printStackTrace();
-		}
+//		try {
+//			a1 = new ArticleVendu("pc", "gamer", LocalDate.now(), LocalDate.now(),100 ,200, true, daoCat.selectById(1), daoUser.selectById(1));
+//			a2 = new ArticleVendu("Marteau", "Pour clouter", LocalDate.now(), LocalDate.now(),100 ,200, true, daoCat.selectById(3), daoUser.selectById(1));
+//			a3 = new ArticleVendu("Tournevis", "Pour visser", LocalDate.now(), LocalDate.now(),100 ,200, true, daoCat.selectById(3), daoUser.selectById(1));
+//		} catch (DALException e1) {
+//		
+//			e1.printStackTrace();
+//		}
 	}
 
 	/**
