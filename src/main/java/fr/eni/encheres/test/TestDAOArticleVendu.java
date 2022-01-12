@@ -23,6 +23,8 @@ import fr.eni.encheres.dal.retrait.RetraitDAOFact;
 import fr.eni.encheres.dal.utilisateur.UtilisateurDAO;
 import fr.eni.encheres.dal.utilisateur.UtilisateurDAOFact;
 
+//Test gihub Sébastien
+
 /**
  * Servlet implementation class TestDAOArticleVendu
  */
