@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.DALException;
@@ -33,11 +34,11 @@ import fr.eni.encheres.dal.utilisateur.UtilisateurDAOFact;
 @WebServlet("/TestDAOArticleVendu")
 public class TestDAOArticleVendu extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private ArticleVenduDAO daoArticle = ArticleVenduDAOFact.getInstance();
-	private CategorieDAO daoCat = CategorieDAOFact.getInstance();
-	private UtilisateurDAO daoUser = UtilisateurDAOFact.getInstance();
-	private RetraitDAO daoRetrait = RetraitDAOFact.getInstance();
-	private EnchereDAO daoEnchere = EnchereDAOFact.getInstance();
+	private ArticleVenduDAO daoArticle = ArticleVenduDAOFact.getArticleVenduDAO();
+	private CategorieDAO daoCat = CategorieDAOFact.getCategorieDAO();
+	private UtilisateurDAO daoUser = UtilisateurDAOFact.getUtilisateurDAO();
+	private RetraitDAO daoRetrait = RetraitDAOFact.getRetraitDAO();
+	private EnchereDAO daoEnchere = EnchereDAOFact.getEnchereDAO();
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -55,13 +56,16 @@ public class TestDAOArticleVendu extends HttpServlet {
 		ArticleVendu a1 = new ArticleVendu();
 		Retrait r1 = new Retrait("rue saint malo", "35000", "rennes");
 		
+		
 		try {
+			Enchere e1 = new Enchere(LocalDate.now(), 500, daoArticle.selectById(1), daoUser.selectById(1));
 //			daoRetrait.insert(r1);
 //			daoCat.insert(c1);
 //			daoCat.insert(c2);
 //			daoUser.insert(u1);
-			a1 = new ArticleVendu("pc", "gamer", LocalDate.now(), LocalDate.now(),100 ,200, true, daoCat.selectById(1), daoRetrait.selectById(1), daoUser.selectById(1));
-			daoArticle.insert(a1);
+//			a1 = new ArticleVendu("pc", "gamer", LocalDate.now(), LocalDate.now(),100 ,200, true, daoCat.selectById(1), daoRetrait.selectById(1), daoUser.selectById(1));
+//			daoArticle.insert(a1);
+			daoEnchere.insert(e1);
 		} catch (DALException e) {
 			e.printStackTrace();
 		}

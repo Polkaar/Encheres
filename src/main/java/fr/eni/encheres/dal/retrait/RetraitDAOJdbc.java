@@ -19,7 +19,7 @@ public class RetraitDAOJdbc implements RetraitDAO {
 	private final String INSERT = "INSERT  INTO RETRAITS (rue, code_postal, ville) VALUES(?, ?, ?)"; 
 	private final String DELETE = "DELETE FROM RETRAITS WHERE no_retrait=?";
 	private final String UPDATE = "UPDATE RETRAITS SET rue = ?, code_postal = ?, ville = ?  WHERE no_retrait = ?";
-	private final String SELECT_BY_ID = "SELECT rue, code_postal, ville FROM RETRAITS WHERE no_retrait=?";
+	private final String SELECT_BY_ID = "SELECT no_retrait, rue, code_postal, ville FROM RETRAITS WHERE no_retrait=?";
 
 	@Override
 	public void insert(Retrait nouveauRetrait) throws DALException {

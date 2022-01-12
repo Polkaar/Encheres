@@ -20,9 +20,9 @@ import fr.eni.encheres.dal.utilisateur.UtilisateurDAOFact;
 
 public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
 	
-	UtilisateurDAO daoUtilisateur = UtilisateurDAOFact.getInstance();
-	CategorieDAO daoCategorie = CategorieDAOFact.getInstance();
-	RetraitDAO daoRetrait = RetraitDAOFact.getInstance();
+	UtilisateurDAO daoUtilisateur = UtilisateurDAOFact.getUtilisateurDAO();
+	CategorieDAO daoCategorie = CategorieDAOFact.getCategorieDAO();
+	RetraitDAO daoRetrait = RetraitDAOFact.getRetraitDAO();
 	
 	private final String INSERT = "INSERT  INTO ARTICLES_VENDUS (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, no_utilisateur, no_categorie, no_retrait) VALUES(?, ?, ?, ?, ?, ?, ?, ?)"; 
 	private final String DELETE = "DELETE FROM ARTICLES_VENDUS WHERE no_article=?";

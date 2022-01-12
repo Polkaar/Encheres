@@ -18,8 +18,8 @@ import fr.eni.encheres.dal.utilisateur.UtilisateurDAOFact;
 
 public class EnchereDAOJdbc implements EnchereDAO{
 	
-	UtilisateurDAO daoUtilisateur = UtilisateurDAOFact.getInstance();
-	ArticleVenduDAO daoArticle = ArticleVenduDAOFact.getInstance();
+	UtilisateurDAO daoUtilisateur = UtilisateurDAOFact.getUtilisateurDAO();
+	ArticleVenduDAO daoArticle = ArticleVenduDAOFact.getArticleVenduDAO();
 
 	
 	private final String INSERT = "INSERT  INTO ENCHERES (date_enchere, montant_enchere, no_article, no_utilisateur) VALUES(?, ?, ?, ?)"; 
