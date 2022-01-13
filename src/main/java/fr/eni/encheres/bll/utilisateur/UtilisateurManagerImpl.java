@@ -11,7 +11,7 @@ import fr.eni.encheres.dal.utilisateur.UtilisateurDAOFact;
 
 public class UtilisateurManagerImpl implements UtilisateurManager{
 	
-	UtilisateurDAO dao = UtilisateurDAOFact.getInstance();
+	UtilisateurDAO dao = UtilisateurDAOFact.getUtilisateurDAO();
 
 	
 	@Override

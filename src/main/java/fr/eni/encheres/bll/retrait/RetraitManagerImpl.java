@@ -10,7 +10,7 @@ import fr.eni.encheres.dal.DALException;
 
 public class RetraitManagerImpl implements RetraitManager {
 	
-	RetraitDAO dao = RetraitDAOFact.getInstance();
+	RetraitDAO dao = RetraitDAOFact.getRetraitDAO();
 	
 
 	@Override

@@ -24,7 +24,7 @@ public class EnchereDAOJdbc implements EnchereDAO{
 	
 	private final String INSERT = "INSERT  INTO ENCHERES (date_enchere, montant_enchere, no_article, no_utilisateur) VALUES(?, ?, ?, ?)"; 
 	private final String DELETE = "DELETE FROM ENCHERES WHERE no_enchere=?";
-	private final String SELECT_BY_UTILISATEUR = "SELECT date_enchere, montant_enchere, no_article, no_utilisateur FROM ENCHERES WHERE no_enchere=?";
+	private final String SELECT_BY_UTILISATEUR = "SELECT date_enchere, montant_enchere, no_article, no_utilisateur FROM ENCHERES WHERE no_utilisateur=?";
 	private final String SELECT_ALL = "SELECT date_enchere, montant_enchere, no_article, no_utilisateur FROM ENCHERES";
 	
 
