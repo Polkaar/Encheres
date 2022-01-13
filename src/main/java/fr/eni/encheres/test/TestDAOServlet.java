@@ -50,7 +50,7 @@ public class TestDAOServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Utilisateur u1 = new Utilisateur("Seb", "Polo", "Polux", "polo.polo@poplo.polo", "010203040506", "rue saint malo", "35000", "rennes", "pololo", 100, false);
+		Utilisateur u1 = new Utilisateur("Sebounet", "Seb", "Polux", "polo.polo@poplo.polo", "010203040506", "rue saint malo", "35000", "rennes", "pololo", 100, false);
 		Categorie c1 = new Categorie("Informatique");
 		Categorie c2 = new Categorie("Bricolage");
 		ArticleVendu a1 = new ArticleVendu();
@@ -58,14 +58,15 @@ public class TestDAOServlet extends HttpServlet {
 		
 		
 		try {
-			Enchere e1 = new Enchere(LocalDate.now(), 500, daoArticle.selectById(1), daoUser.selectById(1));
+			daoUser.update(daoUser.selectById(1));
+//			Enchere e1 = new Enchere(LocalDate.now(), 500, daoArticle.selectById(1), daoUser.selectById(1));
 //			daoRetrait.insert(r1);
 //			daoCat.insert(c1);
 //			daoCat.insert(c2);
 //			daoUser.insert(u1);
 //			a1 = new ArticleVendu("pc", "gamer", LocalDate.now(), LocalDate.now(),100 ,200, true, daoCat.selectById(1), daoRetrait.selectById(1), daoUser.selectById(1));
 //			daoArticle.insert(a1);
-			daoEnchere.insert(e1);
+//			daoEnchere.insert(e1);
 		} catch (DALException e) {
 			e.printStackTrace();
 		}

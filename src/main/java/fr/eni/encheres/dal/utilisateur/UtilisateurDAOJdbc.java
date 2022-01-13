@@ -77,7 +77,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
 			pStmt.setString(9, utilisateur.getMotDePasse());
 			pStmt.setInt(10, utilisateur.getCredit());
 			pStmt.setBoolean(11, utilisateur.isAdministrateur());
-			pStmt.setInt(12,utilisateur.getNoUtilisateur());
+			pStmt.setInt(12, utilisateur.getNoUtilisateur());
 			
 			pStmt.executeUpdate();
 		} catch (SQLException e) {
@@ -155,7 +155,5 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
 		}
 		return lstUtilisateurs;
 	}
-
-	
 
 }
