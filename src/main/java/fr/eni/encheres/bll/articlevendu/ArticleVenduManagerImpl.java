@@ -124,9 +124,7 @@ public class ArticleVenduManagerImpl implements ArticleVenduManager {
 	private void verifRetraitArticle(Retrait retrait, BllException be) {
 		if(retrait == null) {
 			be.ajouterErreur(new ParameterException("Il doit y avoir un lieu de retrait"));
-
 		}
-		
 	}
 
 	private void verifCategorieArticle(Categorie categorie, BllException be) {
@@ -154,8 +152,8 @@ public class ArticleVenduManagerImpl implements ArticleVenduManager {
 	}
 
 	private void verifDateDebutEncheresArticle(LocalDate dateDebutEncheres, BllException be) {
-		if(dateDebutEncheres == null) {
-			be.ajouterErreur(new ParameterException("La date de debut d'enchere est obligatoire"));
+		if(dateDebutEncheres == null || dateDebutEncheres.isBefore(LocalDate.now())) {
+			be.ajouterErreur(new ParameterException("La date de debut d'enchere est obligatoire et doit etre posterieur a la date actuelle"));
 		}
 	}
 

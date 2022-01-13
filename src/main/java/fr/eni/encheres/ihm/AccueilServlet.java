@@ -9,8 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.encheres.bll.articlevendu.ArticleVenduManager;
+import fr.eni.encheres.bll.articlevendu.ArticleVenduManagerSing;
 import fr.eni.encheres.bll.enchere.EnchereManager;
 import fr.eni.encheres.bll.enchere.EnchereManagerSing;
+import fr.eni.encheres.ihm.creationcompte.CreationCompteModel;
 
 /**
  * Servlet implementation class AccueilServlet
@@ -19,7 +22,7 @@ import fr.eni.encheres.bll.enchere.EnchereManagerSing;
 public class AccueilServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private EnchereManager enchereManager = EnchereManagerSing.getInstance();
-	private ArticleVenduManager articleManager = ArticleVenduSing.getInstance();
+	private ArticleVenduManager articleManager = ArticleVenduManagerSing.getInstance();
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -32,10 +35,10 @@ public class AccueilServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		
 
 		
-		request.setAttribute("model", model);
+//		request.setAttribute("model", model);
 		request.setAttribute("locale", Locale.ENGLISH);
 		request.getRequestDispatcher("WEB-INF/Accueil.jsp").forward(request, response);
 	}
