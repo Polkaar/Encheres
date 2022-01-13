@@ -49,24 +49,52 @@ public class TestBLLServlet extends HttpServlet {
 		Utilisateur u1 = new Utilisateur("Seb", "Polo", "Polux", "polo.polo@poplo.polo", "010203040506", "rue saint malo", "35000", "rennes",
 				"pololo", 100, false);
 		Categorie c1 = new Categorie("Informatique");
-		Categorie c2 = new Categorie("Bricolage");
+		Categorie c2 = new Categorie("Ameublement");
+		Categorie c3 = new Categorie("Vêtement");
+		Categorie c4 = new Categorie("Sport&Loisirs");
 		ArticleVendu a1 = new ArticleVendu();
 		Retrait r1 = new Retrait("rue saint malo", "35000", "rennes");
 		
+		try {
+			categorieManager.ajouterCategorie(c1);
+		} catch (BllException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			categorieManager.ajouterCategorie(c2);
+		} catch (BllException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			categorieManager.ajouterCategorie(c3);
+		} catch (BllException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			categorieManager.ajouterCategorie(c4);
+		} catch (BllException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		//Test BLL Retrait
 		
-		try {
-			retraitManager.ajouterRetrait(r1);
-		} catch (BllException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			System.out.println(retraitManager.afficherRetrait(a1));
-		} catch (BllException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			retraitManager.ajouterRetrait(r1);
+//		} catch (BllException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		try {
+//			System.out.println(retraitManager.afficherRetrait(a1));
+//		} catch (BllException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 //		retraitManager.supprimerRetrait(r1);
 		
 		

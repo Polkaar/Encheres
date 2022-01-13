@@ -9,8 +9,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
+import fr.eni.encheres.bll.BllException;
+import fr.eni.encheres.bll.articlevendu.ArticleVenduManager;
+import fr.eni.encheres.bll.articlevendu.ArticleVenduManagerSing;
 import fr.eni.encheres.bll.enchere.EnchereManager;
 import fr.eni.encheres.bll.enchere.EnchereManagerSing;
+import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.dal.DALException;
 
 /**
  * Servlet implementation class AccueilServlet
@@ -19,31 +25,102 @@ import fr.eni.encheres.bll.enchere.EnchereManagerSing;
 public class AccueilServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private EnchereManager enchereManager = EnchereManagerSing.getInstance();
-	private ArticleVenduManager articleManager = ArticleVenduSing.getInstance();
-	
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public AccueilServlet() {
-        super();
-    }
+	private ArticleVenduManager articleManager = ArticleVenduManagerSing.getInstance();
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public AccueilServlet() {
+		super();
+	}
 
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-		
-		request.setAttribute("model", model);
+		ArticleModel articleModel = new ArticleModel();
+
+		if (request.getParameter("rechercher") != null) {
+			String categorie = request.getParameter("categorie");
+			String nomArticle = request.getParameter("nomArticle");
+
+			switch (categorie) {
+			case "toutes":
+				try {
+					for (ArticleVendu article : articleManager.afficherTousArticleVendu()) {
+						if (article.getNomArticle().contains(nomArticle)) {
+							articleModel.addLstArticles(article);
+						}
+					}
+				} catch (BllException | DALException e) {
+					e.printStackTrace();
+				}
+			case "informatique":
+				try {
+					for (ArticleVendu article : articleManager.afficherArticleVenduCategorie(1)) {
+						if (article.getNomArticle().contains(nomArticle)) {
+							articleModel.addLstArticles(article);
+						}
+					}
+				} catch (BllException | DALException e) {
+					e.printStackTrace();
+				}
+			case "ameublement":
+				try {
+					for (ArticleVendu article : articleManager.afficherArticleVenduCategorie(2)) {
+						if (article.getNomArticle().contains(nomArticle)) {
+							articleModel.addLstArticles(article);
+						}
+					}
+				} catch (BllException | DALException e) {
+					e.printStackTrace();
+				}
+			case "vetement":
+				try {
+					for (ArticleVendu article : articleManager.afficherArticleVenduCategorie(3)) {
+						if (article.getNomArticle().contains(nomArticle)) {
+							articleModel.addLstArticles(article);
+						}
+					}
+				} catch (BllException | DALException e) {
+					e.printStackTrace();
+				}
+			case "sport&loisir":
+				try {
+					for (ArticleVendu article : articleManager.afficherArticleVenduCategorie(4)) {
+						if (article.getNomArticle().contains(nomArticle)) {
+							articleModel.addLstArticles(article);
+						}
+					}
+				} catch (BllException | DALException e) {
+					e.printStackTrace();
+				}
+			}
+
+			for (ArticleVendu article : articleModel.getLstArticles()) {
+				try {
+					article.setLstEncheres(enchereManager.afficherEnchereArticle(article));
+				} catch (BllException e) {
+					e.printStackTrace();
+				}
+			}
+
+		}
+
+		request.setAttribute("articleModel", articleModel);
 		request.setAttribute("locale", Locale.ENGLISH);
 		request.getRequestDispatcher("WEB-INF/Accueil.jsp").forward(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
