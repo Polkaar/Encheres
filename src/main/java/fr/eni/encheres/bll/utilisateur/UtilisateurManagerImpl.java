@@ -15,7 +15,7 @@ public class UtilisateurManagerImpl implements UtilisateurManager{
 
 	
 	@Override
-	public void ajouterUtilisateur(Utilisateur utilisateur) throws BllException, DALException {
+	public Utilisateur ajouterUtilisateur(Utilisateur utilisateur) throws BllException, DALException {
 		BllException be = new BllException();
 		
 		verifAll(utilisateur.getPseudo(), utilisateur.getNom(), utilisateur.getPrenom(), utilisateur.getEmail(), utilisateur.getTelephone(),
@@ -26,8 +26,9 @@ public class UtilisateurManagerImpl implements UtilisateurManager{
 			throw be;
 		}
 		
-		dao.insert(utilisateur);
+		utilisateur = dao.insert(utilisateur);
 		
+		return utilisateur;
 	}
 
 	@Override

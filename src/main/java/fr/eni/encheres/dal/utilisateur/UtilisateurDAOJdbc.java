@@ -30,7 +30,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
 
 
 	@Override
-	public void insert(Utilisateur nouvelUtilisateur) throws DALException {
+	public Utilisateur insert(Utilisateur nouvelUtilisateur) throws DALException {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 
 			PreparedStatement pStmt = cnx.prepareStatement(INSERT);
@@ -56,6 +56,9 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
 			e.printStackTrace();
 			throw new DALException(e.getMessage());
 		}
+		
+		return nouvelUtilisateur;
+		
 	}
 
 	@Override
@@ -152,26 +155,6 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
 		}
 		return lstUtilisateurs;
 	}
-	
-
-//	private Utilisateur map(ResultSet rs) throws SQLException {
-//		Integer noUtilisateur = rs.getInt("no_utilisateur");
-//		String pseudo = rs.getString("pseudo");
-//		String nom = rs.getString("nom");
-//		String prenom = rs.getString("prenom");
-//		String email = rs.getString("email");
-//		String telephone = rs.getString("telephone");
-//		String rue = rs.getString("rue");
-//		String codePostal = rs.getString("code_postal");
-//		String ville = rs.getString("ville");
-//		String motDePasse = rs.getString("mot_de_passe");
-//		Integer credit = rs.getInt("credit");
-//		Boolean administrateur = rs.getBoolean("administrateur");
-//		Utilisateur utilisateur = new Utilisateur(noUtilisateur, pseudo, nom, prenom, email, telephone, rue, codePostal,
-//				ville, motDePasse, credit, administrateur);
-//
-//		return utilisateur;
-//	}
 
 	
 

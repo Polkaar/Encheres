@@ -7,7 +7,7 @@ import fr.eni.encheres.dal.DALException;
 
 public interface UtilisateurDAO {
 
-	public void insert(Utilisateur utilisateur) throws DALException;
+	public Utilisateur insert(Utilisateur utilisateur) throws DALException;
 	public void update(Utilisateur utilisateur) throws DALException;
 	public void delete(Utilisateur utilisateur) throws DALException;
 	public Utilisateur selectById(Integer noUtilisateur) throws DALException;

@@ -32,7 +32,7 @@ import fr.eni.encheres.dal.utilisateur.UtilisateurDAOFact;
  * Servlet implementation class TestDAOArticleVendu
  */
 @WebServlet("/TestDAOArticleVendu")
-public class TestDAOArticleVendu extends HttpServlet {
+public class TestDAOServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ArticleVenduDAO daoArticle = ArticleVenduDAOFact.getArticleVenduDAO();
 	private CategorieDAO daoCat = CategorieDAOFact.getCategorieDAO();
@@ -42,7 +42,7 @@ public class TestDAOArticleVendu extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public TestDAOArticleVendu() {
+    public TestDAOServlet() {
         super();
     }
 
