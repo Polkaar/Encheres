@@ -74,7 +74,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
 			pStmt.setString(9, utilisateur.getMotDePasse());
 			pStmt.setInt(10, utilisateur.getCredit());
 			pStmt.setBoolean(11, utilisateur.isAdministrateur());
-			pStmt.setInt(12,utilisateur.getNoUtilisateur());
+			pStmt.setInt(12, utilisateur.getNoUtilisateur());
 			
 			pStmt.executeUpdate();
 		} catch (SQLException e) {
@@ -152,27 +152,4 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
 		}
 		return lstUtilisateurs;
 	}
-	
-
-//	private Utilisateur map(ResultSet rs) throws SQLException {
-//		Integer noUtilisateur = rs.getInt("no_utilisateur");
-//		String pseudo = rs.getString("pseudo");
-//		String nom = rs.getString("nom");
-//		String prenom = rs.getString("prenom");
-//		String email = rs.getString("email");
-//		String telephone = rs.getString("telephone");
-//		String rue = rs.getString("rue");
-//		String codePostal = rs.getString("code_postal");
-//		String ville = rs.getString("ville");
-//		String motDePasse = rs.getString("mot_de_passe");
-//		Integer credit = rs.getInt("credit");
-//		Boolean administrateur = rs.getBoolean("administrateur");
-//		Utilisateur utilisateur = new Utilisateur(noUtilisateur, pseudo, nom, prenom, email, telephone, rue, codePostal,
-//				ville, motDePasse, credit, administrateur);
-//
-//		return utilisateur;
-//	}
-
-	
-
 }

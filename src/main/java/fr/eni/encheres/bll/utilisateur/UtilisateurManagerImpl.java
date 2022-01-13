@@ -66,7 +66,7 @@ public class UtilisateurManagerImpl implements UtilisateurManager{
 	}
 
 	@Override
-	public List<Utilisateur> afficherTousUtilisateurs() throws fr.eni.encheres.bll.BllException {
+	public List<Utilisateur> afficherTousUtilisateurs() throws BllException {
 		try {
 			return dao.selectAll();
 		} catch (DALException e) {

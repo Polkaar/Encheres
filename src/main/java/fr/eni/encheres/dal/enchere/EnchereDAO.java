@@ -10,5 +10,6 @@ public interface EnchereDAO {
 	void insert(Enchere nouvelleEnchere) throws DALException;
 	void delete(Enchere enchere)throws DALException;
 	List<Enchere> selectByUtilisateur(Integer noUtilisateur)throws DALException;
+	List<Enchere> selectByArticle(Integer noArticle)throws DALException;
 	List<Enchere> selectAll()throws DALException;
 }
