@@ -41,12 +41,19 @@ public class AccueilServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		//TODO : Changer d'un bouton à un lien hypertexte ?
+		if(request.getParameter("connexion") != null) {
+			request.getRequestDispatcher("ConnexionServlet").forward(request, response);
+		}
+		
 		ArticleModel articleModel = new ArticleModel();
 
+		//TODO : Factoriser la méthode dans la BLL ? Deux autres pages utilisent des listes d'enchères.
 		if (request.getParameter("rechercher") != null) {
 			String categorie = request.getParameter("categorie");
 			String nomArticle = request.getParameter("nomArticle");
 
+			//TODO : Utiliser plutôt une request SQL pour le tri ?
 			switch (categorie) {
 			case "toutes":
 				try {

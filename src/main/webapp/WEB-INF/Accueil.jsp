@@ -16,9 +16,11 @@
 
 <fmt:setBundle basename="fr.eni.encheres.message.mes_messages" var="r"/>
 
-	<header>
+	<header >
 		<h1>ENI-Encheres</h1>
-		<p><fmt:message key="lien_connexion" bundle="${r}"/></p>
+		<form action="AccueilServlet" method="POST">
+			<input type="submit" name="connexion" value="<fmt:message key="lien_connexion" bundle="${r}"/>"/>
+		</form>
 	</header>
 	
 	<h2><fmt:message key="h2_accueil" bundle="${r}"/></h2>
@@ -38,7 +40,7 @@
 		    <option value="sport&loisir"><fmt:message key="select_sport&loisir" bundle="${r}"/></option>
 		</select>
 		
-		<input type="submit" value="rechercher" name="<fmt:message key="bouton_rechercher" bundle="${r}"/>"/>
+		<input type="submit" name="rechercher" value="<fmt:message key="bouton_rechercher" bundle="${r}"/>"/>
 	
 	</form>
 	
