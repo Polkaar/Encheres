@@ -10,7 +10,7 @@ import fr.eni.encheres.dal.categorie.CategorieDAOFact;
 
 public class CategorieManagerImpl implements CategorieManager {
 	
-	CategorieDAO dao = CategorieDAOFact.getInstance();
+	CategorieDAO dao = CategorieDAOFact.getCategorieDAO();
 
 	@Override
 	public void ajouterCategorie(Categorie categorie) throws BllException {

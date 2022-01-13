@@ -24,7 +24,8 @@ public class EnchereDAOJdbc implements EnchereDAO{
 	
 	private final String INSERT = "INSERT  INTO ENCHERES (date_enchere, montant_enchere, no_article, no_utilisateur) VALUES(?, ?, ?, ?)"; 
 	private final String DELETE = "DELETE FROM ENCHERES WHERE no_enchere=?";
-	private final String SELECT_BY_UTILISATEUR = "SELECT date_enchere, montant_enchere, no_article, no_utilisateur FROM ENCHERES WHERE no_enchere=?";
+	private final String SELECT_BY_UTILISATEUR = "SELECT date_enchere, montant_enchere, no_article, no_utilisateur FROM ENCHERES WHERE no_utilisateur=?";
+	private final String SELECT_BY_ARTICLE = "SELECT date_enchere, montant_enchere, no_article, no_utilisateur FROM ENCHERES WHERE no_article=?";
 	private final String SELECT_ALL = "SELECT date_enchere, montant_enchere, no_article, no_utilisateur FROM ENCHERES";
 	
 
@@ -69,6 +70,29 @@ public class EnchereDAOJdbc implements EnchereDAO{
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_BY_UTILISATEUR);
 			pStmt.setInt(1, noUtilisateur);
+			ResultSet rs = pStmt.executeQuery();
+			while(rs.next()) {
+				Enchere enchere = new Enchere();
+				enchere.setNoEnchere(rs.getInt("no_enchere"));
+				enchere.setDateEnchere(rs.getDate("date_enchere").toLocalDate());
+				enchere.setMontantEnchere(rs.getInt("description"));
+				enchere.setArticleVendu(daoArticle.selectById(rs.getInt("no_article")));
+				enchere.setUtilisateur(daoUtilisateur.selectById(rs.getInt("no_utilisateur")));
+				lstEncheres.add(enchere);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DALException(e.getMessage());
+		}
+		return lstEncheres;
+	}
+	
+	@Override
+	public List<Enchere> selectByArticle(Integer noArticle) throws DALException {
+		List<Enchere> lstEncheres = new ArrayList<Enchere>();
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement pStmt = cnx.prepareStatement(SELECT_BY_ARTICLE);
+			pStmt.setInt(1, noArticle);
 			ResultSet rs = pStmt.executeQuery();
 			while(rs.next()) {
 				Enchere enchere = new Enchere();
