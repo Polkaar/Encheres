@@ -67,6 +67,16 @@ public class UtilisateurManagerImpl implements UtilisateurManager{
 	}
 
 	@Override
+	public Utilisateur afficherUtilisateurParPseudo(String pseudo) throws BllException {
+		try {
+			return dao.selectByPseudo(pseudo);
+		} catch (DALException e) {
+			e.printStackTrace();
+			throw new BllException(e);
+		}
+	}
+
+	@Override
 	public List<Utilisateur> afficherTousUtilisateurs() throws BllException {
 		try {
 			return dao.selectAll();
@@ -163,5 +173,6 @@ public class UtilisateurManagerImpl implements UtilisateurManager{
 			be.ajouterErreur(new ParameterException("Le statut de l'utilisateur (admin ou pas ?) doit être spécifié"));
 		}
 	}
+
 
 }

@@ -24,6 +24,9 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
 
 	private final static String SELECT_BY_ID = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal,"
 			+ "ville, mot_de_passe, credit, administrateur FROM UTILISATEURS WHERE no_utilisateur=?";
+	
+	private final static String SELECT_BY_PSEUDO = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal,"
+			+ "ville, mot_de_passe, credit, administrateur FROM UTILISATEURS WHERE pseudo=?";
 
 	private final static String SELECT_ALL = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal,"
 			+ "ville, mot_de_passe, credit, administrateur FROM UTILISATEURS";
@@ -128,6 +131,34 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
 	}
 
 	@Override
+	public Utilisateur selectByPseudo(String pseudo) throws DALException {
+		Utilisateur utilisateur = new Utilisateur();
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement pStmt = cnx.prepareStatement(SELECT_BY_PSEUDO);
+			pStmt.setString(1, pseudo);
+			ResultSet rs = pStmt.executeQuery();
+			while(rs.next()) {
+				utilisateur.setNoUtilisateur(rs.getInt("no_utilisateur"));
+				utilisateur.setPseudo(rs.getString("pseudo"));
+				utilisateur.setNom(rs.getString("nom"));
+				utilisateur.setPrenom(rs.getString("prenom"));
+				utilisateur.setEmail(rs.getString("email"));
+				utilisateur.setTelephone(rs.getString("telephone"));
+				utilisateur.setRue(rs.getString("rue"));
+				utilisateur.setCodePostal(rs.getString("code_postal"));
+				utilisateur.setVille(rs.getString("ville"));
+				utilisateur.setMotDePasse(rs.getString("mot_de_passe"));
+				utilisateur.setCredit(rs.getInt("credit"));
+				utilisateur.setAdministrateur(rs.getBoolean("administrateur"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DALException(e.getMessage());
+		}
+		return utilisateur;
+	}
+	
+	@Override
 	public List<Utilisateur> selectAll() throws DALException {
 		List<Utilisateur> lstUtilisateurs = new ArrayList<Utilisateur>();
 		Utilisateur utilisateur = new Utilisateur();
@@ -155,5 +186,6 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
 		}
 		return lstUtilisateurs;
 	}
+
 
 }

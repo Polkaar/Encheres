@@ -55,26 +55,10 @@ public class TestBLLServlet extends HttpServlet {
 		ArticleVendu a1 = new ArticleVendu();
 		Retrait r1 = new Retrait("rue saint malo", "35000", "rennes");
 		
+		Categorie c5 = new Categorie("TestConnexionBDD");
+		
 		try {
-			categorieManager.ajouterCategorie(c1);
-		} catch (BllException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			categorieManager.ajouterCategorie(c2);
-		} catch (BllException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			categorieManager.ajouterCategorie(c3);
-		} catch (BllException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			categorieManager.ajouterCategorie(c4);
+			categorieManager.ajouterCategorie(c5);
 		} catch (BllException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

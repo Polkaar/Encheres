@@ -19,7 +19,7 @@
 	<header >
 		<h1>ENI-Encheres</h1>
 		<form action="AccueilServlet" method="POST">
-			<input type="submit" name="connexion" value="<fmt:message key="lien_connexion" bundle="${r}"/>"/>
+			<input type="submit" name="accueilConnexion" value="<fmt:message key="lien_connexion" bundle="${r}"/>"/>
 		</form>
 	</header>
 	
@@ -29,15 +29,15 @@
 	
 	<form action="AccueilServlet" method="POST">
 	
-		<input type="text" name="nomArticle" value="<fmt:message key="input_article_contient" bundle="${r}"/>"/>
+		<input type="text" name="nomArticle" placeholder="<fmt:message key="input_article_contient" bundle="${r}"/>"/>
 		
 		<label><fmt:message key="label_categorie" bundle="${r}"/></label>
 		<select name="categorie" id="id-categorie">
 		    <option value="toutes"><fmt:message key="select_toutes" bundle="${r}"/></option>
-		    <option value="informatique"><fmt:message key="select_informatique" bundle="${r}"/></option>
-		    <option value="ameublement"><fmt:message key="select_ameublement" bundle="${r}"/></option>
-		    <option value="vetement"><fmt:message key="select_vetement" bundle="${r}"/></option>
-		    <option value="sport&loisir"><fmt:message key="select_sport&loisir" bundle="${r}"/></option>
+		    <option value="1"><fmt:message key="select_informatique" bundle="${r}"/></option>
+		    <option value="2"><fmt:message key="select_ameublement" bundle="${r}"/></option>
+		    <option value="3"><fmt:message key="select_vetement" bundle="${r}"/></option>
+		    <option value="4"><fmt:message key="select_sport&loisir" bundle="${r}"/></option>
 		</select>
 		
 		<input type="submit" name="rechercher" value="<fmt:message key="bouton_rechercher" bundle="${r}"/>"/>
