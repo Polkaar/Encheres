@@ -41,7 +41,7 @@ public class ConnexionServlet extends HttpServlet {
 		if (request.getParameter("connexion") != null) {
 			String pseudo = request.getParameter("pseudo");
 			String motDePasse = request.getParameter("motDePasse");
-
+//BLABLA test github
 			try {
 				utilisateur = utilisateurManager.afficherUtilisateurParPseudo(pseudo);
 			} catch (BllException e) {
