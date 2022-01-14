@@ -1,4 +1,4 @@
-package fr.eni.encheres.ihm;
+package fr.eni.encheres.ihm.login;
 
 import java.io.IOException;
 
@@ -34,32 +34,40 @@ public class ConnexionServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String nextScreen = "/WEB-INF/Connexion.jsp";
 		LoginModel model = new LoginModel("", "");
 		Utilisateur utilisateur = null;
 
 		if (request.getParameter("connexion") != null) {
 			String pseudo = request.getParameter("pseudo");
 			String motDePasse = request.getParameter("motDePasse");
-//BLABLA test github
+
+			System.out.println(pseudo);
+			System.out.println(motDePasse);
+			
 			try {
 				utilisateur = utilisateurManager.afficherUtilisateurParPseudo(pseudo);
+				System.out.println("Je passe ici UN");
 			} catch (BllException e) {
 				e.printStackTrace();
 			}
+			
+			System.out.println(utilisateur);
 
 			if (utilisateur != null) {
+				System.out.println("Je passe ici DEUX");
 				model.setPseudo(pseudo);
 				if (motDePasse.equals(utilisateur.getMotDePasse())) {
+					System.out.println("Je passe ici TROIS");
+					request.getSession().setAttribute("pseudo", pseudo);
 					//TODO : Faire que le navigateur enregistre pseudo et motDePasse ?
 					if (request.getParameter("seSouvenirDeMoi") != null) {
+						System.out.println("Je passe ici QUATRE");
 						request.getSession().setAttribute("motDePasse", motDePasse);
+						model.setPseudo(request.getSession().getAttribute("pseudo").toString());
+						model.setMotDePasse(request.getSession().getAttribute("motDePasse").toString());
 					}
-					request.getSession().setAttribute("pseudo", pseudo);
-					model.setPseudo(request.getSession().getAttribute("pseudo").toString());
-					model.setMotDePasse(request.getSession().getAttribute("motDePasse").toString());
-					// TODO : Vérifier le nom de la Servlet
-					nextScreen = "ListeEncheresConnecteServlet";
+					request.getSession().setAttribute("utilisateurConnecte", utilisateur);
+					request.getRequestDispatcher("AccueilConnecteServlet").forward(request, response);
 				}
 			}
 
@@ -71,12 +79,11 @@ public class ConnexionServlet extends HttpServlet {
 		}
 
 		if (request.getParameter("creerUnCompte") != null) {
-			// TODO : Vérifier le nom de la Servlet
-			nextScreen = "CreerCompteServlet";
+			request.getRequestDispatcher("CreationCompteServlet").forward(request, response);
 		}
 
 		request.setAttribute("model", model);
-		request.getRequestDispatcher(nextScreen).forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/Connexion.jsp").forward(request, response);
 
 	}
 

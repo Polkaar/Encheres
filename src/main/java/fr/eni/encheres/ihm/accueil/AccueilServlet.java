@@ -1,4 +1,4 @@
-package fr.eni.encheres.ihm;
+package fr.eni.encheres.ihm.accueil;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -12,10 +12,6 @@ import fr.eni.encheres.bll.BllException;
 
 import fr.eni.encheres.bll.articlevendu.ArticleVenduManager;
 import fr.eni.encheres.bll.articlevendu.ArticleVenduManagerSing;
-import fr.eni.encheres.bll.enchere.EnchereManager;
-import fr.eni.encheres.bll.enchere.EnchereManagerSing;
-
-import fr.eni.encheres.ihm.creationcompte.CreationCompteModel;
 
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.dal.DALException;
@@ -27,7 +23,6 @@ import fr.eni.encheres.dal.DALException;
 @WebServlet("/AccueilServlet")
 public class AccueilServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private EnchereManager enchereManager = EnchereManagerSing.getInstance();
 	private ArticleVenduManager articleManager = ArticleVenduManagerSing.getInstance();
 
 	
@@ -50,7 +45,7 @@ public class AccueilServlet extends HttpServlet {
 			request.getRequestDispatcher("ConnexionServlet").forward(request, response);
 		}
 		
-		ArticleModel articleModel = new ArticleModel();
+		AccueilModel accueilModel = new AccueilModel();
 
 		//TODO : Factoriser la méthode dans la BLL ? Deux autres pages utilisent des listes d'enchères.
 		if (request.getParameter("rechercher") != null) {
@@ -62,7 +57,7 @@ public class AccueilServlet extends HttpServlet {
 				try {
 					for (ArticleVendu article : articleManager.afficherTousArticleVendu()) {
 						if (article.getNomArticle().contains(nomArticle)) {
-							articleModel.addLstArticles(article);
+							accueilModel.addLstArticles(article);
 						}
 					}
 				} catch (BllException | DALException e) {
@@ -73,7 +68,7 @@ public class AccueilServlet extends HttpServlet {
 				try {
 					for (ArticleVendu article : articleManager.afficherArticleVenduCategorie(noCategorie)) {
 						if (article.getNomArticle().contains(nomArticle)) {
-							articleModel.addLstArticles(article);
+							accueilModel.addLstArticles(article);
 						}
 					}
 				} catch (BllException | DALException e) {
@@ -81,17 +76,9 @@ public class AccueilServlet extends HttpServlet {
 				}
 			}
 
-			for (ArticleVendu article : articleModel.getLstArticles()) {
-				try {
-					article.setLstEncheres(enchereManager.afficherEnchereArticle(article));
-				} catch (BllException e) {
-					e.printStackTrace();
-				}
-			}
-
 		}
 
-		request.setAttribute("articleModel", articleModel);
+		request.setAttribute("accueilModel", accueilModel);
 		request.setAttribute("locale", Locale.ENGLISH);
 		request.getRequestDispatcher("WEB-INF/Accueil.jsp").forward(request, response);
 	}

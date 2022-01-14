@@ -1,11 +1,11 @@
-package fr.eni.encheres.ihm;
+package fr.eni.encheres.ihm.accueil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.encheres.bo.ArticleVendu;
 
-public class ArticleModel {
+public class AccueilModel {
 
 	ArticleVendu article = new ArticleVendu();
 	List<ArticleVendu> lstArticles = new ArrayList<>();
@@ -15,10 +15,10 @@ public class ArticleModel {
 	}
 	
 	
-	public ArticleModel() {
+	public AccueilModel() {
 		super();
 	}
-	public ArticleModel(ArticleVendu article, List<ArticleVendu> lstArticles) {
+	public AccueilModel(ArticleVendu article, List<ArticleVendu> lstArticles) {
 		super();
 		this.article = article;
 		this.lstArticles = lstArticles;

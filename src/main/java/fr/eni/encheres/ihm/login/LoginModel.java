@@ -1,4 +1,4 @@
-package fr.eni.encheres.ihm;
+package fr.eni.encheres.ihm.login;
 
 public class LoginModel {
 
