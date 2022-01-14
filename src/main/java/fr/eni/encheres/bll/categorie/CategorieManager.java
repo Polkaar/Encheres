@@ -9,5 +9,6 @@ public interface CategorieManager {
 	public void ajouterCategorie(Categorie categorie) throws BllException;
 	public Categorie afficherCategorie(ArticleVendu articleVendu) throws BllException;
 	public void supprimerCategorie(Categorie categorie) throws BllException;
+	public Categorie afficherCategorieById(Integer noCategorie) throws BllException;
 	
 }

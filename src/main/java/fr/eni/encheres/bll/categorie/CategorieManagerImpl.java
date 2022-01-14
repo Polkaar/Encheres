@@ -39,6 +39,8 @@ public class CategorieManagerImpl implements CategorieManager {
 			throw new BllException(e);
 		}
 	}
+	
+	
 
 	@Override
 	public void supprimerCategorie(Categorie categorie) throws BllException {
@@ -55,6 +57,18 @@ public class CategorieManagerImpl implements CategorieManager {
 		if (libelle == null || libelle.isBlank() || libelle.length() > 30) {
 			be.ajouterErreur(new ParameterException("Le libellé est obligatoire et doit être <= 30"));
 		}
+	}
+
+	@Override
+	public Categorie afficherCategorieById(Integer noCategorie) throws BllException {
+		try {
+			return dao.selectById(noCategorie);
+		} catch (DALException e) {
+			e.printStackTrace();
+			throw new BllException(e);
+		}
+		
+		
 	}
 	
 }

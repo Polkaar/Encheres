@@ -17,11 +17,11 @@ public class ArticleVendu {
 	private Retrait retrait;
 	private Utilisateur utilisateur;
 	private List<Enchere> lstEncheres;
-	
+
 	public ArticleVendu() {
 	}
-	
-public ArticleVendu(Integer noArticle, String nomArticle, String description, LocalDate dateDebutEncheres,
+
+	public ArticleVendu(Integer noArticle, String nomArticle, String description, LocalDate dateDebutEncheres,
 			LocalDate dateFinEncheres, Integer prixInitial, Integer prixVente, boolean etatVente, Categorie categorie,
 			Retrait retrait, Utilisateur utilisateur, List<Enchere> lstEncheres) {
 		super();
@@ -52,7 +52,6 @@ public ArticleVendu(Integer noArticle, String nomArticle, String description, Lo
 		this.retrait = retrait;
 		this.utilisateur = utilisateur;
 	}
-	
 
 	public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
 			Integer prixInitial, Integer prixVente, boolean etatVente, Categorie categorie, Retrait retrait,
