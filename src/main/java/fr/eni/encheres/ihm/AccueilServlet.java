@@ -46,7 +46,7 @@ public class AccueilServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		//TODO : Changer d'un bouton à un lien hypertexte ?
-		if(request.getParameter("connexion") != null) {
+		if(request.getParameter("accueilConnexion") != null) {
 			request.getRequestDispatcher("ConnexionServlet").forward(request, response);
 		}
 		
@@ -54,12 +54,11 @@ public class AccueilServlet extends HttpServlet {
 
 		//TODO : Factoriser la méthode dans la BLL ? Deux autres pages utilisent des listes d'enchères.
 		if (request.getParameter("rechercher") != null) {
-			String categorie = request.getParameter("categorie");
 			String nomArticle = request.getParameter("nomArticle");
+			Integer noCategorie;
 
 			//TODO : Utiliser plutôt une request SQL pour le tri ?
-			switch (categorie) {
-			case "toutes":
+			if("toutes".equals(request.getParameter("categorie"))) {
 				try {
 					for (ArticleVendu article : articleManager.afficherTousArticleVendu()) {
 						if (article.getNomArticle().contains(nomArticle)) {
@@ -69,39 +68,10 @@ public class AccueilServlet extends HttpServlet {
 				} catch (BllException | DALException e) {
 					e.printStackTrace();
 				}
-			case "informatique":
+			}else {
+				noCategorie = Integer.parseInt(request.getParameter("categorie"));
 				try {
-					for (ArticleVendu article : articleManager.afficherArticleVenduCategorie(1)) {
-						if (article.getNomArticle().contains(nomArticle)) {
-							articleModel.addLstArticles(article);
-						}
-					}
-				} catch (BllException | DALException e) {
-					e.printStackTrace();
-				}
-			case "ameublement":
-				try {
-					for (ArticleVendu article : articleManager.afficherArticleVenduCategorie(2)) {
-						if (article.getNomArticle().contains(nomArticle)) {
-							articleModel.addLstArticles(article);
-						}
-					}
-				} catch (BllException | DALException e) {
-					e.printStackTrace();
-				}
-			case "vetement":
-				try {
-					for (ArticleVendu article : articleManager.afficherArticleVenduCategorie(3)) {
-						if (article.getNomArticle().contains(nomArticle)) {
-							articleModel.addLstArticles(article);
-						}
-					}
-				} catch (BllException | DALException e) {
-					e.printStackTrace();
-				}
-			case "sport&loisir":
-				try {
-					for (ArticleVendu article : articleManager.afficherArticleVenduCategorie(4)) {
+					for (ArticleVendu article : articleManager.afficherArticleVenduCategorie(noCategorie)) {
 						if (article.getNomArticle().contains(nomArticle)) {
 							articleModel.addLstArticles(article);
 						}
