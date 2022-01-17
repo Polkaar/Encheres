@@ -17,8 +17,8 @@
 	${model.articleVendu.nomArticle}<br>
 	Description : ${model.articleVendu.description}<br>
 	Categorie : ${model.articleVendu.categorie.libelle}<br>
-	Meilleure offre : ${model.articleVendu.prixVente}<br>
-	Mise a prix : ${model.articleVendu.prixInitial}<br>
+	Meilleure offre : ${model.articleVendu.prixVente} pts par ${model.articleVend }<br>
+	Mise a prix : ${model.articleVendu.prixInitial} pts<br>
 	Fin de l'enchere : ${model.articleVendu.dateFinEncheres}<br>
 	Retrait : ${model.articleVendu.retrait.rue}
 	${model.articleVendu.retrait.codePostal}

@@ -46,6 +46,7 @@ public class DetailVenteServlet extends HttpServlet {
 		Enchere enchere = new Enchere();
 		ArticleVendu article = new ArticleVendu();
 		Integer prixEnchere = null;
+
 		try {
 			article = articleManager.afficherArticleVendu(6);
 			model.setArticleVendu(article);
