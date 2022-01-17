@@ -44,16 +44,11 @@
 	
 	</form>
 	
-	<c:forEach items="${articleModel.lstArticles}" var="article">
+	<c:forEach items="${accueilModel.lstArticles}" var="article">
 		<p>${article.nomArticle} ${article.description}</p>
 		<p>Prix : ${article.prixInitial} points</p>
 		<p>Fin de l'enchère : ${article.dateFinEncheres}</p>
 		<p>Vendeur : ${article.utilisateur.pseudo}</p>
-		
-		<c:forEach items="${article.lstEncheres}" var="enchere">
-			<p>${enchere.montantEnchere} points, Faîtes par ${enchere.utilisateur.pseudo} le ${enchere.dateEnchere}</p>
-		</c:forEach>
-		<br>
 		<br>
 	</c:forEach>
 

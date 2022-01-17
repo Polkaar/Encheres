@@ -1,6 +1,7 @@
 package fr.eni.encheres.ihm.monprofil;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import fr.eni.encheres.bll.BllException;
 import fr.eni.encheres.bll.utilisateur.UtilisateurManager;
 import fr.eni.encheres.bll.utilisateur.UtilisateurManagerSing;
-import fr.eni.encheres.ihm.LoginModel;
 
 /**
  * Servlet implementation class MonProfil

@@ -1,4 +1,4 @@
-package fr.eni.encheres.ihm;
+package fr.eni.encheres.ihm.login;
 
 import java.io.IOException;
 import javax.servlet.Filter;
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
  * Servlet Filter implementation class LoginFilter
  */
 //TODO : Rajouter au fur et à mesure les pages dont l'accès nécessite d'être connecté.
-@WebFilter("/")
+@WebFilter("/AccueilConnecteServlet, /NouvelleVenteServlet")
 public class LoginFilter implements Filter {
 
     /**
