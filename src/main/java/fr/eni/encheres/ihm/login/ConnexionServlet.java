@@ -34,7 +34,12 @@ public class ConnexionServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		LoginModel model = new LoginModel("", "");
+
+		String nextScreen = "/WEB-INF/Connexion.jsp";
+		LoginModel model = new LoginModel();
+
+		//LoginModel model = new LoginModel("", "");
+
 		Utilisateur utilisateur = null;
 
 		if (request.getParameter("connexion") != null) {
