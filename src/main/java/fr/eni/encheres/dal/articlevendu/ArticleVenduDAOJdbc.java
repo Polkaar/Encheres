@@ -30,7 +30,9 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
 	private final String UPDATE = "UPDATE ARTICLES_VENDUS SET prix_vente = ? WHERE no_article = ?";
 	private final String SELECT_ALL = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie, no_retrait FROM ARTICLES_VENDUS";
 	private final String SELECT_BY_CATEGORIE = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie, no_retrait FROM ARTICLES_VENDUS WHERE no_categorie=?";
-
+	
+	private final String SELECT_BY_NOM_LIKE = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial,"
+			+ " prix_vente, no_utilisateur, no_categorie, no_retrait FROM ARTICLES_VENDUS WHERE nom_article LIKE '%?%'";
 
 	@Override
 	public void insert(ArticleVendu articleVendu) throws DALException{

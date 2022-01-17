@@ -39,16 +39,16 @@
 		
 		<fieldset>
 		  	<fieldset>
-				<input type="radio" name="achats"> Achats<br>
-		  			<input type="checkbox" name="encheresOuvertes" value="encheresOuvertes">enchères ouvertes<br> 
-		 			<input type="checkbox" name="mesEncheres" value="mesEncheres">mes enchères<br> 
-		   			<input type="checkbox" name="mesEncheresRemportees" value="mesEncheresRemportees">mes enchères remportées<br>
+				<input type="radio" name="achats" id="achats" onclick="onClickAchats()" > Achats<br>
+		  			<input type="checkbox" name="encheresOuvertes" value="encheresOuvertes" id="encheresOuvertes">enchères ouvertes<br> 
+		 			<input type="checkbox" name="mesEncheres" value="mesEncheres" id="mesEncheres">mes enchères<br> 
+		   			<input type="checkbox" name="mesEncheresRemportees" value="mesEncheresRemportees" id="mesEncheresRemportees">mes enchères remportées<br>
 		  	</fieldset>
 			<fieldset>
-				<input type="radio" name="mesVentes"> Mes ventes<br>
-		  			<input type="checkbox" name="mesVentesEnCours" value="mesVentesEnCours">mes ventes en cours<br> 
-		 			<input type="checkbox" name="ventesNonDebutees" value="ventesNonDebutees">ventes Non Debutées<br> 
-		   			<input type="checkbox" name="ventesTerminees" value="ventesTerminees">ventes terminées<br>
+				<input type="radio" name="mesVentes" id="mesVentes" onclick="onClickVentes()"> Mes ventes<br>
+		  			<input type="checkbox" name="mesVentesEnCours" value="mesVentesEnCours" id="mesVentesEnCours">mes ventes en cours<br> 
+		 			<input type="checkbox" name="ventesNonDebutees" value="ventesNonDebutees" id="ventesNonDebutees">ventes Non Debutées<br> 
+		   			<input type="checkbox" name="ventesTerminees" value="ventesTerminees" id="ventesTerminees">ventes terminées<br>
 		  	</fieldset>
 		</fieldset>
 		
@@ -66,3 +66,55 @@
 	
 </body>
 </html>
+
+<script type="text/javascript">
+function onClickAchats(){
+	var mesVentes = document.getElementById("mesVentes");
+	mesVentes.checked = false;
+	
+    var encheresOuvertes = document.getElementById("encheresOuvertes");
+    encheresOuvertes.checked = true;
+    encheresOuvertes.disabled = false;
+	var mesEncheres = document.getElementById("mesEncheres");
+    mesEncheres.checked = false;
+    mesEncheres.disabled = false;
+	var mesEncheresRemportees = document.getElementById("mesEncheresRemportees");
+    mesEncheresRemportees.checked = false;
+    mesEncheresRemportees.disabled = false;
+    
+    var mesVentesEnCours = document.getElementById("mesVentesEnCours");
+    mesVentesEnCours.checked = false;
+    mesVentesEnCours.disabled = true;
+	var ventesNonDebutees = document.getElementById("ventesNonDebutees");
+    ventesNonDebutees.checked = false;
+    ventesNonDebutees.disabled = true;
+	var ventesTerminees = document.getElementById("ventesTerminees");
+    ventesTerminees.checked = false;
+    ventesTerminees.disabled = true;
+}
+
+function onClickVentes(){
+	var achats = document.getElementById("achats");
+	achats.checked = false;
+	
+	var encheresOuvertes = document.getElementById("encheresOuvertes");
+    encheresOuvertes.checked = false;
+    encheresOuvertes.disabled = true;
+	var mesEncheres = document.getElementById("mesEncheres");
+    mesEncheres.checked = false;
+    mesEncheres.disabled = true;
+	var mesEncheresRemportees = document.getElementById("mesEncheresRemportees");
+    mesEncheresRemportees.checked = false;
+    mesEncheresRemportees.disabled = true;
+    
+    var mesVentesEnCours = document.getElementById("mesVentesEnCours");
+    mesVentesEnCours.checked = false;
+    mesVentesEnCours.disabled = false;
+	var ventesNonDebutees = document.getElementById("ventesNonDebutees");
+    ventesNonDebutees.checked = true;
+    ventesNonDebutees.disabled = false;
+	var ventesTerminees = document.getElementById("ventesTerminees");
+    ventesTerminees.checked = false;
+    ventesTerminees.disabled = false;
+}
+</script>

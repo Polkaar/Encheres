@@ -48,6 +48,7 @@ public class AccueilServlet extends HttpServlet {
 		AccueilModel accueilModel = new AccueilModel();
 
 		//TODO : Factoriser la méthode dans la BLL ? Deux autres pages utilisent des listes d'enchères.
+		//TODO : Modifier la méthode en utilisant les requêtes SQL crées pour AccueilConnecte ?
 		if (request.getParameter("rechercher") != null) {
 			String nomArticle = request.getParameter("nomArticle");
 			Integer noCategorie;
