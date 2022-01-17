@@ -78,8 +78,8 @@ public class RetraitDAOJdbc implements RetraitDAO {
 			while(rs.next()) {
 				retrait.setNoRetrait(rs.getInt("no_retrait"));;
 				retrait.setRue(rs.getString("rue"));
-				retrait.setRue(rs.getString("code_postal"));
-				retrait.setRue(rs.getString("ville"));
+				retrait.setCodePostal(rs.getString("code_postal"));
+				retrait.setVille(rs.getString("ville"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

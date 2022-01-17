@@ -22,7 +22,17 @@ public class ArticleVenduManagerImpl implements ArticleVenduManager {
 	@Override
 	public void ajouterArticleVendu(ArticleVendu articleVendu) throws BllException, DALException {
 		BllException be = new BllException();
-		verifAll(articleVendu, be);
+
+		verifNomArticle(articleVendu.getNomArticle(), be);
+		verifDescriptionArticle(articleVendu.getDescription(), be);
+		verifDateDebutEncheresArticle(articleVendu.getDateDebutEncheres(), be);
+		verifDateFinEncheresArticle(articleVendu.getDateFinEncheres(), articleVendu.getDateDebutEncheres(), be);
+		verifPrixInitialArticle(articleVendu.getPrixInitial(), be);
+		verifEtatVenteArticle(articleVendu.isEtatVente(), be);
+		verifCategorieArticle(articleVendu.getCategorie(), be);
+		verifRetraitArticle(articleVendu.getRetrait(), be);
+		verifUtilisateurArticle(articleVendu.getUtilisateur(), be);
+		
 		if (be.hasErreur()) {
 			throw be;
 		}
@@ -37,7 +47,7 @@ public class ArticleVenduManagerImpl implements ArticleVenduManager {
 	@Override
 	public void modifierArticleVendu(ArticleVendu articleVendu, Integer nouvelleEnchere) throws BllException, DALException {
 		BllException be = new BllException();
-		verifAll(articleVendu, be);
+		verifPrixVente(articleVendu, nouvelleEnchere, be);
 		if (be.hasErreur()) {
 			throw be;
 		}
@@ -48,6 +58,8 @@ public class ArticleVenduManagerImpl implements ArticleVenduManager {
 			throw new BllException(e);
 		}	
 	}
+
+	
 
 	@Override
 	public void supprimerArticleVendu(ArticleVendu articleVendu) throws BllException {
@@ -89,32 +101,13 @@ public class ArticleVenduManagerImpl implements ArticleVenduManager {
 		}    
 	}
 	
-	private void verifAll(ArticleVendu articleVendu, BllException be) throws BllException {
-		verifNomArticle(articleVendu.getNomArticle(), be);
-		verifDescriptionArticle(articleVendu.getDescription(), be);
-		verifDateDebutEncheresArticle(articleVendu.getDateDebutEncheres(), be);
-		verifDateFinEncheresArticle(articleVendu.getDateFinEncheres(), articleVendu.getDateDebutEncheres(), be);
-		verifPrixInitialArticle(articleVendu.getPrixInitial(), be);
-		verifEtatVenteArticle(articleVendu.isEtatVente(), be);
-		verifCategorieArticle(articleVendu.getCategorie(), be);
-		verifRetraitArticle(articleVendu.getRetrait(), be);
-		verifUtilisateurArticle(articleVendu.getUtilisateur(), be);
-		if(articleVendu.getPrixVente() != null) {
-			verifPrixVenteArticle(articleVendu.getPrixVente(), articleVendu.getPrixInitial(), be);
-		}
 
-		if (be.hasErreur()) {
-			throw be;
-		}
-	}
-
-	private void verifPrixVenteArticle(Integer prixVente, Integer prixInitial, BllException be) {
-		if (prixVente < prixInitial) {
+	private void verifPrixVente(ArticleVendu articleVendu, Integer nouvelleEnchere, BllException be) {
+		if (articleVendu.getPrixVente() > nouvelleEnchere || articleVendu.getPrixInitial() > nouvelleEnchere) {
 			be.ajouterErreur(new ParameterException("L'enchere doit etre superieure au prix initial et a la precedente enchere"));
-		}
-	
+		}	
 	}
-
+	
 	private void verifUtilisateurArticle(Utilisateur utilisateur, BllException be) {
 		if(utilisateur == null) {
 			be.ajouterErreur(new ParameterException("Il doit y avoir un utilisateur"));
