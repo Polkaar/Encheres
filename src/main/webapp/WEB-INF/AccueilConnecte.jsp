@@ -30,11 +30,10 @@
 		
 		<label>Categorie : </label>
 		<select name="categorieConnecte" id="id-categorie">
-		    <option value="toutes">Toutes</option>
-		    <option value="1">Informatique</option>
-		    <option value="2">Ameublement</option>
-		    <option value="3">Vêtements</option>
-		    <option value="4">Sport&Loisirs</option>
+		    <option value="0">Toutes</option>
+		    <c:forEach items="${accueilConnecteModel.lstCategories}" var="categorie">
+				<option value="${categorie.noCategorie}">${categorie.libelle}</option>
+			</c:forEach>
 		</select>
 		
 		<fieldset>

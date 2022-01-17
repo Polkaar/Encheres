@@ -1,7 +1,6 @@
 package fr.eni.encheres.ihm.accueilconnecte;
 
 import java.io.IOException;
-import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,11 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import fr.eni.encheres.bll.BllException;
 import fr.eni.encheres.bll.articlevendu.ArticleVenduManager;
 import fr.eni.encheres.bll.articlevendu.ArticleVenduManagerSing;
-import fr.eni.encheres.bll.enchere.EnchereManager;
-import fr.eni.encheres.bll.enchere.EnchereManagerSing;
+import fr.eni.encheres.bll.categorie.CategorieManager;
+import fr.eni.encheres.bll.categorie.CategorieManagerSing;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.dal.DALException;
-import fr.eni.encheres.ihm.accueil.AccueilModel;
 
 /**
  * Servlet implementation class AccueilConnecteServlet
@@ -25,6 +23,7 @@ import fr.eni.encheres.ihm.accueil.AccueilModel;
 public class AccueilConnecteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ArticleVenduManager articleManager = ArticleVenduManagerSing.getInstance();
+	private CategorieManager categorieManager = CategorieManagerSing.getInstance();
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -42,6 +41,14 @@ public class AccueilConnecteServlet extends HttpServlet {
 		
 		String jsp ="WEB-INF/AccueilConnecte.jsp";
 		
+		AccueilConnecteModel accueilConnecteModel = new AccueilConnecteModel();
+		
+		try {
+			accueilConnecteModel.lstCategories = categorieManager.afficherTousCategories();
+		} catch (BllException e1) {
+			e1.printStackTrace();
+		}
+		
 		// TODO : Changer de boutons à des liens hypertextes ?
 		if (request.getParameter("encheres") != null) {
 			request.getRequestDispatcher(jsp).forward(request, response);
@@ -58,7 +65,6 @@ public class AccueilConnecteServlet extends HttpServlet {
 			jsp ="AccueilServlet";
 		}
 
-		AccueilConnecteModel accueilConnecteModel = new AccueilConnecteModel();
 
 		// TODO : Factoriser la méthode dans la BLL ? Deux autres pages utilisent des listes d'enchères.
 		if (request.getParameter("rechercher") != null) {
@@ -66,6 +72,7 @@ public class AccueilConnecteServlet extends HttpServlet {
 			Integer noCategorie;
 
 			// TODO : Utiliser plutôt une request SQL pour le tri ?
+			//TODO : Tout refaire ici, en fait ^^
 			if ("toutes".equals(request.getParameter("categorie"))) {
 				try {
 					for (ArticleVendu article : articleManager.afficherTousArticleVendu()) {

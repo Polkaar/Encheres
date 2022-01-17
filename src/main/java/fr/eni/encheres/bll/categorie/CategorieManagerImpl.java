@@ -1,5 +1,7 @@
 package fr.eni.encheres.bll.categorie;
 
+import java.util.List;
+
 import fr.eni.encheres.bll.BllException;
 import fr.eni.encheres.bll.ParameterException;
 import fr.eni.encheres.bo.ArticleVendu;
@@ -67,8 +69,16 @@ public class CategorieManagerImpl implements CategorieManager {
 			e.printStackTrace();
 			throw new BllException(e);
 		}
-		
-		
+	}
+
+	@Override
+	public List<Categorie> afficherTousCategories() throws BllException {
+		try {
+			return dao.selectAll();
+		} catch (DALException e) {
+			e.printStackTrace();
+			throw new BllException(e);
+		}
 	}
 	
 }

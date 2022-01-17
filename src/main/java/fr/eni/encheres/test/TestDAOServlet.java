@@ -1,7 +1,8 @@
 package fr.eni.encheres.test;
 
 import java.io.IOException;
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
-import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.DALException;
@@ -57,11 +57,23 @@ public class TestDAOServlet extends HttpServlet {
 		Retrait r1 = new Retrait("rue saint malo", "35000", "rennes");
 		
 		
+		List<ArticleVendu> lstArticles = new ArrayList<ArticleVendu>();
 		try {
+			lstArticles = daoArticle.selectByNomAndCat("pc", 2);
+		} catch (DALException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		for (ArticleVendu articleVendu : lstArticles) {
+			System.out.println(articleVendu);
+		}
+		
+//		try {
 //			daoUser.update(daoUser.selectById(1));
 //			daoUser.insert(u2);
 //			daoCat.insert(c3);
-			daoUser.insert(u2);
+//			daoUser.insert(u2);
 //			a2 = new ArticleVendu("voiture", "gamer", LocalDate.now(), LocalDate.now(),100 ,200, true, daoCat.selectById(1), daoRetrait.selectById(1), daoUser.selectById(1));
 //			daoArticle.insert(a2);
 //			Enchere e1 = new Enchere(LocalDate.now(), 500, daoArticle.selectById(1), daoUser.selectById(1));
@@ -72,9 +84,9 @@ public class TestDAOServlet extends HttpServlet {
 //			a1 = new ArticleVendu("pc", "gamer", LocalDate.now(), LocalDate.now(),100 ,200, true, daoCat.selectById(1), daoRetrait.selectById(1), daoUser.selectById(1));
 //			daoArticle.insert(a1);
 //			daoEnchere.insert(e1);
-		} catch (DALException e) {
-			e.printStackTrace();
-		}
+//		} catch (DALException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	/**
