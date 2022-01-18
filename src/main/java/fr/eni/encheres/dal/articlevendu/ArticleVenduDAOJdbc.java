@@ -31,42 +31,42 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
 	private final String SELECT_ALL = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie, no_retrait FROM ARTICLES_VENDUS";
 	private final String SELECT_BY_CATEGORIE = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie, no_retrait FROM ARTICLES_VENDUS WHERE no_categorie=?";
 	
-	private final String SELECT_BY_NOM_LIKE_AND_CATEGORIE = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres,"
+	private final String SELECT_BY_NOM_AND_CAT = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres,"
 			+ " prix_initial, prix_vente, no_utilisateur, no_categorie, no_retrait FROM ARTICLES_VENDUS"
-			+ " WHERE nom_article LIKE '%?%' ?"
+			+ " WHERE nom_article LIKE ? AND no_categorie LIKE ?"
 			+ " ORDER BY date_fin_encheres DESC";
-	private final String SELECT_ENCHERES_OUVERTES = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres,"
+	private final String SELECT_ENCHERES_OUVERTES_BY_NOM_AND_CAT = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres,"
 			+ " prix_initial, prix_vente, no_utilisateur, no_categorie, no_retrait FROM ARTICLES_VENDUS"
-			+ " ORDER BY date_fin_encheres DESC"
 			+ " WHERE date_debut_encheres <= GETDATE() AND GETDATE() < date_fin_encheres"
-			+ " AND nom_article LIKE '%?%' ?";
-	private final String SELECT_MES_ENCHERES = "SELECT a.no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial,"
+			+ " AND nom_article LIKE ? AND no_categorie LIKE ?"
+			+ " ORDER BY date_fin_encheres DESC";
+	private final String SELECT_MES_ENCHERES_BY_NOM_AND_CAT = "SELECT a.no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial,"
 			+ " prix_vente, a.no_utilisateur, no_categorie, no_retrait FROM ARTICLES_VENDUS AS a"
-			+ " ORDER BY date_fin_encheres DESC"
 			+ " inner join ENCHERES AS e ON a.no_article = e.no_article"
 			+ " WHERE a.date_debut_encheres <= GETDATE() AND GETDATE() < a.date_fin_encheres AND e.no_utilisateur = '?'"
-			+ " AND a.nom_article LIKE '%?%' ?";
-	private final String SELECT_MES_ENCHERES_REMPORTEES = "SELECT a.no_article, nom_article, description, date_debut_encheres, date_fin_encheres,"
+			+ " AND nom_article LIKE ? AND no_categorie LIKE ?"
+			+ " ORDER BY date_fin_encheres DESC";
+	private final String SELECT_MES_ENCHERES_REMPORTEES_BY_NOM_AND_CAT = "SELECT a.no_article, nom_article, description, date_debut_encheres, date_fin_encheres,"
 			+ " prix_initial, prix_vente, a.no_utilisateur, no_categorie, no_retrait FROM ARTICLES_VENDUS AS a"
-			+ " ORDER BY date_fin_encheres DESC"
 			+ " inner join ENCHERES AS e ON a.no_article = e.no_article"
 			+ " WHERE GETDATE() >= a.date_fin_encheres AND a.prix_vente = e.montant_enchere AND e.no_utilisateur = '?'"
-			+ " AND a.nom_article LIKE '%?%' ?";
-	private final String SELECT_MES_VENTES_EN_COURS ="SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres,"
+			+ " AND nom_article LIKE ? AND no_categorie LIKE ?"
+			+ " ORDER BY date_fin_encheres DESC";
+	private final String SELECT_MES_VENTES_EN_COURS_BY_NOM_AND_CAT ="SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres,"
 			+ " prix_initial, prix_vente, no_utilisateur, no_categorie, no_retrait FROM ARTICLES_VENDUS"
-			+ " ORDER BY date_fin_encheres DESC"
 			+ " WHERE date_debut_encheres <= GETDATE() AND GETDATE() < date_fin_encheres AND no_utilisateur = ?"
-			+ " AND nom_article LIKE '%?%' ?";
-	private final String SELECT_MES_VENTES_NON_DEBUTEES ="SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres,"
+			+ " AND nom_article LIKE ? AND no_categorie LIKE ?"
+			+ " ORDER BY date_fin_encheres DESC";
+	private final String SELECT_MES_VENTES_NON_DEBUTEES_BY_NOM_AND_CAT ="SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres,"
 			+ " prix_initial, prix_vente, no_utilisateur, no_categorie, no_retrait FROM ARTICLES_VENDUS"
-			+ " ORDER BY date_debut_encheres DESC"
 			+ " WHERE GETDATE() < date_debut_encheres AND no_utilisateur = ?"
-			+ " AND nom_article LIKE '%?%' ?";
-	private final String SELECT_MES_VENTES_TERMINEES ="SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres,"
+			+ " AND nom_article LIKE ? AND no_categorie LIKE ?"
+			+ " ORDER BY date_debut_encheres DESC";
+	private final String SELECT_MES_VENTES_TERMINEES_BY_NOM_AND_CAT ="SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres,"
 			+ " prix_initial, prix_vente, no_utilisateur, no_categorie, no_retrait FROM ARTICLES_VENDUS"
-			+ " ORDER BY date_fin_encheres DESC"
 			+ " WHERE date_fin_encheres <= GETDATE() AND no_utilisateur = ?"
-			+ " AND nom_article LIKE '%?%' ?";
+			+ " AND nom_article LIKE ? AND no_categorie LIKE ?"
+			+ " ORDER BY date_fin_encheres DESC";
 	
 
 	@Override
@@ -181,12 +181,12 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
 	public List<ArticleVendu> selectByNomAndCat(String nomLike, Integer noCategorie) throws DALException {
 		List<ArticleVendu> lstArticlesVendus = new ArrayList<>();
 		try (Connection cnx = ConnectionProvider.getConnection()){
-			PreparedStatement pStmt = cnx.prepareStatement(SELECT_BY_NOM_LIKE_AND_CATEGORIE);
-			pStmt.setString(1, nomLike);
+			PreparedStatement pStmt = cnx.prepareStatement(SELECT_BY_NOM_AND_CAT);
+			pStmt.setString(1, "%"+nomLike+"%");
 			if(noCategorie == 0) {
-				pStmt.setString(2, " ");
+				pStmt.setString(2, "%%");
 			}else {
-				pStmt.setString(2, "AND no_categorie = "+noCategorie.toString()+"");
+				pStmt.setString(2, "%"+noCategorie+"%");
 			}
 			ResultSet rs = pStmt.executeQuery();
 			while(rs.next()) {
@@ -203,45 +203,158 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
 	}
 
 	@Override
-	public List<ArticleVendu> selectEncheresOuvertesByNomAndCat(String nomLike, Integer noCategorie)
-			throws DALException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ArticleVendu> selectEncheresOuvertesByNomAndCat(String nomLike, Integer noCategorie) throws DALException {
+		List<ArticleVendu> lstArticlesVendus = new ArrayList<>();
+		try (Connection cnx = ConnectionProvider.getConnection()){
+			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ENCHERES_OUVERTES_BY_NOM_AND_CAT);
+			pStmt.setString(1, "%"+nomLike+"%");
+			if(noCategorie == 0) {
+				pStmt.setString(2, "%%");
+			}else {
+				pStmt.setString(2, "%"+noCategorie+"%");
+			}
+			ResultSet rs = pStmt.executeQuery();
+			while(rs.next()) {
+				ArticleVendu articleVendu = new ArticleVendu();
+				map(articleVendu, rs);
+				lstArticlesVendus.add(articleVendu);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DALException("Probleme de connexion");
+		}
+		return lstArticlesVendus;
 	}
 
 	@Override
-	public List<ArticleVendu> selectEncheresByAcheteurByNomAndCat(Integer noUtilisateur, String nomLike,
-			Integer noCategorie) throws DALException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ArticleVendu> selectEncheresByAcheteurByNomAndCat(Integer noUtilisateur, String nomLike, Integer noCategorie) throws DALException {
+		List<ArticleVendu> lstArticlesVendus = new ArrayList<>();
+		try (Connection cnx = ConnectionProvider.getConnection()){
+			PreparedStatement pStmt = cnx.prepareStatement(SELECT_MES_ENCHERES_BY_NOM_AND_CAT);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setString(2, "%"+nomLike+"%");
+			if(noCategorie == 0) {
+				pStmt.setString(3, "%%");
+			}else {
+				pStmt.setString(3, "%"+noCategorie+"%");
+			}
+			ResultSet rs = pStmt.executeQuery();
+			while(rs.next()) {
+				ArticleVendu articleVendu = new ArticleVendu();
+				map(articleVendu, rs);
+				lstArticlesVendus.add(articleVendu);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DALException("Probleme de connexion");
+		}
+		return lstArticlesVendus;
 	}
 
 	@Override
-	public List<ArticleVendu> selectEncheresRemporteesByAcheteurByNomAndCat(Integer noUtilisateur, String nomLike,
-			Integer noCategorie) throws DALException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ArticleVendu> selectEncheresRemporteesByAcheteurByNomAndCat(Integer noUtilisateur, String nomLike, Integer noCategorie) throws DALException {
+		List<ArticleVendu> lstArticlesVendus = new ArrayList<>();
+		try (Connection cnx = ConnectionProvider.getConnection()){
+			PreparedStatement pStmt = cnx.prepareStatement(SELECT_MES_ENCHERES_REMPORTEES_BY_NOM_AND_CAT);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setString(2, "%"+nomLike+"%");
+			if(noCategorie == 0) {
+				pStmt.setString(3, "%%");
+			}else {
+				pStmt.setString(3, "%"+noCategorie+"%");
+			}
+			ResultSet rs = pStmt.executeQuery();
+			while(rs.next()) {
+				ArticleVendu articleVendu = new ArticleVendu();
+				map(articleVendu, rs);
+				lstArticlesVendus.add(articleVendu);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DALException("Probleme de connexion");
+		}
+		return lstArticlesVendus;
 	}
 
 	@Override
-	public List<ArticleVendu> selectVentesEnCoursByVendeurByNomAndCat(Integer noUtilisateur, String nomLike,
-			Integer noCategorie) throws DALException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ArticleVendu> selectVentesEnCoursByVendeurByNomAndCat(Integer noUtilisateur, String nomLike, Integer noCategorie) throws DALException {
+		List<ArticleVendu> lstArticlesVendus = new ArrayList<>();
+		try (Connection cnx = ConnectionProvider.getConnection()){
+			PreparedStatement pStmt = cnx.prepareStatement(SELECT_MES_VENTES_EN_COURS_BY_NOM_AND_CAT);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setString(2, "%"+nomLike+"%");
+			if(noCategorie == 0) {
+				pStmt.setString(3, "%%");
+			}else {
+				pStmt.setString(3, "%"+noCategorie+"%");
+			}
+			ResultSet rs = pStmt.executeQuery();
+			while(rs.next()) {
+				ArticleVendu articleVendu = new ArticleVendu();
+				map(articleVendu, rs);
+				lstArticlesVendus.add(articleVendu);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DALException("Probleme de connexion");
+		}
+		return lstArticlesVendus;
 	}
 
 	@Override
-	public List<ArticleVendu> selectVentesNonDebuteesByVendeurByNomAndCat(Integer noUtilisateur, String nomLike,
-			Integer noCategorie) throws DALException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ArticleVendu> selectVentesNonDebuteesByVendeurByNomAndCat(Integer noUtilisateur, String nomLike, Integer noCategorie) throws DALException {
+		List<ArticleVendu> lstArticlesVendus = new ArrayList<>();
+		try (Connection cnx = ConnectionProvider.getConnection()){
+			PreparedStatement pStmt = cnx.prepareStatement(SELECT_MES_VENTES_NON_DEBUTEES_BY_NOM_AND_CAT);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setString(2, "%"+nomLike+"%");
+			if(noCategorie == 0) {
+				pStmt.setString(3, "%%");
+			}else {
+				pStmt.setString(3, "%"+noCategorie+"%");
+			}
+			ResultSet rs = pStmt.executeQuery();
+			while(rs.next()) {
+				ArticleVendu articleVendu = new ArticleVendu();
+				map(articleVendu, rs);
+				lstArticlesVendus.add(articleVendu);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DALException("Probleme de connexion");
+		}
+		return lstArticlesVendus;
 	}
 
 	@Override
-	public List<ArticleVendu> selectVentesTermineesByVendeurByNomAndCat(Integer noUtilisateur, String nomLike,
-			Integer noCategorie) throws DALException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ArticleVendu> selectVentesTermineesByVendeurByNomAndCat(Integer noUtilisateur, String nomLike, Integer noCategorie) throws DALException {
+		List<ArticleVendu> lstArticlesVendus = new ArrayList<>();
+		try (Connection cnx = ConnectionProvider.getConnection()){
+			PreparedStatement pStmt = cnx.prepareStatement(SELECT_MES_VENTES_TERMINEES_BY_NOM_AND_CAT);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setString(2, "%"+nomLike+"%");
+			if(noCategorie == 0) {
+				pStmt.setString(3, "%%");
+			}else {
+				pStmt.setString(3, "%"+noCategorie+"%");
+			}
+			ResultSet rs = pStmt.executeQuery();
+			while(rs.next()) {
+				ArticleVendu articleVendu = new ArticleVendu();
+				map(articleVendu, rs);
+				lstArticlesVendus.add(articleVendu);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DALException("Probleme de connexion");
+		}
+		return lstArticlesVendus;
 	}
 
 	
