@@ -14,8 +14,7 @@ import javax.servlet.http.HttpServletRequest;
  * Servlet Filter implementation class LoginFilter
  */
 //TODO : Rajouter au fur et à mesure les pages dont l'accès nécessite d'être connecté.
-@WebFilter({"/AccueilConnecteServlet", "/NouvelleVenteServlet", "/ModifMonProfilServlet", "/MonProfilServlet", "/NouvelleVenteServlet",
-	"/DetailVenteServlet"})
+@WebFilter({"/AccueilConnecteServlet", "/NouvelleVenteServlet", "/ModifMonProfilServlet", "/MonProfilServlet", "/DetailVenteServlet"})
 public class LoginFilter implements Filter {
 
     /**
@@ -36,8 +35,8 @@ public class LoginFilter implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		String login = (String) ((HttpServletRequest)request).getSession().getAttribute("pseudo");
-		if(login == null) {
+		Integer idConnecte = (Integer) ((HttpServletRequest)request).getSession().getAttribute("IdConnecte");
+		if(idConnecte == null) {
 			request.getRequestDispatcher("ConnexionServlet").forward(request, response);
 		}
 		else {

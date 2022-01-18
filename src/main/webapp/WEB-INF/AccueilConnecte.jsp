@@ -38,16 +38,16 @@
 		
 		<fieldset>
 		  	<fieldset>
-				<input type="radio" name="achats" id="achats" onclick="onClickAchats()" > Achats<br>
-		  			<input type="checkbox" name="encheresOuvertes" value="encheresOuvertes" id="encheresOuvertes">enchères ouvertes<br> 
-		 			<input type="checkbox" name="mesEncheres" value="mesEncheres" id="mesEncheres">mes enchères<br> 
-		   			<input type="checkbox" name="mesEncheresRemportees" value="mesEncheresRemportees" id="mesEncheresRemportees">mes enchères remportées<br>
+				<input type="radio" name="achats" id="achats" onclick="onClickAchats()" checked="checked"> Achats<br>
+		  			<input type="checkbox" name="encheresOuvertes" value="encheresOuvertes" id="encheresOuvertes" onclick="onClickMesAchats()">enchères ouvertes<br> 
+		 			<input type="checkbox" name="mesEncheres" value="mesEncheres" id="mesEncheres" onclick="onClickMesAchats()">mes enchères<br> 
+		   			<input type="checkbox" name="mesEncheresRemportees" value="mesEncheresRemportees" id="mesEncheresRemportees" onclick="onClickMesAchats()">mes enchères remportées<br>
 		  	</fieldset>
 			<fieldset>
 				<input type="radio" name="mesVentes" id="mesVentes" onclick="onClickVentes()"> Mes ventes<br>
-		  			<input type="checkbox" name="mesVentesEnCours" value="mesVentesEnCours" id="mesVentesEnCours">mes ventes en cours<br> 
-		 			<input type="checkbox" name="ventesNonDebutees" value="ventesNonDebutees" id="ventesNonDebutees">ventes Non Debutées<br> 
-		   			<input type="checkbox" name="ventesTerminees" value="ventesTerminees" id="ventesTerminees">ventes terminées<br>
+		  			<input type="checkbox" name="mesVentesEnCours" value="mesVentesEnCours" id="mesVentesEnCours" onclick="onClickMesVentes()">mes ventes en cours<br> 
+		 			<input type="checkbox" name="ventesNonDebutees" value="ventesNonDebutees" id="ventesNonDebutees" onclick="onClickMesVentes()">ventes Non Debutées<br> 
+		   			<input type="checkbox" name="ventesTerminees" value="ventesTerminees" id="ventesTerminees" onclick="onClickMesVentes()">ventes terminées<br>
 		  	</fieldset>
 		</fieldset>
 		
@@ -99,6 +99,18 @@ function onClickAchats(){
     ventesTerminees.disabled = true;
 }
 
+function onClickMesAchats(){
+	var mesVentesEnCours = document.getElementById("mesVentesEnCours");
+    mesVentesEnCours.checked = false;
+    mesVentesEnCours.disabled = true;
+	var ventesNonDebutees = document.getElementById("ventesNonDebutees");
+    ventesNonDebutees.checked = false;
+    ventesNonDebutees.disabled = true;
+	var ventesTerminees = document.getElementById("ventesTerminees");
+    ventesTerminees.checked = false;
+    ventesTerminees.disabled = true;
+}
+
 function onClickVentes(){
 	var achats = document.getElementById("achats");
 	achats.checked = false;
@@ -123,4 +135,17 @@ function onClickVentes(){
     ventesTerminees.checked = false;
     ventesTerminees.disabled = false;
 }
+
+function onClickMesVentes(){
+	var encheresOuvertes = document.getElementById("encheresOuvertes");
+    encheresOuvertes.checked = false;
+    encheresOuvertes.disabled = true;
+	var mesEncheres = document.getElementById("mesEncheres");
+    mesEncheres.checked = false;
+    mesEncheres.disabled = true;
+	var mesEncheresRemportees = document.getElementById("mesEncheresRemportees");
+    mesEncheresRemportees.checked = false;
+    mesEncheresRemportees.disabled = true;
+}
+
 </script>

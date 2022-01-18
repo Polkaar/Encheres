@@ -13,6 +13,8 @@ import fr.eni.encheres.bll.articlevendu.ArticleVenduManager;
 import fr.eni.encheres.bll.articlevendu.ArticleVenduManagerSing;
 import fr.eni.encheres.bll.categorie.CategorieManager;
 import fr.eni.encheres.bll.categorie.CategorieManagerSing;
+import fr.eni.encheres.bll.utilisateur.UtilisateurManager;
+import fr.eni.encheres.bll.utilisateur.UtilisateurManagerSing;
 import fr.eni.encheres.bo.Utilisateur;
 
 /**
@@ -23,6 +25,8 @@ public class AccueilConnecteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ArticleVenduManager articleManager = ArticleVenduManagerSing.getInstance();
 	private CategorieManager categorieManager = CategorieManagerSing.getInstance();
+	private UtilisateurManager utilisateurManager = UtilisateurManagerSing.getInstance();
+
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -41,6 +45,14 @@ public class AccueilConnecteServlet extends HttpServlet {
 		String jsp = "WEB-INF/AccueilConnecte.jsp";
 
 		AccueilConnecteModel accueilConnecteModel = new AccueilConnecteModel();
+		
+		Integer noUtilisateur = (Integer)((HttpServletRequest)request).getSession().getAttribute("IdConnecte");
+
+		try {
+			Utilisateur utilisateur = utilisateurManager.afficherUtilisateur(noUtilisateur);
+		} catch (BllException e2) {
+			e2.printStackTrace();
+		}
 
 		try {
 			accueilConnecteModel.lstCategories = categorieManager.afficherTousCategories();
@@ -59,7 +71,7 @@ public class AccueilConnecteServlet extends HttpServlet {
 			jsp = "MonProfilServlet";
 		}
 		if (request.getParameter("deconnexion") != null) {
-			request.getSession().setAttribute("pseudo", null);
+			request.getSession().setAttribute("IdConnecte", null);
 			jsp = "AccueilServlet";
 		}
 

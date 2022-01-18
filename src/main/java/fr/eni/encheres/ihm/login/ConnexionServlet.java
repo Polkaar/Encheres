@@ -35,9 +35,7 @@ public class ConnexionServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		LoginModel model = new LoginModel();
-
-		//LoginModel model = new LoginModel("", "");
+		LoginModel loginModel = LoginModel.getInstance();
 
 		Utilisateur utilisateur = null;
 
@@ -45,30 +43,19 @@ public class ConnexionServlet extends HttpServlet {
 			String pseudo = request.getParameter("pseudo");
 			String motDePasse = request.getParameter("motDePasse");
 
-			System.out.println(pseudo);
-			System.out.println(motDePasse);
-			
 			try {
 				utilisateur = utilisateurManager.afficherUtilisateurParPseudo(pseudo);
 			} catch (BllException e) {
 				e.printStackTrace();
 			}
-			
-			System.out.println(utilisateur);
 
 			if (utilisateur != null) {
-				model.setPseudo(pseudo);
 				if (motDePasse.equals(utilisateur.getMotDePasse())) {
-					request.getSession().setAttribute("pseudo", pseudo);
 					if (request.getParameter("seSouvenirDeMoi") != null) {
-						request.getSession().setAttribute("motDePasse", motDePasse);
-						
-						//Gérer ça dans un if à part, pour que le mot de passe et le pseudo s'affichent quand on revient sur la page ?
-						model.setPseudo(request.getSession().getAttribute("pseudo").toString());
-						model.setMotDePasse(request.getSession().getAttribute("motDePasse").toString());
+						loginModel.setPseudo(pseudo);
+						loginModel.setMotDePasse(motDePasse);
 					}
 					request.getSession().setAttribute("IdConnecte", utilisateur.getNoUtilisateur());
-
 					request.getRequestDispatcher("AccueilConnecteServlet").forward(request, response);
 				}
 			}
@@ -84,7 +71,7 @@ public class ConnexionServlet extends HttpServlet {
 			request.getRequestDispatcher("CreationCompteServlet").forward(request, response);
 		}
 
-		request.setAttribute("model", model);
+		request.setAttribute("model", loginModel);
 		request.getRequestDispatcher("/WEB-INF/Connexion.jsp").forward(request, response);
 
 	}
