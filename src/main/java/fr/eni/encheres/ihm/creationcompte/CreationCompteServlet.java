@@ -54,8 +54,8 @@ public class CreationCompteServlet extends HttpServlet {
 					manager.ajouterUtilisateur(utilisateur);
 				} catch (BllException e) {
 					e.printStackTrace();
-				} catch (DALException e) {
-					e.printStackTrace();
+					model.setMessage(e.getMessage());
+					jsp ="WEB-INF/CreationCompte.jsp";
 				}
 			}
 			else {

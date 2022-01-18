@@ -52,11 +52,12 @@ public class NouvelleVenteServlet extends HttpServlet {
 		Utilisateur utilisateur = new Utilisateur();
 		
 		try {
+			//TODO: utilisateur = utilisateur en session
 			utilisateur = managerUtilisateur.afficherUtilisateur(11);
+			model.setUtilisateur(utilisateur);
 		} catch (BllException e1) {
 			e1.printStackTrace();
 		}
-		model.setUtilisateur(utilisateur);
 		
 		if (request.getParameter("enregistrer") != null) {
 			Categorie categorie = new Categorie();
@@ -67,7 +68,6 @@ public class NouvelleVenteServlet extends HttpServlet {
 			retrait.setCodePostal(request.getParameter("codePostal"));
 			if(request.getParameter("rue").isBlank() && request.getParameter("ville").isBlank() && request.getParameter("codePostal").isBlank() ) {
 				try {
-					System.out.println("je passe là");
 					retrait.setRue(utilisateur.getRue());
 					retrait.setVille(utilisateur.getVille());
 					retrait.setCodePostal(utilisateur.getCodePostal());
@@ -76,9 +76,7 @@ public class NouvelleVenteServlet extends HttpServlet {
 					e.printStackTrace();
 				}
 			}else{
-				
 				try {
-					System.out.println("je passe ici");
 					managerRetrait.ajouterRetrait(retrait);
 				} catch (BllException e) {
 					e.printStackTrace();
@@ -108,14 +106,12 @@ public class NouvelleVenteServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-
 		if (request.getParameter("annuler") != null) {	
 		}
 		
 		if (request.getParameter("accueil") != null) {
 			jsp = "AccueilServlet";
 		}
-
 		request.setAttribute("model", model);
 		request.getRequestDispatcher(jsp).forward(request, response);
 	}

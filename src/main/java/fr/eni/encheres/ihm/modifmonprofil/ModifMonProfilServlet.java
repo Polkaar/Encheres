@@ -12,7 +12,6 @@ import fr.eni.encheres.bll.BllException;
 import fr.eni.encheres.bll.utilisateur.UtilisateurManager;
 import fr.eni.encheres.bll.utilisateur.UtilisateurManagerSing;
 import fr.eni.encheres.bo.Utilisateur;
-import fr.eni.encheres.dal.DALException;
 
 /**
  * Servlet implementation class ModifMonProfrilServlet
@@ -59,11 +58,7 @@ public class ModifMonProfilServlet extends HttpServlet {
 				utilisateurManager.modifierUtilisateur(utilisateur);
 			} catch (BllException e) {
 				e.printStackTrace();
-			} catch (DALException e) {
-				e.printStackTrace();
 			}
-			
-			
 		}else {
 			System.out.println("Mauvais mdp");
 			model.setMessage("Le mot de passe et la confirmation sont differents !");

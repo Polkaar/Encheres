@@ -117,18 +117,34 @@ public class UtilisateurManagerImpl implements UtilisateurManager{
 	}
 
 	private void verifPseudo(String pseudo, BllException be) throws BllException {
+		String regExpression = "[a-zA-Z_0-9]*";
+	    boolean b = pseudo.matches(regExpression);
+		if(b == false) {
+			be.ajouterErreur(new ParameterException("Le pseudonyme ne doit contenir que des lettres ou des chiffres"));
+		}
+	    System.out.println(b);
 		if (pseudo == null || pseudo.isBlank() || pseudo.length() > 30) {
 			be.ajouterErreur(new ParameterException("Le pseudonyme est obligatoire et doit être <= 30"));
 		}
 	}
 
 	private void verifNom(String nom, BllException be) {
+		String regExpression = "[a-zA-Z_0-9]*";
+	    boolean b = nom.matches(regExpression);
+		if(b == false) {
+			be.ajouterErreur(new ParameterException("Le pseudonyme ne doit contenir que des lettres ou des chiffres"));
+		}
 		if (nom == null || nom.isBlank() || nom.length() > 30) {
 			be.ajouterErreur(new ParameterException("Le nom est obligatoire et doit être <= 30"));
 		}
 	}
 
 	private void verifPrenom(String prenom, BllException be) {
+		String regExpression = "[a-zA-Z_0-9]*";
+	    boolean b = prenom.matches(regExpression);
+		if(b == false) {
+			be.ajouterErreur(new ParameterException("Le pseudonyme ne doit contenir que des lettres ou des chiffres"));
+		}
 		if (prenom == null || prenom.isBlank() || prenom.length() > 30) {
 			be.ajouterErreur(new ParameterException("Le prénom est obligatoire et doit être <= 30"));
 		}
@@ -141,6 +157,11 @@ public class UtilisateurManagerImpl implements UtilisateurManager{
 	}
 
 	private void verifTelephone(String telephone, BllException be) {
+		try {
+			int numTel = Integer.parseInt(telephone);
+		} catch (NumberFormatException e){
+			be.ajouterErreur(new ParameterException("Le telephone ne doit contenir que des numeros"));
+		}
 		if (telephone.length() > 15) {
 			be.ajouterErreur(new ParameterException("Le téléphone doit être <= 15"));
 		}

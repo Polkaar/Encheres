@@ -48,24 +48,23 @@ public class DetailVenteServlet extends HttpServlet {
 		ArticleVendu article = new ArticleVendu();
 		Integer prixEnchere = null;
 		Utilisateur newAcheteur = null;
-		Utilisateur oldAcheteur = null;
+		
 		try {
-			//Acheteur = utilisateur en session
-			newAcheteur = utilisateurManager.afficherUtilisateur(3);
-			model.setAcheteur(newAcheteur);
-			enchere = enchereManager.afficherEnchereArticle(article));
-			oldAcheteur = utilisateurManager.afficherUtilisateur(enchere.getUtilisateur().getNoUtilisateur());
-		} catch (BllException e1) {
-			e1.printStackTrace();
-		}
-		try {
-			//Article = article sur lequel on cliqué
-			article = articleManager.afficherArticleVendu(6);
+			//TODO: Article = article sur lequel on cliqué
+			article = articleManager.afficherArticleVendu(7);
 			model.setArticleVendu(article);
 		} catch (BllException e) {
 			e.printStackTrace();
 		}
-		
+		try {
+			//TODO: Acheteur = utilisateur en session
+			newAcheteur = utilisateurManager.afficherUtilisateur(6);
+			model.setNewAcheteur(newAcheteur);
+			enchere = enchereManager.selectDerniereEnchere(article.getNoArticle());
+			model.setOldEnchere(enchere);
+		} catch (BllException e1) {
+			e1.printStackTrace();
+		}
 		if (request.getParameter("encherir") != null) {
 			
 			if(request.getParameter("enchere").equals("")) {
@@ -73,7 +72,7 @@ public class DetailVenteServlet extends HttpServlet {
 			}
 			else {
 				prixEnchere = Integer.parseInt(request.getParameter("enchere"));
-				if(prixEnchere > model.getArticleVendu().getPrixInitial() && prixEnchere > model.getArticleVendu().getPrixVente() && prixEnchere < model.getAcheteur().getCredit()) {
+				if(prixEnchere > model.getArticleVendu().getPrixInitial() && prixEnchere > model.getArticleVendu().getPrixVente() && prixEnchere < model.getNewAcheteur().getCredit()) {
 					model.getArticleVendu().setPrixVente(prixEnchere);
 					try {
 						articleManager.modifierArticleVendu(article, prixEnchere);

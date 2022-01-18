@@ -1,29 +1,30 @@
 package fr.eni.encheres.ihm.detailvente;
 
 import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Utilisateur;
 
 public class DetailVenteModel {
 
 	private ArticleVendu articleVendu;
 	private Utilisateur vendeur;
-	private Utilisateur acheteur;
+	private Utilisateur oldAcheteur;
+	private Utilisateur newAcheteur;
+	private Enchere oldEnchere;
 	private String message;
 	
 	public DetailVenteModel() {
 	}
 
-	
-
-	public DetailVenteModel(ArticleVendu articleVendu, Utilisateur vendeur, Utilisateur acheteur, String message) {
+	public DetailVenteModel(ArticleVendu articleVendu, Utilisateur vendeur, Utilisateur oldAcheteur,
+			Utilisateur newAcheteur, String message) {
 		super();
 		this.articleVendu = articleVendu;
 		this.vendeur = vendeur;
-		this.acheteur = acheteur;
+		this.oldAcheteur = oldAcheteur;
+		this.newAcheteur = newAcheteur;
 		this.message = message;
 	}
-
-
 
 	public ArticleVendu getArticleVendu() {
 		return articleVendu;
@@ -41,12 +42,28 @@ public class DetailVenteModel {
 		this.vendeur = vendeur;
 	}
 
-	public Utilisateur getAcheteur() {
-		return acheteur;
+	public Enchere getOldEnchere() {
+		return oldEnchere;
 	}
 
-	public void setAcheteur(Utilisateur acheteur) {
-		this.acheteur = acheteur;
+	public void setOldEnchere(Enchere oldEnchere) {
+		this.oldEnchere = oldEnchere;
+	}
+
+	public Utilisateur getOldAcheteur() {
+		return oldAcheteur;
+	}
+
+	public void setOldAcheteur(Utilisateur oldAcheteur) {
+		this.oldAcheteur = oldAcheteur;
+	}
+
+	public Utilisateur getNewAcheteur() {
+		return newAcheteur;
+	}
+
+	public void setNewAcheteur(Utilisateur newAcheteur) {
+		this.newAcheteur = newAcheteur;
 	}
 
 	public String getMessage() {
@@ -56,5 +73,6 @@ public class DetailVenteModel {
 	public void setMessage(String message) {
 		this.message = message;
 	}
+
 	
 }
