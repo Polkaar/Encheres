@@ -50,10 +50,9 @@ public class NouvelleVenteServlet extends HttpServlet {
 		String jsp ="WEB-INF/NouvelleVente.jsp";
 		NouvelleVenteModel model = new NouvelleVenteModel();
 		Utilisateur utilisateur = new Utilisateur();
-		
+		Integer noUtilisateur = (Integer)((HttpServletRequest)request).getSession().getAttribute("IdConnecte");
 		try {
-			//TODO: utilisateur = utilisateur en session
-			utilisateur = managerUtilisateur.afficherUtilisateur(11);
+			utilisateur = managerUtilisateur.afficherUtilisateur(noUtilisateur);
 			model.setUtilisateur(utilisateur);
 		} catch (BllException e1) {
 			e1.printStackTrace();

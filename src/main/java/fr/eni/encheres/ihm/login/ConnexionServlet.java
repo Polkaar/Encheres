@@ -50,7 +50,6 @@ public class ConnexionServlet extends HttpServlet {
 			
 			try {
 				utilisateur = utilisateurManager.afficherUtilisateurParPseudo(pseudo);
-				System.out.println("Je passe ici UN");
 			} catch (BllException e) {
 				e.printStackTrace();
 			}
@@ -58,21 +57,18 @@ public class ConnexionServlet extends HttpServlet {
 			System.out.println(utilisateur);
 
 			if (utilisateur != null) {
-				System.out.println("Je passe ici DEUX");
 				model.setPseudo(pseudo);
 				if (motDePasse.equals(utilisateur.getMotDePasse())) {
-					System.out.println("Je passe ici TROIS");
 					request.getSession().setAttribute("pseudo", pseudo);
-					//TODO : Faire que le navigateur enregistre pseudo et motDePasse ?
 					if (request.getParameter("seSouvenirDeMoi") != null) {
-						System.out.println("Je passe ici QUATRE");
 						request.getSession().setAttribute("motDePasse", motDePasse);
+						
 						//Gérer ça dans un if à part, pour que le mot de passe et le pseudo s'affichent quand on revient sur la page ?
 						model.setPseudo(request.getSession().getAttribute("pseudo").toString());
 						model.setMotDePasse(request.getSession().getAttribute("motDePasse").toString());
 					}
-					//Pour usage dans toutes les pages ?
-					request.getSession().setAttribute("utilisateurConnecte", utilisateur);
+					request.getSession().setAttribute("IdConnecte", utilisateur.getNoUtilisateur());
+
 					request.getRequestDispatcher("AccueilConnecteServlet").forward(request, response);
 				}
 			}
@@ -81,7 +77,7 @@ public class ConnexionServlet extends HttpServlet {
 
 		// TODO : Changer motDePasseOublie d'un bouton à un lien hypertexte ?
 		if (request.getParameter("motDePasseOublie") != null) {
-			// TODO : envoyer un mail avec le mot de passe ?
+			// TODO : Proposer de se connecter autrement ?
 		}
 
 		if (request.getParameter("creerUnCompte") != null) {

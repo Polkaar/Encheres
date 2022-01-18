@@ -34,8 +34,10 @@ public class ModifMonProfilServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ModifMonProfilModel model = new ModifMonProfilModel();
 		String servlet = "/WEB-INF/ModifMonProfil.jsp";
+		
+		Integer noUtilisateur = (Integer)((HttpServletRequest)request).getSession().getAttribute("IdConnecte");
 		try {
-			model.setUtilisateur(utilisateurManager.afficherUtilisateur(2));
+			model.setUtilisateur(utilisateurManager.afficherUtilisateur(noUtilisateur));
 		} catch (BllException e) {
 			e.printStackTrace();
 		}
@@ -64,10 +66,7 @@ public class ModifMonProfilServlet extends HttpServlet {
 			model.setMessage("Le mot de passe et la confirmation sont differents !");
 		}
 	}
-			
-			
-			
-			
+		
 	if (request.getParameter("supprimer") != null) {
 		try {
 			utilisateurManager.supprimerUtilisateur(model.getUtilisateur());

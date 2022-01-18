@@ -24,7 +24,7 @@
 		Rue : <input type="text" name="rue" value="${model.utilisateur.rue}"> <br>
 		Ville : <input type="text" name="ville" value="${model.utilisateur.ville}"> <br>
 		Code postal :<input type="text" name="codePostal" value="${model.utilisateur.codePostal}"> <br>
-		Mot de passe actuel : <input type="password" name="motDePasse" value="${model.utilisateur.motDePasse}"> <br>
+		Mot de passe actuel : <input type="password" name="motDePasse" value=""> <br>
 		Nouveau mot de passe : <input type="password" name="nouveauMotDePasse" value=""> <br>
 		confirmation : <input type="password" name="confirmationMotDePasse" value=""> <br>
 		Credit : ${model.utilisateur.credit} <br><br>
