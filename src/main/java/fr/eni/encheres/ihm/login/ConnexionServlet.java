@@ -71,7 +71,7 @@ public class ConnexionServlet extends HttpServlet {
 						model.setPseudo(request.getSession().getAttribute("pseudo").toString());
 						model.setMotDePasse(request.getSession().getAttribute("motDePasse").toString());
 					}
-					request.getSession().setAttribute("utilisateurConnecte", utilisateur);
+					request.getSession().setAttribute("IdConnecte", utilisateur.getNoUtilisateur());
 					request.getRequestDispatcher("AccueilConnecteServlet").forward(request, response);
 				}
 			}

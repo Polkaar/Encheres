@@ -18,7 +18,7 @@
 		<input type="text" name="pseudo" value="${model.pseudo}"/>
 		<br>
 		<label>Mot de passe : </label>
-		<input type="text" name="motDePasse" value="${model.motDePasse}"/>
+		<input type="password" name="motDePasse" value="${model.motDePasse}"/>
 		<br>
 		
 		<input type="submit" name="connexion" value="Connexion"/>

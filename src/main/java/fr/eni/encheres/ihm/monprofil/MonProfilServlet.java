@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import fr.eni.encheres.bll.BllException;
 import fr.eni.encheres.bll.utilisateur.UtilisateurManager;
 import fr.eni.encheres.bll.utilisateur.UtilisateurManagerSing;
+import fr.eni.encheres.bo.Utilisateur;
 
 /**
  * Servlet implementation class MonProfil
@@ -33,11 +34,14 @@ public class MonProfilServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		MonProfilModel model = new MonProfilModel();
 		String servlet = "/WEB-INF/MonProfil.jsp";
-		try {
-			model.setUtilisateur(utilisateurManager.afficherUtilisateur(11));
-		} catch (BllException e) {
-			e.printStackTrace();
-		}
+		
+			Integer noUtilisateur = (Integer)((HttpServletRequest)request).getSession().getAttribute("IdConnecte");
+			try {
+				model.setUtilisateur(utilisateurManager.afficherUtilisateur(noUtilisateur));
+			} catch (BllException e) {
+				e.printStackTrace();
+			}
+		
 		if(request.getParameter("modifier") != null) {
 			servlet = "ModifMonProfilServlet";
 		}

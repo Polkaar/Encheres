@@ -48,7 +48,7 @@ public class DetailVenteServlet extends HttpServlet {
 		ArticleVendu article = new ArticleVendu();
 		Integer prixEnchere = null;
 		Utilisateur newAcheteur = null;
-		
+		Integer noUtilisateur = (Integer)((HttpServletRequest)request).getSession().getAttribute("IdConnecte");
 		try {
 			//TODO: Article = article sur lequel on cliqué
 			article = articleManager.afficherArticleVendu(7);
@@ -57,8 +57,7 @@ public class DetailVenteServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		try {
-			//TODO: Acheteur = utilisateur en session
-			newAcheteur = utilisateurManager.afficherUtilisateur(6);
+			newAcheteur = utilisateurManager.afficherUtilisateur(noUtilisateur);
 			model.setNewAcheteur(newAcheteur);
 			enchere = enchereManager.selectDerniereEnchere(article.getNoArticle());
 			model.setOldEnchere(enchere);
