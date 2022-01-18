@@ -35,7 +35,6 @@ public class ConnexionServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String nextScreen = "/WEB-INF/Connexion.jsp";
 		LoginModel model = new LoginModel();
 
 		//LoginModel model = new LoginModel("", "");
@@ -68,9 +67,11 @@ public class ConnexionServlet extends HttpServlet {
 					if (request.getParameter("seSouvenirDeMoi") != null) {
 						System.out.println("Je passe ici QUATRE");
 						request.getSession().setAttribute("motDePasse", motDePasse);
+						//Gérer ça dans un if à part, pour que le mot de passe et le pseudo s'affichent quand on revient sur la page ?
 						model.setPseudo(request.getSession().getAttribute("pseudo").toString());
 						model.setMotDePasse(request.getSession().getAttribute("motDePasse").toString());
 					}
+					//Pour usage dans toutes les pages ?
 					request.getSession().setAttribute("utilisateurConnecte", utilisateur);
 					request.getRequestDispatcher("AccueilConnecteServlet").forward(request, response);
 				}

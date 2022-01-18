@@ -34,39 +34,41 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
 	private final String SELECT_BY_NOM_AND_CAT = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres,"
 			+ " prix_initial, prix_vente, no_utilisateur, no_categorie, no_retrait FROM ARTICLES_VENDUS"
 			+ " WHERE nom_article LIKE ? AND no_categorie LIKE ?"
-			+ " ORDER BY date_fin_encheres DESC";
+			+ " ORDER BY date_fin_encheres ASC";
 	private final String SELECT_ENCHERES_OUVERTES_BY_NOM_AND_CAT = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres,"
 			+ " prix_initial, prix_vente, no_utilisateur, no_categorie, no_retrait FROM ARTICLES_VENDUS"
 			+ " WHERE date_debut_encheres <= GETDATE() AND GETDATE() < date_fin_encheres"
 			+ " AND nom_article LIKE ? AND no_categorie LIKE ?"
-			+ " ORDER BY date_fin_encheres DESC";
+			+ " ORDER BY date_fin_encheres ASC";
+	//TODO : Renvoie tous les articles quelque soit le num utilisateur
 	private final String SELECT_MES_ENCHERES_BY_NOM_AND_CAT = "SELECT a.no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial,"
 			+ " prix_vente, a.no_utilisateur, no_categorie, no_retrait FROM ARTICLES_VENDUS AS a"
 			+ " inner join ENCHERES AS e ON a.no_article = e.no_article"
-			+ " WHERE a.date_debut_encheres <= GETDATE() AND GETDATE() < a.date_fin_encheres AND e.no_utilisateur = '?'"
+			+ " WHERE a.date_debut_encheres <= GETDATE() AND GETDATE() < a.date_fin_encheres AND e.no_utilisateur = ?"
 			+ " AND nom_article LIKE ? AND no_categorie LIKE ?"
-			+ " ORDER BY date_fin_encheres DESC";
+			+ " ORDER BY date_fin_encheres ASC";
+	//TODO : Renvoie tous les articles quelque soit le num utilisateur
 	private final String SELECT_MES_ENCHERES_REMPORTEES_BY_NOM_AND_CAT = "SELECT a.no_article, nom_article, description, date_debut_encheres, date_fin_encheres,"
 			+ " prix_initial, prix_vente, a.no_utilisateur, no_categorie, no_retrait FROM ARTICLES_VENDUS AS a"
 			+ " inner join ENCHERES AS e ON a.no_article = e.no_article"
-			+ " WHERE GETDATE() >= a.date_fin_encheres AND a.prix_vente = e.montant_enchere AND e.no_utilisateur = '?'"
+			+ " WHERE GETDATE() >= a.date_fin_encheres AND a.prix_vente = e.montant_enchere AND e.no_utilisateur = ?"
 			+ " AND nom_article LIKE ? AND no_categorie LIKE ?"
-			+ " ORDER BY date_fin_encheres DESC";
+			+ " ORDER BY date_fin_encheres ASC";
 	private final String SELECT_MES_VENTES_EN_COURS_BY_NOM_AND_CAT ="SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres,"
 			+ " prix_initial, prix_vente, no_utilisateur, no_categorie, no_retrait FROM ARTICLES_VENDUS"
 			+ " WHERE date_debut_encheres <= GETDATE() AND GETDATE() < date_fin_encheres AND no_utilisateur = ?"
 			+ " AND nom_article LIKE ? AND no_categorie LIKE ?"
-			+ " ORDER BY date_fin_encheres DESC";
+			+ " ORDER BY date_fin_encheres ASC";
 	private final String SELECT_MES_VENTES_NON_DEBUTEES_BY_NOM_AND_CAT ="SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres,"
 			+ " prix_initial, prix_vente, no_utilisateur, no_categorie, no_retrait FROM ARTICLES_VENDUS"
 			+ " WHERE GETDATE() < date_debut_encheres AND no_utilisateur = ?"
 			+ " AND nom_article LIKE ? AND no_categorie LIKE ?"
-			+ " ORDER BY date_debut_encheres DESC";
+			+ " ORDER BY date_debut_encheres ASC";
 	private final String SELECT_MES_VENTES_TERMINEES_BY_NOM_AND_CAT ="SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres,"
 			+ " prix_initial, prix_vente, no_utilisateur, no_categorie, no_retrait FROM ARTICLES_VENDUS"
 			+ " WHERE date_fin_encheres <= GETDATE() AND no_utilisateur = ?"
 			+ " AND nom_article LIKE ? AND no_categorie LIKE ?"
-			+ " ORDER BY date_fin_encheres DESC";
+			+ " ORDER BY date_fin_encheres ASC";
 	
 
 	@Override

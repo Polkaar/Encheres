@@ -48,6 +48,7 @@
 		<p>Prix : ${article.prixInitial} points</p>
 		<p>Fin de l'enchère : ${article.dateFinEncheres}</p>
 		<p>Vendeur : ${article.utilisateur.pseudo}</p>
+		<input type="submit" name="detail${article.noArticle}" value="Détail vente"/>
 		<br>
 	</c:forEach>
 

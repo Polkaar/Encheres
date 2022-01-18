@@ -57,6 +57,7 @@
 	
 	
 	<c:forEach items="${accueilConnecteModel.lstListesArticles}" var="lstArticles">
+	<!-- Rajouter des labelles au liste -->
 		<c:forEach items="${lstArticles}" var="article">
 			<p>${article.nomArticle} ${article.description}</p>
 			<p>Prix : ${article.prixInitial} points</p>
