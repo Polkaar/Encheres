@@ -15,5 +15,6 @@ public interface EnchereManager {
 	public List<Enchere> afficherEnchereUtilisateur(Utilisateur utilisateur) throws BllException;
 	public List<Enchere> afficherEnchereArticle(ArticleVendu article) throws BllException;
 	public List<Enchere> afficherTousEnchere() throws BllException;
+	Enchere selectDerniereEnchere(Integer noArticle) throws BllException;
 	
 }

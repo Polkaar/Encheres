@@ -18,6 +18,7 @@ import fr.eni.encheres.bll.utilisateur.UtilisateurManager;
 import fr.eni.encheres.bll.utilisateur.UtilisateurManagerSing;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Enchere;
+import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.DALException;
 
 /**
@@ -46,43 +47,42 @@ public class DetailVenteServlet extends HttpServlet {
 		Enchere enchere = new Enchere();
 		ArticleVendu article = new ArticleVendu();
 		Integer prixEnchere = null;
-
+		Utilisateur newAcheteur = null;
+		Utilisateur oldAcheteur = null;
 		try {
+			//Acheteur = utilisateur en session
+			newAcheteur = utilisateurManager.afficherUtilisateur(3);
+			model.setAcheteur(newAcheteur);
+			enchere = enchereManager.afficherEnchereArticle(article));
+			oldAcheteur = utilisateurManager.afficherUtilisateur(enchere.getUtilisateur().getNoUtilisateur());
+		} catch (BllException e1) {
+			e1.printStackTrace();
+		}
+		try {
+			//Article = article sur lequel on cliqué
 			article = articleManager.afficherArticleVendu(6);
 			model.setArticleVendu(article);
 		} catch (BllException e) {
 			e.printStackTrace();
-		} catch (DALException e) {
-			e.printStackTrace();
 		}
-		System.out.println(model.getArticleVendu().getRetrait().getCodePostal());
-		System.out.println(model.getArticleVendu().getRetrait().getRue());
-		System.out.println(model.getArticleVendu().getRetrait().getVille());
+		
 		if (request.getParameter("encherir") != null) {
 			
 			if(request.getParameter("enchere").equals("")) {
 				model.setMessage("Veuillez proposer une enchere");
 			}
-			
-			else if(Integer.parseInt(request.getParameter("enchere")) > model.getArticleVendu().getPrixInitial() && Integer.parseInt(request.getParameter("enchere")) > model.getArticleVendu().getPrixVente()) {
+			else {
 				prixEnchere = Integer.parseInt(request.getParameter("enchere"));
-				model.getArticleVendu().setPrixVente(prixEnchere);
-				try {
-					articleManager.modifierArticleVendu(article, prixEnchere);
-				} catch (NumberFormatException e1) {
-					e1.printStackTrace();
-				} catch (BllException e1) {
-					e1.printStackTrace();
-				} catch (DALException e1) {
-					e1.printStackTrace();
-				}
-					enchere.setDateEnchere(LocalDate.now());
-					enchere.setMontantEnchere(Integer.parseInt(request.getParameter("enchere")));
+				if(prixEnchere > model.getArticleVendu().getPrixInitial() && prixEnchere > model.getArticleVendu().getPrixVente() && prixEnchere < model.getAcheteur().getCredit()) {
+					model.getArticleVendu().setPrixVente(prixEnchere);
 					try {
-						enchere.setUtilisateur(utilisateurManager.afficherUtilisateur(3));
+						articleManager.modifierArticleVendu(article, prixEnchere);
 					} catch (BllException e) {
 						e.printStackTrace();
 					}
+					enchere.setDateEnchere(LocalDate.now());
+					enchere.setMontantEnchere(prixEnchere);
+					enchere.setUtilisateur(newAcheteur);
 					enchere.setArticleVendu(article);
 					try {
 						enchereManager.ajouterEnchere(enchere);
@@ -90,16 +90,30 @@ public class DetailVenteServlet extends HttpServlet {
 						e.printStackTrace();
 					} catch (DALException e) {
 						e.printStackTrace();
-					}	
+					}
 					model.setMessage("Enchere validee !");
-			}else {
-				model.setMessage("Veuillez proposer une enchere superieur au prix initial et a la derniere enchere");
+					newAcheteur.setCredit(newAcheteur.getCredit() - prixEnchere);
+					try {
+						utilisateurManager.modifierUtilisateur(newAcheteur);
+					} catch (BllException e) {
+						e.printStackTrace();
+					} 
+						
+					
+				}else {
+					model.setMessage("Veuillez proposer une enchere superieur au prix initial et a la derniere enchere");
+				}
 			}
+			
 		}
+			request.setAttribute("model", model);
+			request.getRequestDispatcher(servlet).forward(request, response);
+		}
+	
+
 		
-		request.setAttribute("model", model);
-		request.getRequestDispatcher(servlet).forward(request, response);
-	}
+		
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

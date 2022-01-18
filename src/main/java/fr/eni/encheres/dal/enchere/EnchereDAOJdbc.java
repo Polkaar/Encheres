@@ -26,6 +26,7 @@ public class EnchereDAOJdbc implements EnchereDAO{
 	private final String DELETE = "DELETE FROM ENCHERES WHERE no_enchere=?";
 	private final String SELECT_BY_UTILISATEUR = "SELECT date_enchere, montant_enchere, no_article, no_utilisateur FROM ENCHERES WHERE no_utilisateur=?";
 	private final String SELECT_BY_ARTICLE = "SELECT date_enchere, montant_enchere, no_article, no_utilisateur FROM ENCHERES WHERE no_article=?";
+	private final String SELECT_DERNIERE_ENCHERE = "SELECT no_enchere, date_enchere, montant_enchere, e.no_article, e.no_utilisateur FROM ENCHERES AS e INNER JOIN ARTICLES_VENDUS AS a ON e.no_article = a.no_article WHERE e.no_article = ? AND e.montant_enchere = a.prix_vente;";
 	private final String SELECT_ALL = "SELECT date_enchere, montant_enchere, no_article, no_utilisateur FROM ENCHERES";
 	
 
@@ -85,6 +86,27 @@ public class EnchereDAOJdbc implements EnchereDAO{
 			throw new DALException(e.getMessage());
 		}
 		return lstEncheres;
+	}
+	
+	@Override
+	public Enchere selectDerniereEnchere(Integer noArticle) throws DALException {
+		Enchere enchere = new Enchere();
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement pStmt = cnx.prepareStatement(SELECT_DERNIERE_ENCHERE);
+			pStmt.setInt(1, noArticle);
+			ResultSet rs = pStmt.executeQuery();
+			while(rs.next()) {
+				enchere.setNoEnchere(rs.getInt("no_enchere"));
+				enchere.setDateEnchere(rs.getDate("date_enchere").toLocalDate());
+				enchere.setMontantEnchere(rs.getInt("montant_enchere"));
+				enchere.setArticleVendu(daoArticle.selectById(rs.getInt("no_article")));
+				enchere.setUtilisateur(daoUtilisateur.selectById(rs.getInt("no_utilisateur")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DALException(e.getMessage());
+		}
+		return enchere;
 	}
 	
 	@Override

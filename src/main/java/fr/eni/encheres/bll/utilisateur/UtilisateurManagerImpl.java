@@ -15,7 +15,7 @@ public class UtilisateurManagerImpl implements UtilisateurManager{
 
 	
 	@Override
-	public Utilisateur ajouterUtilisateur(Utilisateur utilisateur) throws BllException, DALException {
+	public Utilisateur ajouterUtilisateur(Utilisateur utilisateur) throws BllException{
 		BllException be = new BllException();
 		
 		verifAll(utilisateur.getPseudo(), utilisateur.getNom(), utilisateur.getPrenom(), utilisateur.getEmail(), utilisateur.getTelephone(),
@@ -26,13 +26,17 @@ public class UtilisateurManagerImpl implements UtilisateurManager{
 			throw be;
 		}
 		
-		utilisateur = dao.insert(utilisateur);
+		try {
+			utilisateur = dao.insert(utilisateur);
+		} catch (DALException e) {
+			e.printStackTrace();
+		}
 		
 		return utilisateur;
 	}
 
 	@Override
-	public void modifierUtilisateur(Utilisateur utilisateur) throws BllException, DALException {
+	public void modifierUtilisateur(Utilisateur utilisateur) throws BllException {
 		BllException be = new BllException();
 		
 		verifAll(utilisateur.getPseudo(), utilisateur.getNom(), utilisateur.getPrenom(), utilisateur.getEmail(), utilisateur.getTelephone(),
@@ -43,7 +47,11 @@ public class UtilisateurManagerImpl implements UtilisateurManager{
 			throw be;
 		}
 		
-		dao.update(utilisateur);
+		try {
+			dao.update(utilisateur);
+		} catch (DALException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

@@ -103,9 +103,8 @@ public class NouvelleVenteServlet extends HttpServlet {
 			
 			try {
 				managerArticleVendu.ajouterArticleVendu(articleVendu);
-			} catch (DALException e) {
-				e.printStackTrace();
-			} catch (BllException e) {
+			} 
+			catch (BllException e) {
 				e.printStackTrace();
 			}
 		}

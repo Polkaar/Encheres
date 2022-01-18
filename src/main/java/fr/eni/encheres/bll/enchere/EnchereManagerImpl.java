@@ -69,6 +69,15 @@ public class EnchereManagerImpl implements EnchereManager {
 		}
 	}
 
+	@Override
+	public Enchere selectDerniereEnchere(Integer noArticle) throws BllException {
+		
+		try {
+			return dao.selectDerniereEnchere(noArticle);
+		} catch (DALException e) {
+			e.printStackTrace();
+		}
+	}
 
 	private void verifAll(LocalDate dateEnchere, Integer montantEnchere, ArticleVendu article, Utilisateur utilisateur, BllException be)
 			throws BllException {
@@ -105,5 +114,9 @@ public class EnchereManagerImpl implements EnchereManager {
 			be.ajouterErreur(new ParameterException("Le numéro utilisateur de l'acheteur est obligatoire."));
 		}
 	}
+
+	
+
+	
 	
 }
