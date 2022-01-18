@@ -12,10 +12,9 @@ import fr.eni.encheres.bll.BllException;
 
 import fr.eni.encheres.bll.articlevendu.ArticleVenduManager;
 import fr.eni.encheres.bll.articlevendu.ArticleVenduManagerSing;
-
-import fr.eni.encheres.bo.ArticleVendu;
-import fr.eni.encheres.dal.DALException;
-
+import fr.eni.encheres.bll.categorie.CategorieManager;
+import fr.eni.encheres.bll.categorie.CategorieManagerSing;
+import fr.eni.encheres.bo.Utilisateur;
 
 /**
  * Servlet implementation class AccueilServlet
@@ -24,14 +23,14 @@ import fr.eni.encheres.dal.DALException;
 public class AccueilServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ArticleVenduManager articleManager = ArticleVenduManagerSing.getInstance();
+	private CategorieManager categorieManager = CategorieManagerSing.getInstance();
 
-	
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public AccueilServlet() {
-        super();
-    }
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public AccueilServlet() {
+		super();
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -40,41 +39,31 @@ public class AccueilServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		//TODO : Changer d'un bouton à un lien hypertexte ?
-		if(request.getParameter("accueilConnexion") != null) {
+		// TODO : Changer d'un bouton à un lien hypertexte ?
+		if (request.getParameter("accueilConnexion") != null) {
 			request.getRequestDispatcher("ConnexionServlet").forward(request, response);
 		}
-		
+
 		AccueilModel accueilModel = new AccueilModel();
 
-		//TODO : Factoriser la méthode dans la BLL ? Deux autres pages utilisent des listes d'enchères.
-		//TODO : Modifier la méthode en utilisant les requêtes SQL crées pour AccueilConnecte ?
-		if (request.getParameter("rechercher") != null) {
-			String nomArticle = request.getParameter("nomArticle");
-			Integer noCategorie;
+		try {
+			accueilModel.lstCategories = categorieManager.afficherTousCategories();
+		} catch (BllException e1) {
+			e1.printStackTrace();
+		}
+		// TODO : Remplacer par l'utilisateur connecté !
+		Utilisateur utilisateur = new Utilisateur();
+		utilisateur.setNoUtilisateur(1);
+		String nomArticle = request.getParameter("nomArticle");
 
-			//TODO : Utiliser plutôt une request SQL pour le tri ?
-			if("toutes".equals(request.getParameter("categorie"))) {
-				try {
-					for (ArticleVendu article : articleManager.afficherTousArticleVendu()) {
-						if (article.getNomArticle().contains(nomArticle)) {
-							accueilModel.addLstArticles(article);
-						}
-					}
-				} catch (BllException | DALException e) {
-					e.printStackTrace();
-				}
-			}else {
-				noCategorie = Integer.parseInt(request.getParameter("categorie"));
-				try {
-					for (ArticleVendu article : articleManager.afficherArticleVenduCategorie(noCategorie)) {
-						if (article.getNomArticle().contains(nomArticle)) {
-							accueilModel.addLstArticles(article);
-						}
-					}
-				} catch (BllException | DALException e) {
-					e.printStackTrace();
-				}
+		String noCategorie = request.getParameter("categorie");
+		
+		if (request.getParameter("rechercher") != null) {
+
+			try {
+				accueilModel.setLstArticles(articleManager.afficherArticleVenduNomEtCategorie(nomArticle, noCategorie));
+			} catch (BllException e) {
+				e.printStackTrace();
 			}
 
 		}

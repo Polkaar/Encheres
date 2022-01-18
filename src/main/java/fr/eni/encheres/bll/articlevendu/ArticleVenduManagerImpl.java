@@ -12,15 +12,13 @@ import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.DALException;
 import fr.eni.encheres.dal.articlevendu.ArticleVenduDAO;
 import fr.eni.encheres.dal.articlevendu.ArticleVenduDAOFact;
-import fr.eni.encheres.dal.utilisateur.UtilisateurDAO;
-import fr.eni.encheres.dal.utilisateur.UtilisateurDAOFact;
 
 public class ArticleVenduManagerImpl implements ArticleVenduManager {
 	
 	ArticleVenduDAO dao = ArticleVenduDAOFact.getArticleVenduDAO();
 
 	@Override
-	public void ajouterArticleVendu(ArticleVendu articleVendu) throws BllException, DALException {
+	public void ajouterArticleVendu(ArticleVendu articleVendu) throws BllException {
 		BllException be = new BllException();
 
 		verifNomArticle(articleVendu.getNomArticle(), be);
@@ -45,7 +43,7 @@ public class ArticleVenduManagerImpl implements ArticleVenduManager {
 	}
 
 	@Override
-	public void modifierArticleVendu(ArticleVendu articleVendu, Integer nouvelleEnchere) throws BllException, DALException {
+	public void modifierArticleVendu(ArticleVendu articleVendu, Integer nouvelleEnchere) throws BllException {
 		BllException be = new BllException();
 		verifPrixVente(articleVendu, nouvelleEnchere, be);
 		if (be.hasErreur()) {
@@ -72,7 +70,7 @@ public class ArticleVenduManagerImpl implements ArticleVenduManager {
 	}
 
 	@Override
-	public ArticleVendu afficherArticleVendu(Integer noArticleVendu) throws BllException, DALException {
+	public ArticleVendu afficherArticleVendu(Integer noArticleVendu) throws BllException {
 		try {
 			return dao.selectById(noArticleVendu);
 		} catch (DALException e) {
@@ -82,7 +80,7 @@ public class ArticleVenduManagerImpl implements ArticleVenduManager {
 	}
 
 	@Override
-	public List<ArticleVendu> afficherTousArticleVendu() throws BllException, DALException {
+	public List<ArticleVendu> afficherTousArticleVendu() throws BllException {
 		try {
 			return dao.selectAll();
 		} catch (DALException e) {
@@ -92,13 +90,95 @@ public class ArticleVenduManagerImpl implements ArticleVenduManager {
 	}
 	
 	@Override
-	public List<ArticleVendu> afficherArticleVenduCategorie(Integer noCategorie) throws BllException, DALException {
+	public List<ArticleVendu> afficherArticleVenduCategorie(Integer noCategorie) throws BllException {
 		try {
 			return dao.selectArticleByCategorie(noCategorie);
 		} catch (DALException e) {
 			e.printStackTrace();
 			throw new BllException(e);
 		}    
+	}
+
+	@Override
+	public List<ArticleVendu> afficherArticleVenduNomEtCategorie(String nomLike, String noCategorie) throws BllException {
+		Integer noCategorieInt = Integer.parseInt(noCategorie);
+		try {
+			return dao.selectByNomAndCat(nomLike, noCategorieInt);
+		} catch (DALException e) {
+			e.printStackTrace();
+			throw new BllException(e);
+		}
+	}
+
+	@Override
+	public List<ArticleVendu> afficherEncheresOuvertes(String nomLike, String noCategorie) throws BllException {
+		Integer noCategorieInt = Integer.parseInt(noCategorie);
+		try {
+			return dao.selectEncheresOuvertesByNomAndCat(nomLike, noCategorieInt);
+		} catch (DALException e) {
+			e.printStackTrace();
+			throw new BllException(e);
+		}
+	}
+
+	@Override
+	public List<ArticleVendu> afficherEncheresAcheteur(Utilisateur utilisateur, String nomLike, String noCategorie) throws BllException {
+		Integer noCategorieInt = Integer.parseInt(noCategorie);
+		Integer noUtilisateur = utilisateur.getNoUtilisateur();
+		try {
+			return dao.selectEncheresByAcheteurByNomAndCat(noUtilisateur, nomLike, noCategorieInt);
+		} catch (DALException e) {
+			e.printStackTrace();
+			throw new BllException(e);
+		}
+	}
+
+	@Override
+	public List<ArticleVendu> afficherEncheresRemportees(Utilisateur utilisateur, String nomLike, String noCategorie) throws BllException {
+		Integer noCategorieInt = Integer.parseInt(noCategorie);
+		Integer noUtilisateur = utilisateur.getNoUtilisateur();
+		try {
+			return dao.selectEncheresRemporteesByAcheteurByNomAndCat(noUtilisateur, nomLike, noCategorieInt);
+		} catch (DALException e) {
+			e.printStackTrace();
+			throw new BllException(e);
+		}
+	}
+
+	@Override
+	public List<ArticleVendu> afficherVentesEnCours(Utilisateur utilisateur, String nomLike, String noCategorie) throws BllException {
+		Integer noCategorieInt = Integer.parseInt(noCategorie);
+		Integer noUtilisateur = utilisateur.getNoUtilisateur();
+		try {
+			return dao.selectVentesEnCoursByVendeurByNomAndCat(noUtilisateur, nomLike, noCategorieInt);
+		} catch (DALException e) {
+			e.printStackTrace();
+			throw new BllException(e);
+		}
+	}
+
+	@Override
+	public List<ArticleVendu> afficherVentesNonDebutees(Utilisateur utilisateur, String nomLike, String noCategorie) throws BllException {
+		Integer noCategorieInt = Integer.parseInt(noCategorie);
+		Integer noUtilisateur = utilisateur.getNoUtilisateur();
+		try {
+			return dao.selectVentesNonDebuteesByVendeurByNomAndCat(noUtilisateur, nomLike, noCategorieInt);
+		} catch (DALException e) {
+			e.printStackTrace();
+			throw new BllException(e);
+		}
+	}
+
+	@Override
+	public List<ArticleVendu> afficherVentesTerminees(Utilisateur utilisateur, String nomLike, String noCategorie) throws BllException {
+		Integer noCategorieInt = Integer.parseInt(noCategorie);
+		Integer noUtilisateur = utilisateur.getNoUtilisateur();
+		try {
+			return dao.selectVentesTermineesByVendeurByNomAndCat(noUtilisateur, nomLike, noCategorieInt);
+		} catch (DALException e) {
+			e.printStackTrace();
+			throw new BllException(e);
+		}
 	}
 	
 
@@ -161,4 +241,5 @@ public class ArticleVenduManagerImpl implements ArticleVenduManager {
 			be.ajouterErreur(new ParameterException("Le nom de l'article est obligatoire et doit être <= 30"));
 		}
 	}
+
 }

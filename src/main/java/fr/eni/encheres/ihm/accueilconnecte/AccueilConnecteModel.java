@@ -9,26 +9,27 @@ import fr.eni.encheres.bo.Categorie;
 public class AccueilConnecteModel {
 
 	ArticleVendu article = new ArticleVendu();
-	List<ArticleVendu> lstArticles = new ArrayList<>();
 	List<Categorie> lstCategories = new ArrayList<>();
-	
-	public void addLstArticles(ArticleVendu article) {
-		lstArticles.add(article);
-	}
+	List<List<ArticleVendu>> lstListesArticles = new ArrayList<List<ArticleVendu>>();
 
 	public void addLstCategories(Categorie categorie) {
 		lstCategories.add(categorie);
 	}
-	
+
+	public void addLstListesArticles (List<ArticleVendu> lstArticles) {
+		lstListesArticles.add(lstArticles);
+	}
+
 	public AccueilConnecteModel() {
 		super();
 	}
 
-	public AccueilConnecteModel(ArticleVendu article, List<ArticleVendu> lstArticles, List<Categorie> lstCategories) {
+	public AccueilConnecteModel(ArticleVendu article, List<Categorie> lstCategories,
+			List<List<ArticleVendu>> lstListesArticles) {
 		super();
 		this.article = article;
-		this.lstArticles = lstArticles;
 		this.lstCategories = lstCategories;
+		this.lstListesArticles = lstListesArticles;
 	}
 
 	public ArticleVendu getArticle() {
@@ -39,14 +40,6 @@ public class AccueilConnecteModel {
 		this.article = article;
 	}
 
-	public List<ArticleVendu> getLstArticles() {
-		return lstArticles;
-	}
-
-	public void setLstArticles(List<ArticleVendu> lstArticles) {
-		this.lstArticles = lstArticles;
-	}
-
 	public List<Categorie> getLstCategories() {
 		return lstCategories;
 	}
@@ -55,12 +48,20 @@ public class AccueilConnecteModel {
 		this.lstCategories = lstCategories;
 	}
 
+	public List<List<ArticleVendu>> getLstListesArticles() {
+		return lstListesArticles;
+	}
+
+	public void setLstListesArticles(List<List<ArticleVendu>> lstListesArticles) {
+		this.lstListesArticles = lstListesArticles;
+	}
+
 	@Override
 	public String toString() {
-		return "AccueilConnecteModel [article=" + article + ", lstArticles=" + lstArticles + ", lstCategories="
-				+ lstCategories + "]";
+		return "AccueilConnecteModel [article=" + article + ", lstCategories=" + lstCategories + ", lstListesArticles="
+				+ lstListesArticles + "]";
 	}
 	
-
+	
 	
 }

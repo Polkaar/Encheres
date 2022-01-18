@@ -55,11 +55,17 @@
 	
 	</form>
 	
-	<c:forEach items="${accueilConnecteModel.lstArticles}" var="article">
-		<p>${article.nomArticle} ${article.description}</p>
-		<p>Prix : ${article.prixInitial} points</p>
-		<p>Fin de l'enchère : ${article.dateFinEncheres}</p>
-		<p>Vendeur : ${article.utilisateur.pseudo}</p>
+	
+	<c:forEach items="${accueilConnecteModel.lstListesArticles}" var="lstArticles">
+		<c:forEach items="${lstArticles}" var="article">
+			<p>${article.nomArticle} ${article.description}</p>
+			<p>Prix : ${article.prixInitial} points</p>
+			<p>Fin de l'enchère : ${article.dateFinEncheres}</p>
+			<p>Vendeur : ${article.utilisateur.pseudo}</p>
+			<br>
+		</c:forEach>
+		<br>
+		<br>
 		<br>
 	</c:forEach>
 	

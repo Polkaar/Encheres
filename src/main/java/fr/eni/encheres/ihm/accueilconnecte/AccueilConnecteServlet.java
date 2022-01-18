@@ -13,8 +13,7 @@ import fr.eni.encheres.bll.articlevendu.ArticleVenduManager;
 import fr.eni.encheres.bll.articlevendu.ArticleVenduManagerSing;
 import fr.eni.encheres.bll.categorie.CategorieManager;
 import fr.eni.encheres.bll.categorie.CategorieManagerSing;
-import fr.eni.encheres.bo.ArticleVendu;
-import fr.eni.encheres.dal.DALException;
+import fr.eni.encheres.bo.Utilisateur;
 
 /**
  * Servlet implementation class AccueilConnecteServlet
@@ -38,17 +37,17 @@ public class AccueilConnecteServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		String jsp ="WEB-INF/AccueilConnecte.jsp";
-		
+
+		String jsp = "WEB-INF/AccueilConnecte.jsp";
+
 		AccueilConnecteModel accueilConnecteModel = new AccueilConnecteModel();
-		
+
 		try {
 			accueilConnecteModel.lstCategories = categorieManager.afficherTousCategories();
 		} catch (BllException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		// TODO : Changer de boutons à des liens hypertextes ?
 		if (request.getParameter("encheres") != null) {
 			request.getRequestDispatcher(jsp).forward(request, response);
@@ -57,46 +56,88 @@ public class AccueilConnecteServlet extends HttpServlet {
 			request.getRequestDispatcher("NouvelleVenteServlet").forward(request, response);
 		}
 		if (request.getParameter("monProfil") != null) {
-			//TODO : Vérifier le nom de la Servlet
-			jsp ="MonProfilServlet";
+			jsp = "MonProfilServlet";
 		}
 		if (request.getParameter("deconnexion") != null) {
 			request.getSession().setAttribute("pseudo", null);
-			jsp ="AccueilServlet";
+			jsp = "AccueilServlet";
 		}
 
+		// TODO : Remplacer par l'utilisateur connecté !
+		Utilisateur utilisateur = new Utilisateur();
+		utilisateur.setNoUtilisateur(1);
+		String nomArticle = request.getParameter("nomArticleConnecte");
 
-		// TODO : Factoriser la méthode dans la BLL ? Deux autres pages utilisent des listes d'enchères.
-		if (request.getParameter("rechercher") != null) {
-			String nomArticle = request.getParameter("nomArticle");
-			Integer noCategorie;
+		String noCategorie = request.getParameter("categorieConnecte");
 
-			// TODO : Utiliser plutôt une request SQL pour le tri ?
-			//TODO : Tout refaire ici, en fait ^^
-			if ("toutes".equals(request.getParameter("categorie"))) {
-				try {
-					for (ArticleVendu article : articleManager.afficherTousArticleVendu()) {
-						if (article.getNomArticle().contains(nomArticle)) {
-							accueilConnecteModel.addLstArticles(article);
-						}
+		if (request.getParameter("rechercherConnecte") != null) {
+
+			if (request.getParameter("achats") != null) {
+
+				if (request.getParameter("encheresOuvertes") != null) {
+					try {
+						accueilConnecteModel
+								.addLstListesArticles(articleManager.afficherEncheresOuvertes(nomArticle, noCategorie));
+					} catch (BllException e) {
+						e.printStackTrace();
 					}
-				} catch (BllException | DALException e) {
-					e.printStackTrace();
 				}
-			} else {
-				noCategorie = Integer.parseInt(request.getParameter("categorie"));
-				try {
-					for (ArticleVendu article : articleManager.afficherArticleVenduCategorie(noCategorie)) {
-						if (article.getNomArticle().contains(nomArticle)) {
-							accueilConnecteModel.addLstArticles(article);
-						}
+
+				if (request.getParameter("mesEncheres") != null) {
+					try {
+						accueilConnecteModel.addLstListesArticles(
+								articleManager.afficherEncheresAcheteur(utilisateur, nomArticle, noCategorie));
+					} catch (BllException e) {
+						e.printStackTrace();
 					}
-				} catch (BllException | DALException e) {
+				}
+
+				if (request.getParameter("mesEncheresRemportees") != null) {
+					try {
+						accueilConnecteModel.addLstListesArticles(
+								articleManager.afficherEncheresRemportees(utilisateur, nomArticle, noCategorie));
+					} catch (BllException e) {
+						e.printStackTrace();
+					}
+				}
+
+			} else if (request.getParameter("mesVentes") != null) {
+
+				if (request.getParameter("mesVentesEnCours") != null) {
+					try {
+						accueilConnecteModel.addLstListesArticles(
+								articleManager.afficherVentesEnCours(utilisateur, nomArticle, noCategorie));
+					} catch (BllException e) {
+						e.printStackTrace();
+					}
+				}
+
+				if (request.getParameter("ventesNonDebutees") != null) {
+					try {
+						accueilConnecteModel.addLstListesArticles(
+								articleManager.afficherVentesNonDebutees(utilisateur, nomArticle, noCategorie));
+					} catch (BllException e) {
+						e.printStackTrace();
+					}
+				}
+
+				if (request.getParameter("ventesTerminees") != null) {
+					try {
+						accueilConnecteModel.addLstListesArticles(
+								articleManager.afficherVentesTerminees(utilisateur, nomArticle, noCategorie));
+					} catch (BllException e) {
+						e.printStackTrace();
+					}
+				}
+
+			} else {
+				try {
+					accueilConnecteModel.addLstListesArticles(
+							articleManager.afficherArticleVenduNomEtCategorie(nomArticle, noCategorie));
+				} catch (BllException e) {
 					e.printStackTrace();
 				}
 			}
-
-
 		}
 
 		request.setAttribute("accueilConnecteModel", accueilConnecteModel);

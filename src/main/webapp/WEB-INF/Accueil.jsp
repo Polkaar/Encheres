@@ -33,11 +33,10 @@
 		
 		<label><fmt:message key="label_categorie" bundle="${r}"/></label>
 		<select name="categorie" id="id-categorie">
-		    <option value="toutes"><fmt:message key="select_toutes" bundle="${r}"/></option>
-		    <option value="1"><fmt:message key="select_informatique" bundle="${r}"/></option>
-		    <option value="2"><fmt:message key="select_ameublement" bundle="${r}"/></option>
-		    <option value="3"><fmt:message key="select_vetement" bundle="${r}"/></option>
-		    <option value="4"><fmt:message key="select_sport&loisir" bundle="${r}"/></option>
+		    <option value="0">Toutes</option>
+		    <c:forEach items="${accueilModel.lstCategories}" var="categorie">
+				<option value="${categorie.noCategorie}">${categorie.libelle}</option>
+			</c:forEach>
 		</select>
 		
 		<input type="submit" name="rechercher" value="<fmt:message key="bouton_rechercher" bundle="${r}"/>"/>

@@ -1,6 +1,9 @@
 package fr.eni.encheres.test;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.encheres.bll.BllException;
+import fr.eni.encheres.bll.articlevendu.ArticleVenduManager;
+import fr.eni.encheres.bll.articlevendu.ArticleVenduManagerSing;
 import fr.eni.encheres.bll.categorie.CategorieManager;
 import fr.eni.encheres.bll.categorie.CategorieManagerSing;
 import fr.eni.encheres.bll.enchere.EnchereManager;
@@ -33,6 +38,7 @@ public class TestBLLServlet extends HttpServlet {
 	private EnchereManager enchereManager = EnchereManagerSing.getInstance();
 	private RetraitManager retraitManager = RetraitManagerSing.getInstance();
 	private UtilisateurManager utilisateurManager = UtilisateurManagerSing.getInstance();
+	private ArticleVenduManager articleManager = ArticleVenduManagerSing.getInstance();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -57,12 +63,27 @@ public class TestBLLServlet extends HttpServlet {
 		
 		Categorie c5 = new Categorie("TestConnexionBDD");
 		
+		
+		List<ArticleVendu> lstArticles = new ArrayList<ArticleVendu>();
+		
 		try {
-			categorieManager.ajouterCategorie(c5);
+			lstArticles = articleManager.afficherArticleVenduNomEtCategorie("pc", "1");
 		} catch (BllException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println("Ici !");
+		for (ArticleVendu articleVendu : lstArticles) {
+			System.out.println("Là !");
+			System.out.println(articleVendu);
+		}
+		
+		
+//		try {
+//			categorieManager.ajouterCategorie(c5);
+//		} catch (BllException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		
 		//Test BLL Retrait

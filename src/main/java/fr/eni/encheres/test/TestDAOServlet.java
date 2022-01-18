@@ -59,9 +59,8 @@ public class TestDAOServlet extends HttpServlet {
 		
 		List<ArticleVendu> lstArticles = new ArrayList<ArticleVendu>();
 		try {
-			lstArticles = daoArticle.selectByNomAndCat("", 2);
+			lstArticles = daoArticle.selectByNomAndCat("pc", 1);
 		} catch (DALException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("Ici !");
