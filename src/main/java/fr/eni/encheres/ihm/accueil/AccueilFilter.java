@@ -1,4 +1,4 @@
-package fr.eni.encheres.ihm.login;
+package fr.eni.encheres.ihm.accueil;
 
 import java.io.IOException;
 import javax.servlet.Filter;
@@ -11,16 +11,15 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Servlet Filter implementation class LoginFilter
+ * Servlet Filter implementation class AccueilFilter
  */
-//TODO : Rajouter au fur et à mesure les pages dont l'accès nécessite d'être connecté.
-@WebFilter({"/AccueilConnecteServlet", "/NouvelleVenteServlet", "/ModifMonProfilServlet", "/MonProfilServlet", "/NouvelleVenteServlet"})
-public class LoginFilter implements Filter {
+@WebFilter({"/", "/AccueilServlet"})
+public class AccueilFilter implements Filter {
 
     /**
      * Default constructor. 
      */
-    public LoginFilter() {
+    public AccueilFilter() {
         // TODO Auto-generated constructor stub
     }
 
@@ -37,11 +36,12 @@ public class LoginFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		String login = (String) ((HttpServletRequest)request).getSession().getAttribute("pseudo");
 		if(login == null) {
-			request.getRequestDispatcher("ConnexionServlet").forward(request, response);
+			request.getRequestDispatcher("AccueilServlet").forward(request, response);
 		}
 		else {
-			chain.doFilter(request, response);
+			request.getRequestDispatcher("AccueilConnecteServlet").forward(request, response);
 		}
+		
 	}
 
 	/**

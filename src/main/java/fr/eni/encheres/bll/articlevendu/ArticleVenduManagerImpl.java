@@ -54,7 +54,7 @@ public class ArticleVenduManagerImpl implements ArticleVenduManager {
 		} catch (DALException e) {
 			e.printStackTrace();
 			throw new BllException(e);
-		}	
+		}
 	}
 
 	
