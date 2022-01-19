@@ -50,8 +50,8 @@ public class DetailVenteServlet extends HttpServlet {
 		Utilisateur newAcheteur = null;
 		Integer noUtilisateur = (Integer)((HttpServletRequest)request).getSession().getAttribute("IdConnecte");
 		try {
-			//TODO: Article = article sur lequel on cliqué
-			article = articleManager.afficherArticleVendu(7);
+			Integer noArticleDetail = (Integer) ((HttpServletRequest)request).getSession().getAttribute("noArticleDetail");
+			article = articleManager.afficherArticleVendu(noArticleDetail);
 			model.setArticleVendu(article);
 		} catch (BllException e) {
 			e.printStackTrace();

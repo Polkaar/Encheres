@@ -38,7 +38,7 @@
 		
 		<fieldset>
 		  	<fieldset>
-				<input type="radio" name="achats" id="achats" onclick="onClickAchats()" checked="checked"> Achats<br>
+				<input type="radio" name="achats" id="achats" onclick="onClickAchats()"> Achats<br>
 		  			<input type="checkbox" name="encheresOuvertes" value="encheresOuvertes" id="encheresOuvertes" onclick="onClickMesAchats()">enchères ouvertes<br> 
 		 			<input type="checkbox" name="mesEncheres" value="mesEncheres" id="mesEncheres" onclick="onClickMesAchats()">mes enchères<br> 
 		   			<input type="checkbox" name="mesEncheresRemportees" value="mesEncheresRemportees" id="mesEncheresRemportees" onclick="onClickMesAchats()">mes enchères remportées<br>
@@ -63,6 +63,9 @@
 			<p>Prix : ${article.prixInitial} points</p>
 			<p>Fin de l'enchère : ${article.dateFinEncheres}</p>
 			<p>Vendeur : ${article.utilisateur.pseudo}</p>
+			<form action="AccueilConnecteServlet" method="POST">
+				<button type="submit" name="detailVente" value="${article.noArticle}">Détail Vente</button>
+			</form>
 			<br>
 		</c:forEach>
 		<br>

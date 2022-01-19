@@ -33,7 +33,8 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
 	
 	private final String SELECT_BY_NOM_AND_CAT = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres,"
 			+ " prix_initial, prix_vente, no_utilisateur, no_categorie, no_retrait FROM ARTICLES_VENDUS"
-			+ " WHERE nom_article LIKE ? AND no_categorie LIKE ?"
+			+ " WHERE GETDATE() < date_fin_encheres"
+			+ " AND nom_article LIKE ? AND no_categorie LIKE ?"
 			+ " ORDER BY date_fin_encheres ASC";
 	private final String SELECT_ENCHERES_OUVERTES_BY_NOM_AND_CAT = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres,"
 			+ " prix_initial, prix_vente, no_utilisateur, no_categorie, no_retrait FROM ARTICLES_VENDUS"

@@ -1,6 +1,7 @@
 package fr.eni.encheres.ihm.accueilconnecte;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +16,7 @@ import fr.eni.encheres.bll.categorie.CategorieManager;
 import fr.eni.encheres.bll.categorie.CategorieManagerSing;
 import fr.eni.encheres.bll.utilisateur.UtilisateurManager;
 import fr.eni.encheres.bll.utilisateur.UtilisateurManagerSing;
+import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Utilisateur;
 
 /**
@@ -26,6 +28,7 @@ public class AccueilConnecteServlet extends HttpServlet {
 	private ArticleVenduManager articleManager = ArticleVenduManagerSing.getInstance();
 	private CategorieManager categorieManager = CategorieManagerSing.getInstance();
 	private UtilisateurManager utilisateurManager = UtilisateurManagerSing.getInstance();
+	AccueilConnecteModel accueilConnecteModel = new AccueilConnecteModel();
 
 
 	/**
@@ -44,12 +47,11 @@ public class AccueilConnecteServlet extends HttpServlet {
 
 		String jsp = "WEB-INF/AccueilConnecte.jsp";
 
-		AccueilConnecteModel accueilConnecteModel = new AccueilConnecteModel();
 		
 		Integer noUtilisateur = (Integer)((HttpServletRequest)request).getSession().getAttribute("IdConnecte");
-
+		Utilisateur utilisateur = new Utilisateur();
 		try {
-			Utilisateur utilisateur = utilisateurManager.afficherUtilisateur(noUtilisateur);
+			utilisateur = utilisateurManager.afficherUtilisateur(noUtilisateur);
 		} catch (BllException e2) {
 			e2.printStackTrace();
 		}
@@ -75,9 +77,6 @@ public class AccueilConnecteServlet extends HttpServlet {
 			jsp = "AccueilServlet";
 		}
 
-		// TODO : Remplacer par l'utilisateur connecté !
-		Utilisateur utilisateur = new Utilisateur();
-		utilisateur.setNoUtilisateur(1);
 		String nomArticle = request.getParameter("nomArticleConnecte");
 
 		String noCategorie = request.getParameter("categorieConnecte");
@@ -148,6 +147,23 @@ public class AccueilConnecteServlet extends HttpServlet {
 							articleManager.afficherArticleVenduNomEtCategorie(nomArticle, noCategorie));
 				} catch (BllException e) {
 					e.printStackTrace();
+				}
+			}
+			
+			for (List<ArticleVendu> lstArticles : accueilConnecteModel.getLstListesArticles()) {
+				for (ArticleVendu articleVendu : lstArticles) {
+					accueilConnecteModel.addLstNoArticle(articleVendu.getNoArticle());
+				}
+			}
+		
+		}
+		
+		if (request.getParameter("detailVente") != null) {
+			Integer detailArticle = Integer.parseInt(request.getParameter("detailVente"));
+			for (Integer noArticle : accueilConnecteModel.getLstNoArticle()) {
+				if (noArticle == detailArticle) {
+					request.getSession().setAttribute("noArticleDetail", noArticle);
+					request.getRequestDispatcher("DetailVenteServlet").forward(request, response);
 				}
 			}
 		}

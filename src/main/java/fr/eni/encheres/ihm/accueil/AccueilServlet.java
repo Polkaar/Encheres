@@ -31,6 +31,7 @@ public class AccueilServlet extends HttpServlet {
 	private ArticleVenduManager articleManager = ArticleVenduManagerSing.getInstance();
 	private CategorieManager categorieManager = CategorieManagerSing.getInstance();
 	private UtilisateurManager utilisateurManager = UtilisateurManagerSing.getInstance();
+		AccueilModel accueilModel = new AccueilModel();
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -43,26 +44,25 @@ public class AccueilServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-		AccueilModel accueilModel = new AccueilModel();
-		
+
 		// TODO : Changer d'un bouton à un lien hypertexte ?
 		if (request.getParameter("accueilConnexion") != null) {
 			request.getRequestDispatcher("ConnexionServlet").forward(request, response);
 		}
-		
+
 		try {
 			accueilModel.lstCategories = categorieManager.afficherTousCategories();
 		} catch (BllException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		String nomArticle = request.getParameter("nomArticle");
 		String noCategorie = request.getParameter("categorie");
-		
-		List<Integer> lstNoArticles = new ArrayList<>();
-		
+
+
 		if (request.getParameter("rechercher") != null) {
 
 			try {
@@ -70,25 +70,10 @@ public class AccueilServlet extends HttpServlet {
 			} catch (BllException e) {
 				e.printStackTrace();
 			}
-
-			for (ArticleVendu article : accueilModel.getLstArticles()) {
-				lstNoArticles.add(article.getNoArticle());
-			}
 		}
-		
-		
-		
-		for (Integer noArticle : lstNoArticles) {
-			if(request.getParameter("detail"+noArticle) != null) {
-				ArticleVendu focusArticle = new ArticleVendu();
-				try {
-					focusArticle = articleManager.afficherArticleVendu(noArticle);
-				} catch (BllException e) {
-					e.printStackTrace();
-				}
-				request.getSession().setAttribute("focusArticle", focusArticle);
-				request.getRequestDispatcher("DetailVenteServlet").forward(request, response);
-			}
+
+		if (request.getParameter("detailVenteConnexion") != null) {
+			request.getRequestDispatcher("ConnexionServlet").forward(request, response);
 		}
 
 		request.setAttribute("accueilModel", accueilModel);
