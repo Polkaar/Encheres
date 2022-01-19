@@ -150,8 +150,7 @@ public class AccueilConnecteServlet extends HttpServlet {
 		if(request.getParameter("profilVendeur") != null) {
 			Integer vendeurId = Integer.parseInt(request.getParameter("profilVendeur"));
 			request.getSession().setAttribute("vendeurId", vendeurId);
-			//Créer ProfilServlet
-			request.getRequestDispatcher("ProfilServlet").forward(request, response);
+			request.getRequestDispatcher("ProfilUtilisateurServlet").forward(request, response);
 		}
 		
 		if (request.getParameter("detailVente") != null) {

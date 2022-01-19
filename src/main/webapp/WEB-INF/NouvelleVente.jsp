@@ -8,10 +8,7 @@
 </head>
 <body>
 	<header>
-		<h1 style="text-align: left;">ENI-Encheres</h1>
-		<form action="NouvelleVenteServlet" method="POST" style="text-align: left;">
-			<button type="submit" name="accueil" value="ENI-Encheres">ENI-Encheres</button> 
-		</form>
+		<h1 style="text-align: left;"><a href="AccueilServlet?accueilViaNouvelleVente=accueil">ENI-Encheres</a></h1>
 	</header>
 	<h2 style="text-align: center;">Nouvelle vente</h2> 
 	<form action="NouvelleVenteServlet" method="POST" style="text-align: center;">

@@ -8,13 +8,10 @@
 </head>
 <body>
 	<header>
-		<h1 style="text-align: left;">ENI-Encheres</h1>
-		<form action="MonProfilServlet" method="POST" style="text-align: left;">
-			<button type="submit" name="accueil" value="ENI-Encheres">ENI-Encheres</button> 
-		</form>
+		<h1 style="text-align: left;"><a href="AccueilServlet?accueilViaProfilUtilisateur=accueil">ENI-Encheres</a></h1>
 	</header>
 	<div style="text-align: center;">
-	<h2>Profil de ${model.utilisateur.pseudo}</h1><br><br>
+	<h2>Profil de ${model.utilisateur.pseudo}</h2><br><br>
 	Pseudo : ${model.utilisateur.pseudo}<br>
 	Nom : ${model.utilisateur.nom}<br>
 	Prenom : ${model.utilisateur.prenom}<br>

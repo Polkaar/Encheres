@@ -34,28 +34,34 @@ public class NouvelleVenteServlet extends HttpServlet {
 	ArticleVenduManager managerArticleVendu = ArticleVenduManagerSing.getInstance();
 	RetraitManager managerRetrait = RetraitManagerSing.getInstance();
 	CategorieManager managerCategorie = CategorieManagerSing.getInstance();
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public NouvelleVenteServlet() {
-        super();
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public NouvelleVenteServlet() {
+		super();
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
 	@SuppressWarnings("unused")
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String jsp ="WEB-INF/NouvelleVente.jsp";
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String jsp = "WEB-INF/NouvelleVente.jsp";
 		NouvelleVenteModel model = new NouvelleVenteModel();
 		Utilisateur utilisateur = new Utilisateur();
-		Integer noUtilisateur = (Integer)((HttpServletRequest)request).getSession().getAttribute("IdConnecte");
+		Integer noUtilisateur = (Integer) ((HttpServletRequest) request).getSession().getAttribute("IdConnecte");
 		try {
 			utilisateur = managerUtilisateur.afficherUtilisateur(noUtilisateur);
 			model.setUtilisateur(utilisateur);
 		} catch (BllException e1) {
 			e1.printStackTrace();
+		}
+
+		if (request.getParameter("accueilViaNouvelleVente") != null) {
+			request.getRequestDispatcher("AccueilServlet").forward(request, response);
 		}
 		
 		if (request.getParameter("enregistrer") != null) {
@@ -65,7 +71,8 @@ public class NouvelleVenteServlet extends HttpServlet {
 			retrait.setRue(request.getParameter("rue"));
 			retrait.setVille(request.getParameter("ville"));
 			retrait.setCodePostal(request.getParameter("codePostal"));
-			if(request.getParameter("rue").isBlank() && request.getParameter("ville").isBlank() && request.getParameter("codePostal").isBlank() ) {
+			if (request.getParameter("rue").isBlank() && request.getParameter("ville").isBlank()
+					&& request.getParameter("codePostal").isBlank()) {
 				try {
 					retrait.setRue(utilisateur.getRue());
 					retrait.setVille(utilisateur.getVille());
@@ -74,7 +81,7 @@ public class NouvelleVenteServlet extends HttpServlet {
 				} catch (BllException e) {
 					e.printStackTrace();
 				}
-			}else{
+			} else {
 				try {
 					managerRetrait.ajouterRetrait(retrait);
 				} catch (BllException e) {
@@ -85,7 +92,8 @@ public class NouvelleVenteServlet extends HttpServlet {
 			articleVendu.setNomArticle(request.getParameter("nomArticle"));
 			articleVendu.setDescription(request.getParameter("descriptionArticle"));
 			try {
-				articleVendu.setCategorie(managerCategorie.afficherCategorieById(Integer.parseInt(request.getParameter("categorie"))));
+				articleVendu.setCategorie(
+						managerCategorie.afficherCategorieById(Integer.parseInt(request.getParameter("categorie"))));
 			} catch (NumberFormatException e1) {
 				e1.printStackTrace();
 			} catch (BllException e1) {
@@ -97,28 +105,26 @@ public class NouvelleVenteServlet extends HttpServlet {
 			articleVendu.setRetrait(retrait);
 			articleVendu.setUtilisateur(utilisateur);
 			articleVendu.setEtatVente(true);
-			
+
 			try {
 				managerArticleVendu.ajouterArticleVendu(articleVendu);
-			} 
-			catch (BllException e) {
+			} catch (BllException e) {
 				e.printStackTrace();
 			}
 		}
-		if (request.getParameter("annuler") != null) {	
+		if (request.getParameter("annuler") != null) {
 		}
-		
-		if (request.getParameter("accueil") != null) {
-			jsp = "AccueilServlet";
-		}
+
 		request.setAttribute("model", model);
 		request.getRequestDispatcher(jsp).forward(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doGet(request, response);
 	}
 

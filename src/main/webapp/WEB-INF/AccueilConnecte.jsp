@@ -62,10 +62,8 @@
 			<p>${article.nomArticle} ${article.description}</p>
 			<p>Prix : ${article.prixInitial} points</p>
 			<p>Fin de l'enchère : ${article.dateFinEncheres}</p>
-			<a href="ProfilServlet?profilVendeur=${article.utilisateur.noUtilisateur}">Vendeur : ${article.utilisateur.pseudo}</a>
-			<form action="AccueilConnecteServlet" method="POST">
-				<button type="submit" name="detailVente" value="${article.noArticle}">Détail Vente</button>
-			</form>
+			<p><a href="ProfilUtilisateurServlet?profilVendeur=${article.utilisateur.noUtilisateur}">Vendeur : ${article.utilisateur.pseudo}</a></p>
+			<p><a href="DetailVenteServlet?detailVente=${article.noArticle}">Détail Vente</a></p>
 			<br>
 		</c:forEach>
 		<br>

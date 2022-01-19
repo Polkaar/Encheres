@@ -9,7 +9,7 @@
 
 <body>
 	<header>
-		<h1 style="text-align: left;">ENI-Encheres</h1> 
+		<h1 style="text-align: left;"><a href="AccueilServlet?accueilViaCreationCompte=accueil">ENI-Encheres</a></h1> 
 	</header>
 	<h2 style="text-align: center;">Mon profil</h2> 
 	<form action="CreationCompteServlet" method="POST" style="text-align: center;">

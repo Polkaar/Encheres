@@ -10,7 +10,7 @@
 <body>
 
 	<header>
-		<h1>ENI-Encheres</h1>
+		<h1><a href="AccueilServlet?accueilViaConnexion=accueil">ENI-Encheres</a></h1>
 	</header>
 	
 	<form action="ConnexionServlet" method="POST">

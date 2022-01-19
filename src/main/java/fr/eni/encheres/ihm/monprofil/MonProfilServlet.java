@@ -20,43 +20,48 @@ import fr.eni.encheres.bo.Utilisateur;
 public class MonProfilServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	UtilisateurManager utilisateurManager = UtilisateurManagerSing.getInstance();
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public MonProfilServlet() {
-        super();
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public MonProfilServlet() {
+		super();
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		MonProfilModel model = new MonProfilModel();
 		String servlet = "/WEB-INF/MonProfil.jsp";
-		
-			Integer noUtilisateur = (Integer)((HttpServletRequest)request).getSession().getAttribute("IdConnecte");
-			try {
-				model.setUtilisateur(utilisateurManager.afficherUtilisateur(noUtilisateur));
-			} catch (BllException e) {
-				e.printStackTrace();
-			}
-		
-		if(request.getParameter("modifier") != null) {
+
+		Integer noUtilisateur = (Integer) ((HttpServletRequest) request).getSession().getAttribute("IdConnecte");
+		try {
+			model.setUtilisateur(utilisateurManager.afficherUtilisateur(noUtilisateur));
+		} catch (BllException e) {
+			e.printStackTrace();
+		}
+
+		if (request.getParameter("accueilViaMonProfil") != null) {
+			request.getRequestDispatcher("AccueilServlet").forward(request, response);
+		}
+
+		if (request.getParameter("modifier") != null) {
 			servlet = "ModifMonProfilServlet";
 		}
-		
-		if (request.getParameter("accueil") != null) {
-			servlet = "AccueilServlet";
-		}
+
 		request.setAttribute("model", model);
 		request.getRequestDispatcher(servlet).forward(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doGet(request, response);
 	}
 
