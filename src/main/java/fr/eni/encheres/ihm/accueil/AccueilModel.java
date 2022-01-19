@@ -20,6 +20,7 @@ public class AccueilModel {
 		lstCategories.add(categorie);
 	}
 
+
 	public AccueilModel() {
 		super();
 	}
@@ -57,10 +58,7 @@ public class AccueilModel {
 
 	@Override
 	public String toString() {
-		return "AccueilModel [article=" + article + ", lstCategories=" + lstCategories + ", lstArticles=" + lstArticles
-				+ "]";
+		return "AccueilModel [article=" + article + ", lstCategories=" + lstCategories + ", lstArticles=" + lstArticles+"]";
 	}
-	
-	
 	
 }

@@ -1,6 +1,7 @@
 package fr.eni.encheres.ihm.accueilconnecte;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +14,9 @@ import fr.eni.encheres.bll.articlevendu.ArticleVenduManager;
 import fr.eni.encheres.bll.articlevendu.ArticleVenduManagerSing;
 import fr.eni.encheres.bll.categorie.CategorieManager;
 import fr.eni.encheres.bll.categorie.CategorieManagerSing;
+import fr.eni.encheres.bll.utilisateur.UtilisateurManager;
+import fr.eni.encheres.bll.utilisateur.UtilisateurManagerSing;
+import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Utilisateur;
 
 /**
@@ -23,6 +27,9 @@ public class AccueilConnecteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ArticleVenduManager articleManager = ArticleVenduManagerSing.getInstance();
 	private CategorieManager categorieManager = CategorieManagerSing.getInstance();
+	private UtilisateurManager utilisateurManager = UtilisateurManagerSing.getInstance();
+	AccueilConnecteModel accueilConnecteModel = new AccueilConnecteModel();
+
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -40,7 +47,14 @@ public class AccueilConnecteServlet extends HttpServlet {
 
 		String jsp = "WEB-INF/AccueilConnecte.jsp";
 
-		AccueilConnecteModel accueilConnecteModel = new AccueilConnecteModel();
+		
+		Integer noUtilisateur = (Integer)((HttpServletRequest)request).getSession().getAttribute("IdConnecte");
+		Utilisateur utilisateur = new Utilisateur();
+		try {
+			utilisateur = utilisateurManager.afficherUtilisateur(noUtilisateur);
+		} catch (BllException e2) {
+			e2.printStackTrace();
+		}
 
 		try {
 			accueilConnecteModel.lstCategories = categorieManager.afficherTousCategories();
@@ -59,13 +73,10 @@ public class AccueilConnecteServlet extends HttpServlet {
 			jsp = "MonProfilServlet";
 		}
 		if (request.getParameter("deconnexion") != null) {
-			request.getSession().setAttribute("pseudo", null);
+			request.getSession().setAttribute("IdConnecte", null);
 			jsp = "AccueilServlet";
 		}
 
-		// TODO : Remplacer par l'utilisateur connecté !
-		Utilisateur utilisateur = new Utilisateur();
-		utilisateur.setNoUtilisateur(1);
 		String nomArticle = request.getParameter("nomArticleConnecte");
 
 		String noCategorie = request.getParameter("categorieConnecte");
@@ -136,6 +147,23 @@ public class AccueilConnecteServlet extends HttpServlet {
 							articleManager.afficherArticleVenduNomEtCategorie(nomArticle, noCategorie));
 				} catch (BllException e) {
 					e.printStackTrace();
+				}
+			}
+			
+			for (List<ArticleVendu> lstArticles : accueilConnecteModel.getLstListesArticles()) {
+				for (ArticleVendu articleVendu : lstArticles) {
+					accueilConnecteModel.addLstNoArticle(articleVendu.getNoArticle());
+				}
+			}
+		
+		}
+		
+		if (request.getParameter("detailVente") != null) {
+			Integer detailArticle = Integer.parseInt(request.getParameter("detailVente"));
+			for (Integer noArticle : accueilConnecteModel.getLstNoArticle()) {
+				if (noArticle == detailArticle) {
+					request.getSession().setAttribute("noArticleDetail", noArticle);
+					request.getRequestDispatcher("DetailVenteServlet").forward(request, response);
 				}
 			}
 		}

@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style><%@includefile="/WEB-INF/Connexion.css"%></style>	
 <meta charset="ISO-8859-1">
 <title>Connexion</title>
 </head>

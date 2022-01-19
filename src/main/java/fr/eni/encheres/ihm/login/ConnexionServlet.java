@@ -35,10 +35,7 @@ public class ConnexionServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String nextScreen = "/WEB-INF/Connexion.jsp";
-		LoginModel model = new LoginModel();
-
-		//LoginModel model = new LoginModel("", "");
+		LoginModel loginModel = LoginModel.getInstance();
 
 		Utilisateur utilisateur = null;
 
@@ -46,30 +43,17 @@ public class ConnexionServlet extends HttpServlet {
 			String pseudo = request.getParameter("pseudo");
 			String motDePasse = request.getParameter("motDePasse");
 
-			System.out.println(pseudo);
-			System.out.println(motDePasse);
-			
 			try {
 				utilisateur = utilisateurManager.afficherUtilisateurParPseudo(pseudo);
-				System.out.println("Je passe ici UN");
 			} catch (BllException e) {
 				e.printStackTrace();
 			}
-			
-			System.out.println(utilisateur);
 
 			if (utilisateur != null) {
-				System.out.println("Je passe ici DEUX");
-				model.setPseudo(pseudo);
 				if (motDePasse.equals(utilisateur.getMotDePasse())) {
-					System.out.println("Je passe ici TROIS");
-					request.getSession().setAttribute("pseudo", pseudo);
-					//TODO : Faire que le navigateur enregistre pseudo et motDePasse ?
 					if (request.getParameter("seSouvenirDeMoi") != null) {
-						System.out.println("Je passe ici QUATRE");
-						request.getSession().setAttribute("motDePasse", motDePasse);
-						model.setPseudo(request.getSession().getAttribute("pseudo").toString());
-						model.setMotDePasse(request.getSession().getAttribute("motDePasse").toString());
+						loginModel.setPseudo(pseudo);
+						loginModel.setMotDePasse(motDePasse);
 					}
 					request.getSession().setAttribute("IdConnecte", utilisateur.getNoUtilisateur());
 					request.getRequestDispatcher("AccueilConnecteServlet").forward(request, response);
@@ -80,14 +64,14 @@ public class ConnexionServlet extends HttpServlet {
 
 		// TODO : Changer motDePasseOublie d'un bouton à un lien hypertexte ?
 		if (request.getParameter("motDePasseOublie") != null) {
-			// TODO : envoyer un mail avec le mot de passe ?
+			// TODO : Proposer de se connecter autrement ?
 		}
 
 		if (request.getParameter("creerUnCompte") != null) {
 			request.getRequestDispatcher("CreationCompteServlet").forward(request, response);
 		}
 
-		request.setAttribute("model", model);
+		request.setAttribute("model", loginModel);
 		request.getRequestDispatcher("/WEB-INF/Connexion.jsp").forward(request, response);
 
 	}

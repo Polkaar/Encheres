@@ -2,6 +2,14 @@ package fr.eni.encheres.ihm.login;
 
 public class LoginModel {
 
+	private static LoginModel loginModel = new LoginModel();
+	public static LoginModel getInstance() {
+		if(loginModel == null) {
+			loginModel = new LoginModel();
+		}
+		return loginModel;
+	}
+	
 	private String pseudo;
 	private String motDePasse;
 	

@@ -2,7 +2,6 @@ package fr.eni.encheres.ihm.detailvente;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -52,8 +51,10 @@ public class DetailVenteServlet extends HttpServlet {
 		Utilisateur oldAcheteur = null;
 		Integer noUtilisateur = (Integer)((HttpServletRequest)request).getSession().getAttribute("IdConnecte");
 		try {
-			//TODO: Article = article sur lequel on cliqué
-			article = articleManager.afficherArticleVendu(1);
+
+			Integer noArticleDetail = (Integer) ((HttpServletRequest)request).getSession().getAttribute("noArticleDetail");
+			article = articleManager.afficherArticleVendu(noArticleDetail);
+
 			model.setArticleVendu(article);
 		} catch (BllException e) {
 			e.printStackTrace();
