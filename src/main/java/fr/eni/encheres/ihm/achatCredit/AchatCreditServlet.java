@@ -1,4 +1,4 @@
-package fr.eni.encheres.ihm.monprofil;
+package fr.eni.encheres.ihm.achatCredit;
 
 import java.io.IOException;
 
@@ -14,18 +14,19 @@ import fr.eni.encheres.bll.utilisateur.UtilisateurManagerSing;
 import fr.eni.encheres.bo.Utilisateur;
 
 /**
- * Servlet implementation class MonProfil
+ * Servlet implementation class AchatCreditServlet
  */
-@WebServlet("/MonProfilServlet")
-public class MonProfilServlet extends HttpServlet {
+@WebServlet("/AchatCreditServlet")
+public class AchatCreditServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	UtilisateurManager utilisateurManager = UtilisateurManagerSing.getInstance();
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public MonProfilServlet() {
+	public AchatCreditServlet() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -34,30 +35,46 @@ public class MonProfilServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		MonProfilModel model = new MonProfilModel();
-		String servlet = "/WEB-INF/MonProfil.jsp";
+
+		AchatCreditModel model = new AchatCreditModel();
 
 		Integer noUtilisateur = (Integer) ((HttpServletRequest) request).getSession().getAttribute("IdConnecte");
+		Utilisateur utilisateur = new Utilisateur();
 		try {
-			model.setUtilisateur(utilisateurManager.afficherUtilisateur(noUtilisateur));
+			utilisateur = utilisateurManager.afficherUtilisateur(noUtilisateur);
 		} catch (BllException e) {
 			e.printStackTrace();
 		}
+		model.setUtilisateur(utilisateur);
 
-		if (request.getParameter("accueilViaMonProfil") != null) {
+		if (request.getParameter("accueilViaAchatCredit") != null) {
 			request.getRequestDispatcher("AccueilServlet").forward(request, response);
 		}
 
-		if (request.getParameter("modifier") != null) {
-			servlet = "ModifMonProfilServlet";
-		}
-		
-		if(request.getParameter("achatDeCredit") != null) {
-			servlet = "AchatCreditServlet";
+		if (request.getParameter("acheterCredit") != null) {
+
+			if (request.getParameter("achat10credits") != null) {
+				utilisateur.setCredit(utilisateur.getCredit() + 10);
+			}
+			else if (request.getParameter("achat50credits") != null) {
+				utilisateur.setCredit(utilisateur.getCredit() + 50);
+			}
+			else if (request.getParameter("achat200credits") != null) {
+				utilisateur.setCredit(utilisateur.getCredit() + 200);
+			}
+			
+			try {
+				utilisateurManager.modifierUtilisateur(utilisateur);
+			} catch (BllException e) {
+				e.printStackTrace();
+			}
+			
+			request.getRequestDispatcher("MonProfilServlet").forward(request, response);
+			
 		}
 
 		request.setAttribute("model", model);
-		request.getRequestDispatcher(servlet).forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/AchatCredit.jsp").forward(request, response);
 	}
 
 	/**
@@ -66,6 +83,7 @@ public class MonProfilServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

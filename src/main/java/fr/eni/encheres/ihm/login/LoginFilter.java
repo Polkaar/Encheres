@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 //TODO : Rajouter au fur et à mesure les pages dont l'accès nécessite d'être connecté.
 @WebFilter({"/AccueilConnecteServlet", "/NouvelleVenteServlet", "/ModifMonProfilServlet", "/MonProfilServlet", "/DetailVenteServlet",
-	"/ProfilUtilisateur"})
+	"/ProfilUtilisateur", "/AchatCreditServlet"})
 public class LoginFilter implements Filter {
 
     /**

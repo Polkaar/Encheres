@@ -57,10 +57,10 @@
 	
 	
 	<c:forEach items="${accueilConnecteModel.lstListesArticles}" var="lstArticles">
-	<!-- Rajouter des labelles au liste -->
+	<!-- Rajouter des labelles aux listes -->
 		<c:forEach items="${lstArticles}" var="article">
 			<p>${article.nomArticle} ${article.description}</p>
-			<p>Prix : ${article.prixInitial} points</p>
+			<p>Prix : ${article.prixVente} points</p>
 			<p>Fin de l'enchère : ${article.dateFinEncheres}</p>
 			<p><a href="ProfilUtilisateurServlet?profilVendeur=${article.utilisateur.noUtilisateur}">Vendeur : ${article.utilisateur.pseudo}</a></p>
 			<p><a href="DetailVenteServlet?detailVente=${article.noArticle}">Détail Vente</a></p>

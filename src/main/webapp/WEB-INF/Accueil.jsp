@@ -43,7 +43,7 @@
 	
 	<c:forEach items="${accueilModel.lstArticles}" var="article">
 		<p>${article.nomArticle} ${article.description}</p>
-		<p>Prix : ${article.prixInitial} points</p>
+		<p>Prix : ${article.prixVente} points</p>
 		<p>Fin de l'enchère : ${article.dateFinEncheres}</p>
 		<p>Vendeur : ${article.utilisateur.pseudo}</p>
 		<form action="AccueilServlet" method="POST">
