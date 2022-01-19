@@ -18,9 +18,7 @@
 
 	<header >
 		<h1>ENI-Encheres</h1>
-		<form action="AccueilServlet" method="POST">
-			<input type="submit" name="accueilConnexion" value="<fmt:message key="lien_connexion" bundle="${r}"/>"/>
-		</form>
+		<a href="ConnexionServlet?connexionAccueil=seconnecter"><fmt:message key="lien_connexion" bundle="${r}"/></a>
 	</header>
 	
 	<h2><fmt:message key="h2_accueil" bundle="${r}"/></h2>

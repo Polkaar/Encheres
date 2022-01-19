@@ -47,9 +47,7 @@ public class AccueilServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-
-		// TODO : Changer d'un bouton à un lien hypertexte ?
-		if (request.getParameter("accueilConnexion") != null) {
+		if (request.getParameter("connexionAccueil") != null) {
 			request.getRequestDispatcher("ConnexionServlet").forward(request, response);
 		}
 
