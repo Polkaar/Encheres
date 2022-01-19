@@ -14,6 +14,7 @@
 		</form>
 	</header>
 	<h2>Detail vente</h2> 
+	<h4>${model.messageVente}</h4><br>
 	${model.articleVendu.nomArticle}<br>
 	Description : ${model.articleVendu.description}<br>
 	Categorie : ${model.articleVendu.categorie.libelle}<br>
@@ -27,7 +28,7 @@
 	<form action="DetailVenteServlet" method="POST" style="text-align: center;">
 		Ma proposition : <input type="number" name="enchere"> <br>
 		<button type="submit" name="encherir" value="Encherir">Encherir</button>
-	</form>
+	</form><br>
 	<h3>${model.message}</h3>
 </body>
 </html>

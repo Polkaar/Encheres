@@ -1,8 +1,7 @@
 package fr.eni.encheres.test;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,10 +21,6 @@ import fr.eni.encheres.bll.retrait.RetraitManagerSing;
 import fr.eni.encheres.bll.utilisateur.UtilisateurManager;
 import fr.eni.encheres.bll.utilisateur.UtilisateurManagerSing;
 import fr.eni.encheres.bo.ArticleVendu;
-import fr.eni.encheres.bo.Categorie;
-import fr.eni.encheres.bo.Retrait;
-import fr.eni.encheres.bo.Utilisateur;
-import fr.eni.encheres.dal.DALException;
 
 /**
  * Servlet implementation class TestBLLServlet
@@ -52,30 +47,47 @@ public class TestBLLServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Utilisateur u1 = new Utilisateur("Seb", "Polo", "Polux", "polo.polo@poplo.polo", "010203040506", "rue saint malo", "35000", "rennes",
-				"pololo", 100, false);
-		Categorie c1 = new Categorie("Informatique");
-		Categorie c2 = new Categorie("Ameublement");
-		Categorie c3 = new Categorie("Vêtement");
-		Categorie c4 = new Categorie("Sport&Loisirs");
-		ArticleVendu a1 = new ArticleVendu();
-		Retrait r1 = new Retrait("rue saint malo", "35000", "rennes");
-		
-		Categorie c5 = new Categorie("TestConnexionBDD");
-		
-		
-		List<ArticleVendu> lstArticles = new ArrayList<ArticleVendu>();
+		ArticleVendu article = new ArticleVendu();
 		
 		try {
-			lstArticles = articleManager.afficherArticleVenduNomEtCategorie("pc", "1");
+			//TODO: Article = article sur lequel on cliqué
+			article = articleManager.afficherArticleVendu(7);
+			
 		} catch (BllException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Ici !");
-		for (ArticleVendu articleVendu : lstArticles) {
-			System.out.println("Là !");
-			System.out.println(articleVendu);
+		 
+		if (article.getDateFinEncheres().isBefore(LocalDate.now())) {
+			System.out.println("la");
+			
 		}
+		if (LocalDate.now().isBefore(article.getDateFinEncheres())) {
+			System.out.println("ici");
+		}
+//		Utilisateur u1 = new Utilisateur("Seb", "Polo", "Polux", "polo.polo@poplo.polo", "010203040506", "rue saint malo", "35000", "rennes",
+//				"pololo", 100, false);
+//		Categorie c1 = new Categorie("Informatique");
+//		Categorie c2 = new Categorie("Ameublement");
+//		Categorie c3 = new Categorie("Vêtement");
+//		Categorie c4 = new Categorie("Sport&Loisirs");
+//		ArticleVendu a1 = new ArticleVendu();
+//		Retrait r1 = new Retrait("rue saint malo", "35000", "rennes");
+//		
+//		Categorie c5 = new Categorie("TestConnexionBDD");
+//		
+//		
+//		List<ArticleVendu> lstArticles = new ArrayList<ArticleVendu>();
+//		
+//		try {
+//			lstArticles = articleManager.afficherArticleVenduNomEtCategorie("pc", "1");
+//		} catch (BllException e) {
+//			e.printStackTrace();
+//		}
+//		System.out.println("Ici !");
+//		for (ArticleVendu articleVendu : lstArticles) {
+//			System.out.println("Là !");
+//			System.out.println(articleVendu);
+//		}
 		
 		
 //		try {

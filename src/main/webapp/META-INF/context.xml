@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context>
+	<session-config>
+    	<session-timeout>5</session-timeout>
+	</session-config>
 	<Resource
 		name="jdbc/pool_cnx"
 		

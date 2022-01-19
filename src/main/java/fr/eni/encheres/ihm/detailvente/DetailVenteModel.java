@@ -12,7 +12,16 @@ public class DetailVenteModel {
 	private Utilisateur newAcheteur;
 	private Enchere oldEnchere;
 	private String message;
+	private String messageVente;
 	
+	public String getMessageVente() {
+		return messageVente;
+	}
+
+	public void setMessageVente(String messageVente) {
+		this.messageVente = messageVente;
+	}
+
 	public DetailVenteModel() {
 	}
 

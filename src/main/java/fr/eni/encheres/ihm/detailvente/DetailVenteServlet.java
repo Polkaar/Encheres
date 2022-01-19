@@ -2,6 +2,7 @@ package fr.eni.encheres.ihm.detailvente;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -48,24 +49,27 @@ public class DetailVenteServlet extends HttpServlet {
 		ArticleVendu article = new ArticleVendu();
 		Integer prixEnchere = null;
 		Utilisateur newAcheteur = null;
+		Utilisateur oldAcheteur = null;
 		Integer noUtilisateur = (Integer)((HttpServletRequest)request).getSession().getAttribute("IdConnecte");
 		try {
 			//TODO: Article = article sur lequel on cliqué
-			article = articleManager.afficherArticleVendu(7);
+			article = articleManager.afficherArticleVendu(1);
 			model.setArticleVendu(article);
 		} catch (BllException e) {
 			e.printStackTrace();
 		}
+		 
 		try {
 			newAcheteur = utilisateurManager.afficherUtilisateur(noUtilisateur);
 			model.setNewAcheteur(newAcheteur);
 			enchere = enchereManager.selectDerniereEnchere(article.getNoArticle());
 			model.setOldEnchere(enchere);
+			oldAcheteur = enchere.getUtilisateur();
 		} catch (BllException e1) {
 			e1.printStackTrace();
 		}
 		if (request.getParameter("encherir") != null) {
-			
+			if(LocalDate.now().isBefore(article.getDateFinEncheres())) {
 			if(request.getParameter("enchere").equals("")) {
 				model.setMessage("Veuillez proposer une enchere");
 			}
@@ -78,6 +82,7 @@ public class DetailVenteServlet extends HttpServlet {
 					} catch (BllException e) {
 						e.printStackTrace();
 					}
+					oldAcheteur.setCredit(oldAcheteur.getCredit() + enchere.getMontantEnchere());
 					enchere.setDateEnchere(LocalDate.now());
 					enchere.setMontantEnchere(prixEnchere);
 					enchere.setUtilisateur(newAcheteur);
@@ -91,6 +96,7 @@ public class DetailVenteServlet extends HttpServlet {
 					}
 					model.setMessage("Enchere validee !");
 					newAcheteur.setCredit(newAcheteur.getCredit() - prixEnchere);
+				
 					try {
 						utilisateurManager.modifierUtilisateur(newAcheteur);
 					} catch (BllException e) {
@@ -102,7 +108,10 @@ public class DetailVenteServlet extends HttpServlet {
 					model.setMessage("Veuillez proposer une enchere superieur au prix initial et a la derniere enchere");
 				}
 			}
-			
+			}else {model.setMessage("Les encheres pour cet article sont terminees !");}
+		}
+		if (request.getParameter("accueil") != null) {
+			servlet = "AccueilServlet";
 		}
 			request.setAttribute("model", model);
 			request.getRequestDispatcher(servlet).forward(request, response);
