@@ -105,16 +105,16 @@ public class DonneesUtilisateurServlet extends HttpServlet {
 			
 		}
 		
-		DetailVenteServlet
-		if (request.getParameter("detailVente") != null) {
-			Integer detailArticle = Integer.parseInt(request.getParameter("detailVente"));
-			for (Integer noArticle : accueilConnecteModel.getLstNoArticle()) {
-				if (noArticle == detailArticle) {
-					request.getSession().setAttribute("noArticleDetail", noArticle);
-					request.getRequestDispatcher("DetailVenteServlet").forward(request, response);
-				}
-			}
-		}
+//		DetailVenteServlet
+//		if (request.getParameter("detailVente") != null) {
+//			Integer detailArticle = Integer.parseInt(request.getParameter("detailVente"));
+//			for (Integer noArticle : accueilConnecteModel.getLstNoArticle()) {
+//				if (noArticle == detailArticle) {
+//					request.getSession().setAttribute("noArticleDetail", noArticle);
+//					request.getRequestDispatcher("DetailVenteServlet").forward(request, response);
+//				}
+//			}
+//		}
 
 		request.setAttribute("donneesModel", donneesModel);
 		request.getRequestDispatcher("WEB-INF/admin-jsp/DonneesUtilisateur.jsp").forward(request, response);

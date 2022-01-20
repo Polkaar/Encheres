@@ -50,6 +50,10 @@ public class DetailVenteServlet extends HttpServlet {
 		Utilisateur newAcheteur = null;
 		Utilisateur oldAcheteur = null;
 		Integer noUtilisateur = (Integer)((HttpServletRequest)request).getSession().getAttribute("IdConnecte");
+<<<<<<< HEAD
+		Integer noArticleDetail = (Integer) ((HttpServletRequest)request).getSession().getAttribute("noArticleDetail");
+		try {
+=======
 		
 		if(request.getParameter("accueilViaDetalVente") != null) {
 			request.getRequestDispatcher("AccueilServlet").forward(request, response);
@@ -57,6 +61,7 @@ public class DetailVenteServlet extends HttpServlet {
 		
 		try {
 			Integer noArticleDetail = (Integer) ((HttpServletRequest)request).getSession().getAttribute("noArticleDetail");
+>>>>>>> ae419380a495d24ee14eef8185a07b59e454db74
 			article = articleManager.afficherArticleVendu(noArticleDetail);
 			model.setArticleVendu(article);
 		} catch (BllException e) {
@@ -87,6 +92,12 @@ public class DetailVenteServlet extends HttpServlet {
 						e.printStackTrace();
 					}
 					oldAcheteur.setCredit(oldAcheteur.getCredit() + enchere.getMontantEnchere());
+					System.out.println(oldAcheteur.getCredit());
+					try {
+						utilisateurManager.modifierUtilisateur(oldAcheteur);
+					} catch (BllException e1) {
+						e1.printStackTrace();
+					}
 					enchere.setDateEnchere(LocalDate.now());
 					enchere.setMontantEnchere(prixEnchere);
 					enchere.setUtilisateur(newAcheteur);
@@ -99,8 +110,12 @@ public class DetailVenteServlet extends HttpServlet {
 						e.printStackTrace();
 					}
 					model.setMessage("Enchere validee !");
+					if(oldAcheteur.getNoUtilisateur() == newAcheteur.getNoUtilisateur()) {
+						newAcheteur.setCredit(oldAcheteur.getCredit() - prixEnchere);
+					}
+					else{
 					newAcheteur.setCredit(newAcheteur.getCredit() - prixEnchere);
-				
+					}
 					try {
 						utilisateurManager.modifierUtilisateur(newAcheteur);
 					} catch (BllException e) {
@@ -113,6 +128,12 @@ public class DetailVenteServlet extends HttpServlet {
 				}
 			}
 			}else {model.setMessage("Les encheres pour cet article sont terminees !");}
+		}
+		
+		if (noUtilisateur == article.getUtilisateur().getNoUtilisateur()) {
+			if (request.getParameter("modifier") != null) {
+				servlet = "ModifVenteServlet";		
+			}
 		}
 		if (request.getParameter("accueil") != null) {
 			servlet = "AccueilServlet";

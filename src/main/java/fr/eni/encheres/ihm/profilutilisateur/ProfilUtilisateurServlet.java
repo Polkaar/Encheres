@@ -37,6 +37,18 @@ public class ProfilUtilisateurServlet extends HttpServlet {
 		ProfilUtilisateurModel model = new ProfilUtilisateurModel();
 		Integer noUtilisateur = (Integer) request.getSession().getAttribute("vendeurId");
 		String servlet = "/WEB-INF/ProfilUtilisateur.jsp";
+<<<<<<< HEAD
+	
+			try {
+				Integer noUtilisateur = (Integer) ((HttpServletRequest)request).getSession().getAttribute("vendeurId");
+				model.setUtilisateur(utilisateurManager.afficherUtilisateur(noUtilisateur));
+			} catch (BllException e) {
+				e.printStackTrace();
+			}
+		
+		if (request.getParameter("accueil") != null) {
+			servlet = "AccueilServlet";
+=======
 
 		if (request.getParameter("accueilViaProfilUtilisateur") != null) {
 			request.getRequestDispatcher("AccueilServlet").forward(request, response);
@@ -46,6 +58,7 @@ public class ProfilUtilisateurServlet extends HttpServlet {
 			model.setUtilisateur(utilisateurManager.afficherUtilisateur(noUtilisateur));
 		} catch (BllException e) {
 			e.printStackTrace();
+>>>>>>> ae419380a495d24ee14eef8185a07b59e454db74
 		}
 
 		request.setAttribute("model", model);
