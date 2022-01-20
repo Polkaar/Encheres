@@ -41,14 +41,12 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
 			+ " WHERE date_debut_encheres <= GETDATE() AND GETDATE() < date_fin_encheres"
 			+ " AND nom_article LIKE ? AND no_categorie LIKE ?"
 			+ " ORDER BY date_fin_encheres ASC";
-	//TODO : Renvoie tous les articles quelque soit le num utilisateur
 	private final String SELECT_MES_ENCHERES_BY_NOM_AND_CAT = "SELECT a.no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial,"
 			+ " prix_vente, a.no_utilisateur, no_categorie, no_retrait FROM ARTICLES_VENDUS AS a"
 			+ " inner join ENCHERES AS e ON a.no_article = e.no_article"
 			+ " WHERE a.date_debut_encheres <= GETDATE() AND GETDATE() < a.date_fin_encheres AND e.no_utilisateur = ?"
 			+ " AND nom_article LIKE ? AND no_categorie LIKE ?"
 			+ " ORDER BY date_fin_encheres ASC";
-	//TODO : Renvoie tous les articles quelque soit le num utilisateur
 	private final String SELECT_MES_ENCHERES_REMPORTEES_BY_NOM_AND_CAT = "SELECT a.no_article, nom_article, description, date_debut_encheres, date_fin_encheres,"
 			+ " prix_initial, prix_vente, a.no_utilisateur, no_categorie, no_retrait FROM ARTICLES_VENDUS AS a"
 			+ " inner join ENCHERES AS e ON a.no_article = e.no_article"
@@ -70,6 +68,12 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
 			+ " WHERE date_fin_encheres <= GETDATE() AND no_utilisateur = ?"
 			+ " AND nom_article LIKE ? AND no_categorie LIKE ?"
 			+ " ORDER BY date_fin_encheres ASC";
+	
+	private final String COUNT_ENCHERES_EN_COURS_BY_USER = "SELECT COUNT (*) AS total FROM ARTICLES_VENDUS AS a"
+			+ " inner join ENCHERES AS e ON a.no_article = e.no_article"
+			+ " WHERE GETDATE() < a.date_fin_encheres AND e.no_utilisateur = ?";
+	private final String COUNT_VENTES_EN_COURS_BY_USER = "SELECT COUNT (*) AS total FROM ARTICLES_VENDUS"
+			+ " WHERE date_debut_encheres <= GETDATE() AND GETDATE() < date_fin_encheres AND no_utilisateur = ?";
 	
 
 	@Override
@@ -360,6 +364,40 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
 		return lstArticlesVendus;
 	}
 
+
+	@Override
+	public Integer countEncheresByAcheteur(Integer noUtilisateur) throws DALException {
+		Integer nbEncheres = null;
+		try (Connection cnx = ConnectionProvider.getConnection()){
+			PreparedStatement pStmt = cnx.prepareStatement(COUNT_ENCHERES_EN_COURS_BY_USER);
+			pStmt.setInt(1, noUtilisateur);
+			ResultSet rs = pStmt.executeQuery();
+			while(rs.next()) {
+				nbEncheres = rs.getInt("total");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DALException("Probleme de connexion");
+		}
+		return nbEncheres;
+	}
+
+	@Override
+	public Integer countVentesByVendeur(Integer noUtilisateur) throws DALException {
+		Integer nbVentes = null;
+		try (Connection cnx = ConnectionProvider.getConnection()){
+			PreparedStatement pStmt = cnx.prepareStatement(COUNT_VENTES_EN_COURS_BY_USER);
+			pStmt.setInt(1, noUtilisateur);
+			ResultSet rs = pStmt.executeQuery();
+			while(rs.next()) {
+				nbVentes = rs.getInt("total");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DALException("Probleme de connexion");
+		}
+		return nbVentes;
+	}		
 	
 	
 	private void map(ArticleVendu articleVendu, ResultSet rs) throws SQLException, DALException {
@@ -373,7 +411,8 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
 		articleVendu.setUtilisateur((daoUtilisateur.selectById(rs.getInt("no_utilisateur"))));
 		articleVendu.setCategorie((daoCategorie.selectById(rs.getInt("no_categorie"))));
 		articleVendu.setRetrait(daoRetrait.selectById(rs.getInt("no_retrait")));
-	}	
+	}
+
 	
 	
 }

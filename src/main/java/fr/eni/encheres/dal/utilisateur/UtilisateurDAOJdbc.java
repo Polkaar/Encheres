@@ -29,7 +29,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
 			+ "ville, mot_de_passe, credit, administrateur FROM UTILISATEURS WHERE pseudo=?";
 
 	private final static String SELECT_ALL = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal,"
-			+ "ville, mot_de_passe, credit, administrateur FROM UTILISATEURS";
+			+ " ville, mot_de_passe, credit, administrateur FROM UTILISATEURS";
 
 
 	@Override
@@ -161,11 +161,11 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
 	@Override
 	public List<Utilisateur> selectAll() throws DALException {
 		List<Utilisateur> lstUtilisateurs = new ArrayList<Utilisateur>();
-		Utilisateur utilisateur = new Utilisateur();
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			Statement stmt = cnx.createStatement();
 			ResultSet rs = stmt.executeQuery(SELECT_ALL);
 			while(rs.next()) {
+				Utilisateur utilisateur = new Utilisateur();
 				utilisateur.setNoUtilisateur(rs.getInt("no_utilisateur"));
 				utilisateur.setPseudo(rs.getString("pseudo"));
 				utilisateur.setNom(rs.getString("nom"));

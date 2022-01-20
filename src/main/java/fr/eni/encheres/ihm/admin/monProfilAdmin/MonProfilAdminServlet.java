@@ -8,14 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.encheres.bll.BllException;
-import fr.eni.encheres.ihm.monprofil.MonProfilModel;
+import fr.eni.encheres.bll.utilisateur.UtilisateurManager;
+import fr.eni.encheres.bll.utilisateur.UtilisateurManagerSing;
 
 /**
  * Servlet implementation class MonProfilAdmin
  */
-@WebServlet("/MonProfilAdmin")
+@WebServlet("/MonProfilAdminServlet")
 public class MonProfilAdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	UtilisateurManager utilisateurManager = UtilisateurManagerSing.getInstance();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -30,8 +32,8 @@ public class MonProfilAdminServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		MonProfilModel model = new MonProfilModel();
-		String servlet = "/WEB-INF/MonProfil.jsp";
+		MonProfilAdminModel model = new MonProfilAdminModel();
+		String servlet = "/WEB-INF/admin-jsp/MonProfilAdmin.jsp";
 
 		Integer noUtilisateur = (Integer) ((HttpServletRequest) request).getSession().getAttribute("IdConnecte");
 		try {

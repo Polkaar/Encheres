@@ -21,6 +21,7 @@ import fr.eni.encheres.bll.retrait.RetraitManagerSing;
 import fr.eni.encheres.bll.utilisateur.UtilisateurManager;
 import fr.eni.encheres.bll.utilisateur.UtilisateurManagerSing;
 import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Utilisateur;
 
 /**
  * Servlet implementation class TestBLLServlet
@@ -48,22 +49,29 @@ public class TestBLLServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ArticleVendu article = new ArticleVendu();
-		
+		Utilisateur sebAdmin = new Utilisateur("SebAdmin", "Sebastien", "Rameau", "sebastien@admin.fr", "01203040506", "rue saint malo", "35000", "rennes city", "login", 100, true);
+
 		try {
-			//TODO: Article = article sur lequel on cliqué
-			article = articleManager.afficherArticleVendu(7);
-			
+			utilisateurManager.ajouterUtilisateur(sebAdmin);
 		} catch (BllException e) {
 			e.printStackTrace();
 		}
-		 
-		if (article.getDateFinEncheres().isBefore(LocalDate.now())) {
-			System.out.println("la");
-			
-		}
-		if (LocalDate.now().isBefore(article.getDateFinEncheres())) {
-			System.out.println("ici");
-		}
+		
+//		try {
+//			//TODO: Article = article sur lequel on cliqué
+//			article = articleManager.afficherArticleVendu(7);
+//			
+//		} catch (BllException e) {
+//			e.printStackTrace();
+//		}
+//		 
+//		if (article.getDateFinEncheres().isBefore(LocalDate.now())) {
+//			System.out.println("la");
+//			
+//		}
+//		if (LocalDate.now().isBefore(article.getDateFinEncheres())) {
+//			System.out.println("ici");
+//		}
 //		Utilisateur u1 = new Utilisateur("Seb", "Polo", "Polux", "polo.polo@poplo.polo", "010203040506", "rue saint malo", "35000", "rennes",
 //				"pololo", 100, false);
 //		Categorie c1 = new Categorie("Informatique");

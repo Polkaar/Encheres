@@ -28,7 +28,7 @@
 	</div>
 	<div>
 		<a href="ListeUtilisateursServlet">Gérer les utilisateurs</a>
-		<a href="GestionCatégoriesServlet">Gérer les catégories</a>
+		<a href="GestionCategoriesServlet">Gérer les catégories</a>
 	</div>
 </body>
 </html>

@@ -23,4 +23,7 @@ public interface ArticleVenduDAO {
 	List<ArticleVendu> selectVentesEnCoursByVendeurByNomAndCat(Integer noUtilisateur, String nomLike, Integer noCategorie) throws DALException;
 	List<ArticleVendu> selectVentesNonDebuteesByVendeurByNomAndCat(Integer noUtilisateur, String nomLike, Integer noCategorie) throws DALException;
 	List<ArticleVendu> selectVentesTermineesByVendeurByNomAndCat(Integer noUtilisateur, String nomLike, Integer noCategorie) throws DALException;
+	
+	Integer countEncheresByAcheteur(Integer noUtilisateur) throws DALException;
+	Integer countVentesByVendeur(Integer noUtilisateur) throws DALException;
 }

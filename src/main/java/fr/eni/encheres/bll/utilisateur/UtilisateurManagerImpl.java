@@ -117,7 +117,7 @@ public class UtilisateurManagerImpl implements UtilisateurManager{
 	}
 
 	private void verifPseudo(String pseudo, BllException be) throws BllException {
-		String regExpression = "[a-zA-Z_0-9]*";
+		String regExpression = "[a-z_A-Z_0-9]*";
 	    boolean b = pseudo.matches(regExpression);
 		if(b == false) {
 			be.ajouterErreur(new ParameterException("Le pseudonyme ne doit contenir que des lettres ou des chiffres"));

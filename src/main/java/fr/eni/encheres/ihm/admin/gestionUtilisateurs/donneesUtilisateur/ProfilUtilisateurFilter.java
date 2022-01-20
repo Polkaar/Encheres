@@ -1,4 +1,4 @@
-package fr.eni.encheres.ihm.admin.monProfilAdmin;
+package fr.eni.encheres.ihm.admin.gestionUtilisateurs.donneesUtilisateur;
 
 import java.io.IOException;
 import javax.servlet.Filter;
@@ -16,17 +16,17 @@ import fr.eni.encheres.bll.utilisateur.UtilisateurManagerSing;
 import fr.eni.encheres.bo.Utilisateur;
 
 /**
- * Servlet Filter implementation class MonProfilFilter
+ * Servlet Filter implementation class ProfilUtilisateurFilter
  */
-@WebFilter({ "/MonProfilServlet" })
-public class MonProfilFilter implements Filter {
+@WebFilter("/ProfilUtilisateurServlet")
+public class ProfilUtilisateurFilter implements Filter {
 
-	/**
-	 * Default constructor.
-	 */
-	public MonProfilFilter() {
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     * Default constructor. 
+     */
+    public ProfilUtilisateurFilter() {
+        // TODO Auto-generated constructor stub
+    }
 
 	/**
 	 * @see Filter#destroy()
@@ -39,7 +39,6 @@ public class MonProfilFilter implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		
 		UtilisateurManager manager = UtilisateurManagerSing.getInstance();
 
 		Integer idConnecte = (Integer) ((HttpServletRequest) request).getSession().getAttribute("IdConnecte");
@@ -52,7 +51,7 @@ public class MonProfilFilter implements Filter {
 		Boolean isAdmin = utilisateur.isAdministrateur();
 
 		if (isAdmin) {
-			request.getRequestDispatcher("MonProfilAdminServlet").forward(request, response);
+			request.getRequestDispatcher("DonneesUtilisateurServlet").forward(request, response);
 		} else {
 			chain.doFilter(request, response);
 		}

@@ -180,8 +180,34 @@ public class ArticleVenduManagerImpl implements ArticleVenduManager {
 			throw new BllException(e);
 		}
 	}
-	
 
+	
+	@Override
+	public Integer afficherNbEncheresAcheteur(Utilisateur utilisateur) throws BllException {
+		Integer nbEncheres = null;
+		try {
+			nbEncheres = dao.countEncheresByAcheteur(utilisateur.getNoUtilisateur());
+		} catch (DALException e) {
+			e.printStackTrace();
+			throw new BllException(e);
+		}
+		return nbEncheres;
+	}
+
+	@Override
+	public Integer afficherNbVentesVendeur(Utilisateur utilisateur) throws BllException {
+		Integer nbVentes = null;
+		try {
+			nbVentes = dao.countVentesByVendeur(utilisateur.getNoUtilisateur());
+		} catch (DALException e) {
+			e.printStackTrace();
+			throw new BllException(e);
+		}
+		return nbVentes;
+	}	
+
+	
+	
 	private void verifPrixVente(ArticleVendu articleVendu, Integer nouvelleEnchere, BllException be) {
 		if (articleVendu.getPrixVente() > nouvelleEnchere || articleVendu.getPrixInitial() > nouvelleEnchere) {
 			be.ajouterErreur(new ParameterException("L'enchere doit etre superieure au prix initial et a la precedente enchere"));
@@ -241,5 +267,6 @@ public class ArticleVenduManagerImpl implements ArticleVenduManager {
 			be.ajouterErreur(new ParameterException("Le nom de l'article est obligatoire et doit être <= 30"));
 		}
 	}
+
 
 }
