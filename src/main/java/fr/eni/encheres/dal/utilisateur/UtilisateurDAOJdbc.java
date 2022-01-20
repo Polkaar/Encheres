@@ -30,7 +30,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
 
 	private final static String SELECT_ALL = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal,"
 			+ "ville, mot_de_passe, credit, administrateur FROM UTILISATEURS";
-
+	
 
 	@Override
 	public Utilisateur insert(Utilisateur nouvelUtilisateur) throws DALException {

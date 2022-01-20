@@ -22,10 +22,19 @@ public class UtilisateurManagerImpl implements UtilisateurManager{
 				utilisateur.getRue(), utilisateur.getCodePostal(), utilisateur.getVille(), utilisateur.getMotDePasse(),
 				utilisateur.getCredit(), utilisateur.isAdministrateur(), be);
 		
+		
+		Utilisateur verifPseudo = null;
+		try {
+			verifPseudo = dao.selectByPseudo(utilisateur.getPseudo());
+		} catch (DALException e1) {
+			e1.printStackTrace();
+		}
+		if(verifPseudo != null) {
+			be.ajouterErreur(new ParameterException("Le pseudo est deja utilise"));
+		}
 		if (be.hasErreur()) {
 			throw be;
 		}
-		
 		try {
 			utilisateur = dao.insert(utilisateur);
 		} catch (DALException e) {
@@ -117,7 +126,7 @@ public class UtilisateurManagerImpl implements UtilisateurManager{
 	}
 
 	private void verifPseudo(String pseudo, BllException be) throws BllException {
-		String regExpression = "[a-zA-Z_0-9]*";
+		String regExpression = "[a-z_A-Z_0-9]*";
 	    boolean b = pseudo.matches(regExpression);
 		if(b == false) {
 			be.ajouterErreur(new ParameterException("Le pseudonyme ne doit contenir que des lettres ou des chiffres"));
@@ -129,7 +138,7 @@ public class UtilisateurManagerImpl implements UtilisateurManager{
 	}
 
 	private void verifNom(String nom, BllException be) {
-		String regExpression = "[a-zA-Z_0-9]*";
+		String regExpression = "[a-z_A-Z]*";
 	    boolean b = nom.matches(regExpression);
 		if(b == false) {
 			be.ajouterErreur(new ParameterException("Le pseudonyme ne doit contenir que des lettres ou des chiffres"));
@@ -140,7 +149,7 @@ public class UtilisateurManagerImpl implements UtilisateurManager{
 	}
 
 	private void verifPrenom(String prenom, BllException be) {
-		String regExpression = "[a-zA-Z_0-9]*";
+		String regExpression = "[a-z_A-Z]*";
 	    boolean b = prenom.matches(regExpression);
 		if(b == false) {
 			be.ajouterErreur(new ParameterException("Le pseudonyme ne doit contenir que des lettres ou des chiffres"));

@@ -35,8 +35,8 @@ public class ProfilUtilisateurServlet extends HttpServlet {
 		String servlet = "/WEB-INF/ProfilUtilisateur.jsp";
 	
 			try {
-				//TODO: Reussir à faire le lien avec les utilisateurs
-				model.setUtilisateur(utilisateurManager.afficherUtilisateur(5));
+				Integer noUtilisateur = (Integer) ((HttpServletRequest)request).getSession().getAttribute("vendeurId");
+				model.setUtilisateur(utilisateurManager.afficherUtilisateur(noUtilisateur));
 			} catch (BllException e) {
 				e.printStackTrace();
 			}
