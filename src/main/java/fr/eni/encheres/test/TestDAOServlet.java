@@ -56,18 +56,31 @@ public class TestDAOServlet extends HttpServlet {
 		ArticleVendu a2 = new ArticleVendu();
 		Retrait r1 = new Retrait("rue saint malo", "35000", "rennes");
 		
+		Utilisateur sebAdmin = new Utilisateur("SebAdmin", "Sébastien", "Rameau", "sebastien@admin.fr", "010203040506", "rue saint malo", "35000", "rennes city", "login", 100, true);
 		
-		List<ArticleVendu> lstArticles = new ArrayList<ArticleVendu>();
 		try {
-			lstArticles = daoArticle.selectByNomAndCat("pc", 1);
+			System.out.println(daoUser.selectAll());
 		} catch (DALException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Ici !");
-		for (ArticleVendu articleVendu : lstArticles) {
-			System.out.println("Là !");
-			System.out.println(articleVendu);
-		}
+		
+//		try {
+//			sebAdmin = daoUser.insert(sebAdmin);
+//		} catch (DALException e) {
+//			e.printStackTrace();
+//		}
+		
+//		List<ArticleVendu> lstArticles = new ArrayList<ArticleVendu>();
+//		try {
+//			lstArticles = daoArticle.selectByNomAndCat("pc", 1);
+//		} catch (DALException e) {
+//			e.printStackTrace();
+//		}
+//		System.out.println("Ici !");
+//		for (ArticleVendu articleVendu : lstArticles) {
+//			System.out.println("Là !");
+//			System.out.println(articleVendu);
+//		}
 		
 //		try {
 //			daoUser.update(daoUser.selectById(1));

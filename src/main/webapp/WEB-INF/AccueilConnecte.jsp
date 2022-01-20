@@ -15,7 +15,7 @@
 	<div>
 		<a href="AccueilConnecteServlet">Enchères</a>
 		<a href="NouvelleVenteServlet">Vendre un article</a>
-		<a href="MonProfilServlet">Mon profil</a>
+		<a href="${lienProfil}?monProfilViaAccueilConnecte=monProfil">Mon profil</a>
 		<a href="AccueilServlet?deconnexion=deconnecte">Déconnexion</a>
 	</div>
 </header>
@@ -62,8 +62,8 @@
 			<p>${article.nomArticle} ${article.description}</p>
 			<p>Prix : ${article.prixVente} points</p>
 			<p>Fin de l'enchère : ${article.dateFinEncheres}</p>
-			<p><a href="ProfilUtilisateurServlet?profilVendeur=${article.utilisateur.noUtilisateur}">Vendeur : ${article.utilisateur.pseudo}</a></p>
-			<p><a href="DetailVenteServlet?detailVente=${article.noArticle}">Détail Vente</a></p>
+			<p><a href="?profilVendeur=${article.utilisateur.noUtilisateur}">Vendeur : ${article.utilisateur.pseudo}</a></p>
+			<p><a href="?detailVente=${article.noArticle}">Détail Vente</a></p>
 			<br>
 		</c:forEach>
 		<br>

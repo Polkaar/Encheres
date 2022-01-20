@@ -12,7 +12,6 @@ import fr.eni.encheres.bll.BllException;
 import fr.eni.encheres.bll.utilisateur.UtilisateurManager;
 import fr.eni.encheres.bll.utilisateur.UtilisateurManagerSing;
 import fr.eni.encheres.bo.Utilisateur;
-import fr.eni.encheres.dal.DALException;
 
 /**
  * Servlet implementation class CreationCompteServlet

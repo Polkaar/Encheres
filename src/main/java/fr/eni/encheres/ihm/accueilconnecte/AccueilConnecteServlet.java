@@ -30,7 +30,6 @@ public class AccueilConnecteServlet extends HttpServlet {
 	private UtilisateurManager utilisateurManager = UtilisateurManagerSing.getInstance();
 	AccueilConnecteModel accueilConnecteModel = new AccueilConnecteModel();
 
-
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -47,7 +46,7 @@ public class AccueilConnecteServlet extends HttpServlet {
 
 		String jsp = "WEB-INF/AccueilConnecte.jsp";
 
-		Integer noUtilisateur = (Integer)((HttpServletRequest)request).getSession().getAttribute("IdConnecte");
+		Integer noUtilisateur = (Integer) ((HttpServletRequest) request).getSession().getAttribute("IdConnecte");
 		Utilisateur utilisateur = new Utilisateur();
 		try {
 			utilisateur = utilisateurManager.afficherUtilisateur(noUtilisateur);
@@ -59,6 +58,16 @@ public class AccueilConnecteServlet extends HttpServlet {
 			accueilConnecteModel.lstCategories = categorieManager.afficherTousCategories();
 		} catch (BllException e1) {
 			e1.printStackTrace();
+		}
+
+		String lienProfil = new String();
+		
+		if (utilisateur.isAdministrateur()) {
+			System.out.println("Je suis bien admin !");
+			lienProfil = "MonProfilAdminServlet";
+		} else {
+			System.out.println("Euh... Je ne suis pas admin ???");
+			lienProfil = "MonProfilServlet";
 		}
 
 		if (request.getParameter("deconnexion") != null) {
@@ -138,21 +147,21 @@ public class AccueilConnecteServlet extends HttpServlet {
 					e.printStackTrace();
 				}
 			}
-			
+
 			for (List<ArticleVendu> lstArticles : accueilConnecteModel.getLstListesArticles()) {
 				for (ArticleVendu articleVendu : lstArticles) {
 					accueilConnecteModel.addLstNoArticle(articleVendu.getNoArticle());
 				}
 			}
-		
+
 		}
-		
-		if(request.getParameter("profilVendeur") != null) {
+
+		if (request.getParameter("profilVendeur") != null) {
 			Integer vendeurId = Integer.parseInt(request.getParameter("profilVendeur"));
 			request.getSession().setAttribute("vendeurId", vendeurId);
 			request.getRequestDispatcher("ProfilUtilisateurServlet").forward(request, response);
 		}
-		
+
 		if (request.getParameter("detailVente") != null) {
 			Integer detailArticle = Integer.parseInt(request.getParameter("detailVente"));
 			for (Integer noArticle : accueilConnecteModel.getLstNoArticle()) {
@@ -163,8 +172,8 @@ public class AccueilConnecteServlet extends HttpServlet {
 			}
 		}
 
-		//TODO : Faire un lien vers le profil du vendeur.
 		
+		request.setAttribute("lienProfil", lienProfil);
 		request.setAttribute("accueilConnecteModel", accueilConnecteModel);
 		request.getRequestDispatcher(jsp).forward(request, response);
 	}
