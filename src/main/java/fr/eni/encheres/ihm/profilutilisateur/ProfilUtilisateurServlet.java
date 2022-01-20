@@ -35,12 +35,12 @@ public class ProfilUtilisateurServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		ProfilUtilisateurModel model = new ProfilUtilisateurModel();
-		Integer noUtilisateur = (Integer) request.getSession().getAttribute("vendeurId");
+		Integer noUtilisateur = null;
 		String servlet = "/WEB-INF/ProfilUtilisateur.jsp";
-<<<<<<< HEAD
+
 	
 			try {
-				Integer noUtilisateur = (Integer) ((HttpServletRequest)request).getSession().getAttribute("vendeurId");
+				noUtilisateur = (Integer) ((HttpServletRequest)request).getSession().getAttribute("vendeurId");
 				model.setUtilisateur(utilisateurManager.afficherUtilisateur(noUtilisateur));
 			} catch (BllException e) {
 				e.printStackTrace();
@@ -48,8 +48,8 @@ public class ProfilUtilisateurServlet extends HttpServlet {
 		
 		if (request.getParameter("accueil") != null) {
 			servlet = "AccueilServlet";
-=======
 
+		}
 		if (request.getParameter("accueilViaProfilUtilisateur") != null) {
 			request.getRequestDispatcher("AccueilServlet").forward(request, response);
 		}
@@ -58,8 +58,9 @@ public class ProfilUtilisateurServlet extends HttpServlet {
 			model.setUtilisateur(utilisateurManager.afficherUtilisateur(noUtilisateur));
 		} catch (BllException e) {
 			e.printStackTrace();
->>>>>>> ae419380a495d24ee14eef8185a07b59e454db74
+
 		}
+		
 
 		request.setAttribute("model", model);
 		request.getRequestDispatcher(servlet).forward(request, response);

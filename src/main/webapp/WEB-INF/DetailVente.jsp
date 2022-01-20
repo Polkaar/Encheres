@@ -28,7 +28,10 @@
 	<form action="DetailVenteServlet" method="POST" style="text-align: center;">
 		Ma proposition : <input type="number" name="enchere"> <br>
 		<button type="submit" name="encherir" value="Encherir">Encherir</button>
+		<h3>${model.message}</h3>
+		<h3>${model.messageModifier}</h3>
+		<button type="submit" name="modifier" value="Modifier">Modifier</button>
 	</form><br>
-	<h3>${model.message}</h3>
+	
 </body>
 </html>

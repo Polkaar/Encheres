@@ -50,19 +50,14 @@ public class DetailVenteServlet extends HttpServlet {
 		Utilisateur newAcheteur = null;
 		Utilisateur oldAcheteur = null;
 		Integer noUtilisateur = (Integer)((HttpServletRequest)request).getSession().getAttribute("IdConnecte");
-<<<<<<< HEAD
-		Integer noArticleDetail = (Integer) ((HttpServletRequest)request).getSession().getAttribute("noArticleDetail");
-		try {
-=======
 		
 		if(request.getParameter("accueilViaDetalVente") != null) {
 			request.getRequestDispatcher("AccueilServlet").forward(request, response);
 		}
 		
 		try {
-			Integer noArticleDetail = (Integer) ((HttpServletRequest)request).getSession().getAttribute("noArticleDetail");
->>>>>>> ae419380a495d24ee14eef8185a07b59e454db74
-			article = articleManager.afficherArticleVendu(noArticleDetail);
+			Integer noArticleDetail1 = (Integer) ((HttpServletRequest)request).getSession().getAttribute("noArticleDetail");
+			article = articleManager.afficherArticleVendu(noArticleDetail1);
 			model.setArticleVendu(article);
 		} catch (BllException e) {
 			e.printStackTrace();
@@ -131,16 +126,20 @@ public class DetailVenteServlet extends HttpServlet {
 		}
 		
 		if (noUtilisateur == article.getUtilisateur().getNoUtilisateur()) {
-			if (request.getParameter("modifier") != null) {
-				servlet = "ModifVenteServlet";		
-			}
-		}
+			if(LocalDate.now().isBefore(article.getDateDebutEncheres())) {
+				if (request.getParameter("modifier") != null) {
+					servlet = "ModifVenteServlet";		
+				}
+			}else {model.setMessageModifier("L'enchere a deja commence, impossible de modifier l'annonce !");}
+		}else{model.setMessageModifier("Vous n'etes pas le proprittaire de l'article, impossible de modifier l'annonce !");}
 		if (request.getParameter("accueil") != null) {
 			servlet = "AccueilServlet";
 		}
-			request.setAttribute("model", model);
-			request.getRequestDispatcher(servlet).forward(request, response);
-		}
+			
+		
+		request.setAttribute("model", model);
+		request.getRequestDispatcher(servlet).forward(request, response);
+	}
 	
 
 		

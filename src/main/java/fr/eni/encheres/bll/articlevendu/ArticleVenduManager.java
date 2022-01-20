@@ -24,5 +24,6 @@ public interface ArticleVenduManager {
 	public List<ArticleVendu> afficherVentesEnCours(Utilisateur utilisateur, String nomLike, String noCategorie) throws BllException;
 	public List<ArticleVendu> afficherVentesNonDebutees(Utilisateur utilisateur, String nomLike, String noCategorie) throws BllException;
 	public List<ArticleVendu> afficherVentesTerminees(Utilisateur utilisateur, String nomLike, String noCategorie) throws BllException;
+	public void modifierArticleVendu(ArticleVendu articleVendu)throws BllException;
 	
 }
