@@ -18,21 +18,26 @@ import fr.eni.encheres.ihm.monprofil.MonProfilModel;
 @WebServlet("/ProfilUtilisateurServlet")
 public class ProfilUtilisateurServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	UtilisateurManager utilisateurManager = UtilisateurManagerSing.getInstance();   
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ProfilUtilisateurServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	UtilisateurManager utilisateurManager = UtilisateurManagerSing.getInstance();
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ProfilUtilisateurServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		ProfilUtilisateurModel model = new ProfilUtilisateurModel();
+		Integer noUtilisateur = (Integer) request.getSession().getAttribute("vendeurId");
 		String servlet = "/WEB-INF/ProfilUtilisateur.jsp";
+<<<<<<< HEAD
 	
 			try {
 				Integer noUtilisateur = (Integer) ((HttpServletRequest)request).getSession().getAttribute("vendeurId");
@@ -43,15 +48,29 @@ public class ProfilUtilisateurServlet extends HttpServlet {
 		
 		if (request.getParameter("accueil") != null) {
 			servlet = "AccueilServlet";
+=======
+
+		if (request.getParameter("accueilViaProfilUtilisateur") != null) {
+			request.getRequestDispatcher("AccueilServlet").forward(request, response);
 		}
+
+		try {
+			model.setUtilisateur(utilisateurManager.afficherUtilisateur(noUtilisateur));
+		} catch (BllException e) {
+			e.printStackTrace();
+>>>>>>> ae419380a495d24ee14eef8185a07b59e454db74
+		}
+
 		request.setAttribute("model", model);
 		request.getRequestDispatcher(servlet).forward(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}

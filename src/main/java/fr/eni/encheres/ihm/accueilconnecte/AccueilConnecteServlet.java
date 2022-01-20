@@ -47,7 +47,6 @@ public class AccueilConnecteServlet extends HttpServlet {
 
 		String jsp = "WEB-INF/AccueilConnecte.jsp";
 
-		
 		Integer noUtilisateur = (Integer)((HttpServletRequest)request).getSession().getAttribute("IdConnecte");
 		Utilisateur utilisateur = new Utilisateur();
 		try {
@@ -62,16 +61,6 @@ public class AccueilConnecteServlet extends HttpServlet {
 			e1.printStackTrace();
 		}
 
-		// TODO : Changer de boutons à des liens hypertextes ?
-		if (request.getParameter("encheres") != null) {
-			request.getRequestDispatcher(jsp).forward(request, response);
-		}
-		if (request.getParameter("vente") != null) {
-			request.getRequestDispatcher("NouvelleVenteServlet").forward(request, response);
-		}
-		if (request.getParameter("monProfil") != null) {
-			jsp = "MonProfilServlet";
-		}
 		if (request.getParameter("deconnexion") != null) {
 			request.getSession().setAttribute("IdConnecte", null);
 			jsp = "AccueilServlet";
@@ -158,6 +147,12 @@ public class AccueilConnecteServlet extends HttpServlet {
 		
 		}
 		
+		if(request.getParameter("profilVendeur") != null) {
+			Integer vendeurId = Integer.parseInt(request.getParameter("profilVendeur"));
+			request.getSession().setAttribute("vendeurId", vendeurId);
+			request.getRequestDispatcher("ProfilUtilisateurServlet").forward(request, response);
+		}
+		
 		if (request.getParameter("detailVente") != null) {
 			Integer detailArticle = Integer.parseInt(request.getParameter("detailVente"));
 			for (Integer noArticle : accueilConnecteModel.getLstNoArticle()) {
@@ -168,6 +163,8 @@ public class AccueilConnecteServlet extends HttpServlet {
 			}
 		}
 
+		//TODO : Faire un lien vers le profil du vendeur.
+		
 		request.setAttribute("accueilConnecteModel", accueilConnecteModel);
 		request.getRequestDispatcher(jsp).forward(request, response);
 	}

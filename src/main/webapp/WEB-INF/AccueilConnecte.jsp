@@ -11,14 +11,14 @@
 <body>
 
 <header >
-		<h1>ENI-Encheres</h1>
-		<form action="AccueilConnecteServlet" method="POST">
-			<input type="submit" name="encheres" value="Enchères"/>
-			<input type="submit" name="vente" value="Vendre un article"/>
-			<input type="submit" name="monProfil" value="Mon Profil"/>
-			<input type="submit" name="deconnexion" value="Déconnexion"/>
-		</form>
-	</header>
+	<h1>ENI-Encheres</h1>
+	<div>
+		<a href="AccueilConnecteServlet">Enchères</a>
+		<a href="NouvelleVenteServlet">Vendre un article</a>
+		<a href="MonProfilServlet">Mon profil</a>
+		<a href="AccueilServlet?deconnexion=deconnecte">Déconnexion</a>
+	</div>
+</header>
 	
 	<h2>Liste des enchères</h2>
 	
@@ -57,15 +57,13 @@
 	
 	
 	<c:forEach items="${accueilConnecteModel.lstListesArticles}" var="lstArticles">
-	<!-- Rajouter des labelles au liste -->
+	<!-- Rajouter des labelles aux listes -->
 		<c:forEach items="${lstArticles}" var="article">
 			<p>${article.nomArticle} ${article.description}</p>
-			<p>Prix : ${article.prixInitial} points</p>
+			<p>Prix : ${article.prixVente} points</p>
 			<p>Fin de l'enchère : ${article.dateFinEncheres}</p>
-			<p>Vendeur : ${article.utilisateur.pseudo}</p>
-			<form action="AccueilConnecteServlet" method="POST">
-				<button type="submit" name="detailVente" value="${article.noArticle}">Détail Vente</button>
-			</form>
+			<p><a href="ProfilUtilisateurServlet?profilVendeur=${article.utilisateur.noUtilisateur}">Vendeur : ${article.utilisateur.pseudo}</a></p>
+			<p><a href="DetailVenteServlet?detailVente=${article.noArticle}">Détail Vente</a></p>
 			<br>
 		</c:forEach>
 		<br>

@@ -8,13 +8,10 @@
 </head>
 <body>
 	<header>
-		<h1 style="text-align: left;">ENI-Encheres</h1>
-		<form action="ModifMonProfilServlet" method="POST" style="text-align: left;">
-			<button type="submit" name="accueil" value="ENI-Encheres">ENI-Encheres</button> 
-		</form>
+		<h1 style="text-align: left;"><a href="AccueilServlet?accueilViaModifProfil=accueil">ENI-Encheres</a></h1>
 	</header>
 	<div style="text-align: center;">
-	<h2>Modification de mon profil</h1><br><br>
+	<h2>Modification de mon profil</h2><br><br>
 	<form action="ModifMonProfilServlet" method="POST">
 		Pseudo : <input type="text" name="pseudo" value="${model.utilisateur.pseudo}"> <br>
 		Nom : <input type="text" name="nom" value="${model.utilisateur.nom}"> <br>
@@ -28,7 +25,7 @@
 		Nouveau mot de passe : <input type="password" name="nouveauMotDePasse" value=""> <br>
 		confirmation : <input type="password" name="confirmationMotDePasse" value=""> <br>
 		Credit : ${model.utilisateur.credit} <br><br>
-		<h4>${model.message}</h3>
+		<h3>${model.message}</h3>
 		<button type="submit" name="enregistrer" value="Enregistrer">Enregistrer</button>
 	</form>
 	<form action="ModifMonProfilServlet" method="POST" style="text-align: center;">

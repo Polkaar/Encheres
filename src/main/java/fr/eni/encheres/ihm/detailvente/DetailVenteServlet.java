@@ -50,10 +50,19 @@ public class DetailVenteServlet extends HttpServlet {
 		Utilisateur newAcheteur = null;
 		Utilisateur oldAcheteur = null;
 		Integer noUtilisateur = (Integer)((HttpServletRequest)request).getSession().getAttribute("IdConnecte");
+<<<<<<< HEAD
 		Integer noArticleDetail = (Integer) ((HttpServletRequest)request).getSession().getAttribute("noArticleDetail");
 		try {
+=======
+		
+		if(request.getParameter("accueilViaDetalVente") != null) {
+			request.getRequestDispatcher("AccueilServlet").forward(request, response);
+		}
+		
+		try {
+			Integer noArticleDetail = (Integer) ((HttpServletRequest)request).getSession().getAttribute("noArticleDetail");
+>>>>>>> ae419380a495d24ee14eef8185a07b59e454db74
 			article = articleManager.afficherArticleVendu(noArticleDetail);
-
 			model.setArticleVendu(article);
 		} catch (BllException e) {
 			e.printStackTrace();

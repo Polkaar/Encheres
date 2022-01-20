@@ -36,6 +36,10 @@ public class CreationCompteServlet extends HttpServlet {
 		CreationCompteModel model = new CreationCompteModel();
 		String jsp ="WEB-INF/CreationCompte.jsp";
 		
+		if(request.getParameter("accueilViaCreationCompte") != null) {
+			request.getRequestDispatcher("AccueilServlet").forward(request, response);
+		}
+		
 		if (request.getParameter("creer") != null) {
 			Utilisateur utilisateur = new Utilisateur(); 
 			if(request.getParameter("motDePasse").equals(request.getParameter("confirmationMotDePasse"))) {

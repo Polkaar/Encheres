@@ -34,8 +34,8 @@ public class AccueilFilter implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		String login = (String) ((HttpServletRequest)request).getSession().getAttribute("pseudo");
-		if(login == null) {
+		Integer idConnecte = (Integer) ((HttpServletRequest)request).getSession().getAttribute("IdConnecte");
+		if(idConnecte == null) {
 			request.getRequestDispatcher("AccueilServlet").forward(request, response);
 		}
 		else {

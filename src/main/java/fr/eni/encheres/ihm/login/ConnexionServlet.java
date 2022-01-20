@@ -39,6 +39,10 @@ public class ConnexionServlet extends HttpServlet {
 
 		Utilisateur utilisateur = null;
 
+		if(request.getParameter("accueilViaConnexion") != null) {
+			request.getRequestDispatcher("AccueilServlet").forward(request, response);
+		}
+		
 		if (request.getParameter("connexion") != null) {
 			String pseudo = request.getParameter("pseudo");
 			String motDePasse = request.getParameter("motDePasse");
