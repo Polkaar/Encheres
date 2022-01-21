@@ -11,7 +11,6 @@ public class AccueilConnecteModel {
 	ArticleVendu article = new ArticleVendu();
 	List<Categorie> lstCategories = new ArrayList<>();
 	List<List<ArticleVendu>> lstListesArticles = new ArrayList<List<ArticleVendu>>();
-	List<Integer> lstNoArticle = new ArrayList<Integer>();
 
 	public void addLstCategories(Categorie categorie) {
 		lstCategories.add(categorie);
@@ -21,21 +20,17 @@ public class AccueilConnecteModel {
 		lstListesArticles.add(lstArticles);
 	}
 
-	public void addLstNoArticle(Integer noArticle) {
-		lstNoArticle.add(noArticle);
-	}
 
 	public AccueilConnecteModel() {
 		super();
 	}
 
 	public AccueilConnecteModel(ArticleVendu article, List<Categorie> lstCategories,
-			List<List<ArticleVendu>> lstListesArticles, List<Integer> lstNoArticle) {
+			List<List<ArticleVendu>> lstListesArticles) {
 		super();
 		this.article = article;
 		this.lstCategories = lstCategories;
 		this.lstListesArticles = lstListesArticles;
-		this.lstNoArticle = lstNoArticle;
 	}
 
 	public ArticleVendu getArticle() {
@@ -62,18 +57,11 @@ public class AccueilConnecteModel {
 		this.lstListesArticles = lstListesArticles;
 	}
 
-	public List<Integer> getLstNoArticle() {
-		return lstNoArticle;
-	}
-
-	public void setLstNoArticle(List<Integer> lstNoArticle) {
-		this.lstNoArticle = lstNoArticle;
-	}
 
 	@Override
 	public String toString() {
 		return "AccueilConnecteModel [article=" + article + ", lstCategories=" + lstCategories + ", lstListesArticles="
-				+ lstListesArticles + ", lstNoArticle=" + lstNoArticle + "]";
+				+ lstListesArticles + "]";
 	}
 	
 	

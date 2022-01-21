@@ -1,7 +1,6 @@
 package fr.eni.encheres.ihm.accueilconnecte;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +15,6 @@ import fr.eni.encheres.bll.categorie.CategorieManager;
 import fr.eni.encheres.bll.categorie.CategorieManagerSing;
 import fr.eni.encheres.bll.utilisateur.UtilisateurManager;
 import fr.eni.encheres.bll.utilisateur.UtilisateurManagerSing;
-import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Utilisateur;
 
 /**
@@ -61,12 +59,10 @@ public class AccueilConnecteServlet extends HttpServlet {
 		}
 
 		String lienProfil = new String();
-		
+
 		if (utilisateur.isAdministrateur()) {
-			System.out.println("Je suis bien admin !");
 			lienProfil = "MonProfilAdminServlet";
 		} else {
-			System.out.println("Euh... Je ne suis pas admin ???");
 			lienProfil = "MonProfilServlet";
 		}
 
@@ -147,13 +143,6 @@ public class AccueilConnecteServlet extends HttpServlet {
 					e.printStackTrace();
 				}
 			}
-
-			for (List<ArticleVendu> lstArticles : accueilConnecteModel.getLstListesArticles()) {
-				for (ArticleVendu articleVendu : lstArticles) {
-					accueilConnecteModel.addLstNoArticle(articleVendu.getNoArticle());
-				}
-			}
-
 		}
 
 		if (request.getParameter("profilVendeur") != null) {
@@ -164,15 +153,11 @@ public class AccueilConnecteServlet extends HttpServlet {
 
 		if (request.getParameter("detailVente") != null) {
 			Integer detailArticle = Integer.parseInt(request.getParameter("detailVente"));
-			for (Integer noArticle : accueilConnecteModel.getLstNoArticle()) {
-				if (noArticle == detailArticle) {
-					request.getSession().setAttribute("noArticleDetail", noArticle);
-					request.getRequestDispatcher("DetailVenteServlet").forward(request, response);
-				}
-			}
+			request.getSession().setAttribute("noArticleDetail", detailArticle);
+			request.getRequestDispatcher("DetailVenteServlet").forward(request, response);
+
 		}
 
-		
 		request.setAttribute("lienProfil", lienProfil);
 		request.setAttribute("accueilConnecteModel", accueilConnecteModel);
 		request.getRequestDispatcher(jsp).forward(request, response);
