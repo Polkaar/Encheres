@@ -25,14 +25,14 @@
 			<option value="4">Sport&Loisirs</option>
 		</select> <br>
 		Photo de l'article : <input type="text" name="photo" placeholder="UPLOADER"><br>
-		Prix initial : <input type"number" name="${model.articleVendu.prixInitial}"> pts<br>
-		Debut de l'enchere : <input type="date" name="${model.articleVendu.dateDebutEncheres}"><br>
-		Fin de l'enchere : <input type="date" name="${model.articleVendu.dateFinEncheres}"><br>
+		Prix initial : <input type"number" name="prixInitial" value="${model.articleVendu.prixInitial}"> pts<br>
+		Debut de l'enchere : <input type="date" name="dateDebutEnchere" value="${model.articleVendu.dateDebutEncheres}"><br>
+		Fin de l'enchere : <input type="date" name="dateFinEnchere" value="${model.articleVendu.dateFinEncheres}"><br>
 		
 		<h3>Retrait</h3>
-		Rue : <input type="text" name="rue" placeholder="${model.article.utilisateur.rue}"> <br>
-		Ville : <input type="text" name="ville" placeholder="${model.article.utilisateur.ville}"> <br>
-		Code postal : <input type="text" name="codePostal" placeholder="${model.article.utilisateur.codePostal}"> <br>
+		Rue : <input type="text" name="rue" value="${model.articleVendu.utilisateur.rue}"> <br>
+		Ville : <input type="text" name="ville" value="${model.articleVendu.utilisateur.ville}"> <br>
+		Code postal : <input type="text" name="codePostal" value="${model.articleVendu.utilisateur.codePostal}"> <br>
 		
 		<button type="submit" name="modifier" value="modifier">Modifier</button><br>
 		<button type="submit" name="annuler" value="Annuler">Annuler</button><br>

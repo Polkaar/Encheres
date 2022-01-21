@@ -57,7 +57,31 @@ public class ArticleVenduManagerImpl implements ArticleVenduManager {
 		}
 	}
 
-	
+	@Override
+	public void modifierArticleVendu(ArticleVendu articleVendu) throws BllException {
+		BllException be = new BllException();
+		
+		verifNomArticle(articleVendu.getNomArticle(), be);
+		verifDescriptionArticle(articleVendu.getDescription(), be);
+		verifDateDebutEncheresArticle(articleVendu.getDateDebutEncheres(), be);
+		verifDateFinEncheresArticle(articleVendu.getDateFinEncheres(), articleVendu.getDateDebutEncheres(), be);
+		verifPrixInitialArticle(articleVendu.getPrixInitial(), be);
+		verifEtatVenteArticle(articleVendu.isEtatVente(), be);
+		verifCategorieArticle(articleVendu.getCategorie(), be);
+		verifRetraitArticle(articleVendu.getRetrait(), be);
+		verifUtilisateurArticle(articleVendu.getUtilisateur(), be);
+		
+		if (be.hasErreur()) {
+			throw be;
+		}
+		try {
+			dao.updateArticle(articleVendu);
+		} catch (DALException e) {
+			e.printStackTrace();
+			throw new BllException(e);
+		}
+		
+	}
 
 	@Override
 	public void supprimerArticleVendu(ArticleVendu articleVendu) throws BllException {
@@ -268,5 +292,9 @@ public class ArticleVenduManagerImpl implements ArticleVenduManager {
 		}
 	}
 
+<<<<<<< HEAD
+	
+=======
+>>>>>>> 612522e2ab697d22a7016a2e027a9b3c1b87e10b
 
 }

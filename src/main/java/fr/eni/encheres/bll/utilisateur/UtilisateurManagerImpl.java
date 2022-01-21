@@ -23,9 +23,10 @@ public class UtilisateurManagerImpl implements UtilisateurManager{
 				utilisateur.getCredit(), utilisateur.isAdministrateur(), be);
 		
 		
-		Utilisateur verifPseudo = null;
+		String verifPseudo = null;
 		try {
-			verifPseudo = dao.selectByPseudo(utilisateur.getPseudo());
+			verifPseudo = dao.selectByPseudo(utilisateur.getPseudo()).getPseudo();
+			System.out.println(verifPseudo);
 		} catch (DALException e1) {
 			e1.printStackTrace();
 		}

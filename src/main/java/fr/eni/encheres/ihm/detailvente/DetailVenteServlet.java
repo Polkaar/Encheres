@@ -56,85 +56,103 @@ public class DetailVenteServlet extends HttpServlet {
 		Integer noArticleDetail = (Integer) ((HttpServletRequest) request).getSession().getAttribute("noArticleDetail");
 
 		if (request.getParameter("accueilViaDetalVente") != null) {
-			request.getRequestDispatcher("AccueilServlet").forward(request, response);
-		}
+			noUtilisateur = (Integer) ((HttpServletRequest) request).getSession().getAttribute("IdConnecte");
 
-		try {
-			noArticleDetail = (Integer) ((HttpServletRequest) request).getSession().getAttribute("noArticleDetail");
-			article = articleManager.afficherArticleVendu(noArticleDetail);
-			model.setArticleVendu(article);
-		} catch (BllException e) {
-			e.printStackTrace();
-		}
+			if (request.getParameter("accueilViaDetalVente") != null) {
+				request.getRequestDispatcher("AccueilServlet").forward(request, response);
+			}
 
-		try {
-			newAcheteur = utilisateurManager.afficherUtilisateur(noUtilisateur);
-			model.setNewAcheteur(newAcheteur);
-			enchere = enchereManager.selectDerniereEnchere(article.getNoArticle());
-			model.setOldEnchere(enchere);
-			oldAcheteur = enchere.getUtilisateur();
-		} catch (BllException e1) {
-			e1.printStackTrace();
-		}
-		if (request.getParameter("encherir") != null) {
-			if (LocalDate.now().isBefore(article.getDateFinEncheres())) {
-				if (request.getParameter("enchere").equals("")) {
-					model.setMessage("Veuillez proposer une enchere");
-				} else {
-					prixEnchere = Integer.parseInt(request.getParameter("enchere"));
-					if (prixEnchere > model.getArticleVendu().getPrixInitial()
-							&& prixEnchere > model.getArticleVendu().getPrixVente()
-							&& prixEnchere < model.getNewAcheteur().getCredit()) {
-						model.getArticleVendu().setPrixVente(prixEnchere);
-						try {
-							articleManager.modifierArticleVendu(article, prixEnchere);
-						} catch (BllException e) {
-							e.printStackTrace();
-						}
-						oldAcheteur.setCredit(oldAcheteur.getCredit() + enchere.getMontantEnchere());
-						System.out.println(oldAcheteur.getCredit());
-						try {
-							utilisateurManager.modifierUtilisateur(oldAcheteur);
-						} catch (BllException e1) {
-							e1.printStackTrace();
-						}
-						enchere.setDateEnchere(LocalDate.now());
-						enchere.setMontantEnchere(prixEnchere);
-						enchere.setUtilisateur(newAcheteur);
-						enchere.setArticleVendu(article);
-						try {
-							enchereManager.ajouterEnchere(enchere);
-						} catch (BllException e) {
-							e.printStackTrace();
-						} catch (DALException e) {
-							e.printStackTrace();
-						}
-						model.setMessage("Enchere validee !");
-						if (oldAcheteur.getNoUtilisateur() == newAcheteur.getNoUtilisateur()) {
-							newAcheteur.setCredit(oldAcheteur.getCredit() - prixEnchere);
-						} else {
-							newAcheteur.setCredit(newAcheteur.getCredit() - prixEnchere);
-						}
-						try {
-							utilisateurManager.modifierUtilisateur(newAcheteur);
-						} catch (BllException e) {
-							e.printStackTrace();
-						}
+			try {
+				Integer noArticleDetail1 = (Integer) ((HttpServletRequest) request).getSession()
+						.getAttribute("noArticleDetail");
+				article = articleManager.afficherArticleVendu(noArticleDetail1);
+				model.setArticleVendu(article);
+			} catch (BllException e) {
+				e.printStackTrace();
+			}
 
+			try {
+				newAcheteur = utilisateurManager.afficherUtilisateur(noUtilisateur);
+				model.setNewAcheteur(newAcheteur);
+				enchere = enchereManager.selectDerniereEnchere(article.getNoArticle());
+				model.setOldEnchere(enchere);
+				oldAcheteur = enchere.getUtilisateur();
+			} catch (BllException e1) {
+				e1.printStackTrace();
+			}
+			if (request.getParameter("encherir") != null) {
+				if (LocalDate.now().isBefore(article.getDateFinEncheres())) {
+					if (request.getParameter("enchere").equals("")) {
+						model.setMessage("Veuillez proposer une enchere");
 					} else {
-						model.setMessage(
-								"Veuillez proposer une enchere superieur au prix initial et a la derniere enchere");
+						prixEnchere = Integer.parseInt(request.getParameter("enchere"));
+						if (prixEnchere > model.getArticleVendu().getPrixInitial()
+								&& prixEnchere > model.getArticleVendu().getPrixVente()
+								&& prixEnchere < model.getNewAcheteur().getCredit()) {
+							model.getArticleVendu().setPrixVente(prixEnchere);
+							try {
+								articleManager.modifierArticleVendu(article, prixEnchere);
+							} catch (BllException e) {
+								e.printStackTrace();
+							}
+							oldAcheteur.setCredit(oldAcheteur.getCredit() + enchere.getMontantEnchere());
+							System.out.println(oldAcheteur.getCredit());
+							try {
+								utilisateurManager.modifierUtilisateur(oldAcheteur);
+							} catch (BllException e1) {
+								e1.printStackTrace();
+							}
+							enchere.setDateEnchere(LocalDate.now());
+							enchere.setMontantEnchere(prixEnchere);
+							enchere.setUtilisateur(newAcheteur);
+							enchere.setArticleVendu(article);
+							try {
+								enchereManager.ajouterEnchere(enchere);
+							} catch (BllException e) {
+								e.printStackTrace();
+							} catch (DALException e) {
+								e.printStackTrace();
+							}
+							model.setMessage("Enchere validee !");
+							if (oldAcheteur.getNoUtilisateur() == newAcheteur.getNoUtilisateur()) {
+								newAcheteur.setCredit(oldAcheteur.getCredit() - prixEnchere);
+							} else {
+								newAcheteur.setCredit(newAcheteur.getCredit() - prixEnchere);
+							}
+							try {
+								utilisateurManager.modifierUtilisateur(newAcheteur);
+							} catch (BllException e) {
+								e.printStackTrace();
+							}
+
+						} else {
+							model.setMessage(
+									"Veuillez proposer une enchere superieur au prix initial et a la derniere enchere");
+						}
 					}
+				} else {
+					model.setMessage("Les encheres pour cet article sont terminees !");
+				}
+			}
+
+			if (noUtilisateur == article.getUtilisateur().getNoUtilisateur()) {
+				if (request.getParameter("modifier") != null) {
+					servlet = "ModifVenteServlet";
+				}
+			}
+			if (request.getParameter("accueil") != null) {
+				servlet = "AccueilServlet";
+			}
+			if (LocalDate.now().isBefore(article.getDateDebutEncheres())) {
+				if (request.getParameter("modifier") != null) {
+					servlet = "ModifVenteServlet";
 				}
 			} else {
-				model.setMessage("Les encheres pour cet article sont terminees !");
+				model.setMessageModifier("L'enchere a deja commence, impossible de modifier l'annonce !");
 			}
-		}
-
-		if (noUtilisateur == article.getUtilisateur().getNoUtilisateur()) {
-			if (request.getParameter("modifier") != null) {
-				servlet = "ModifVenteServlet";
-			}
+		} else {
+			model.setMessageModifier(
+					"Vous n'etes pas le proprittaire de l'article, impossible de modifier l'annonce !");
 		}
 		if (request.getParameter("accueil") != null) {
 			servlet = "AccueilServlet";

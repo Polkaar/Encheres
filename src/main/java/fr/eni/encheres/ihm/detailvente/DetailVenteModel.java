@@ -13,7 +13,16 @@ public class DetailVenteModel {
 	private Enchere oldEnchere;
 	private String message;
 	private String messageVente;
+	private String messageModifier;
 	
+	public String getMessageModifier() {
+		return messageModifier;
+	}
+
+	public void setMessageModifier(String messageModifier) {
+		this.messageModifier = messageModifier;
+	}
+
 	public String getMessageVente() {
 		return messageVente;
 	}

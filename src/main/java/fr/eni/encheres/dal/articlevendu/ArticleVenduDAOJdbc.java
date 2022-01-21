@@ -34,6 +34,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
 			+ " no_retrait FROM ARTICLES_VENDUS";
 	private final String SELECT_BY_CATEGORIE = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie,"
 			+ " no_retrait FROM ARTICLES_VENDUS WHERE no_categorie=?";
+	private final String UPDATE_ARTICLE = "UPDATE ARTICLES_VENDUS SET nom_article = ?, description = ?, date_debut_encheres = ?, date_fin_encheres = ?, prix_initial = ?, no_categorie = ?, no_retrait = ? WHERE no_article = ?";
 	
 	private final String SELECT_BY_NOM_AND_CAT = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres,"
 			+ " prix_initial, prix_vente, no_utilisateur, no_categorie, no_retrait FROM ARTICLES_VENDUS"
@@ -140,6 +141,25 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
 			PreparedStatement pStmt = cnx.prepareStatement(UPDATE);
 			pStmt.setInt(1, nouveauPrix);
 			pStmt.setInt(2, articleVendu.getNoArticle());
+			pStmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DALException("Probleme de connexion");
+		}
+	}
+	
+	@Override
+	public void updateArticle(ArticleVendu articleVendu) throws DALException {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement pStmt = cnx.prepareStatement(UPDATE);
+			pStmt.setString(1, articleVendu.getNomArticle());
+			pStmt.setString(2, articleVendu.getDescription());
+			pStmt.setDate(3, Date.valueOf(articleVendu.getDateDebutEncheres()));
+			pStmt.setDate(4, Date.valueOf(articleVendu.getDateFinEncheres()));
+			pStmt.setInt(5, articleVendu.getPrixInitial());
+			pStmt.setInt(6, articleVendu.getCategorie().getNoCategorie());
+			pStmt.setInt(7, articleVendu.getRetrait().getNoRetrait());
+			pStmt.setInt(8, articleVendu.getNoArticle());
 			pStmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
